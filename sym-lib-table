@@ -1,0 +1,5 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "bier")(type "KiCad")(uri "${KIPRJMOD}/bier.kicad_sym")(options "")(descr ""))
+  (lib (name "key")(type "KiCad")(uri "/home/stefan/Documents/pcb_designs/Pikey_RP2040/key.kicad_sym")(options "")(descr ""))
+)
