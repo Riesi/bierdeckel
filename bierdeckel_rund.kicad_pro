@@ -3,7 +3,7 @@
     "3dviewports": [],
     "design_settings": {
       "defaults": {
-        "board_outline_line_width": 0.09999999999999999,
+        "board_outline_line_width": 0.049999999999999996,
         "copper_line_width": 0.19999999999999998,
         "copper_text_italic": false,
         "copper_text_size_h": 1.5,
@@ -27,7 +27,7 @@
         "fab_text_size_v": 1.0,
         "fab_text_thickness": 0.15,
         "fab_text_upright": false,
-        "other_line_width": 0.15,
+        "other_line_width": 0.09999999999999999,
         "other_text_italic": false,
         "other_text_size_h": 1.0,
         "other_text_size_v": 1.0,
@@ -38,31 +38,18 @@
           "height": 1.524,
           "width": 1.524
         },
-        "silk_line_width": 0.15,
+        "silk_line_width": 0.09999999999999999,
         "silk_text_italic": false,
         "silk_text_size_h": 1.0,
         "silk_text_size_v": 1.0,
-        "silk_text_thickness": 0.15,
+        "silk_text_thickness": 0.09999999999999999,
         "silk_text_upright": false,
         "zones": {
           "min_clearance": 0.5
         }
       },
-      "diff_pair_dimensions": [
-        {
-          "gap": 0.0,
-          "via_gap": 0.0,
-          "width": 0.0
-        }
-      ],
-      "drc_exclusions": [
-        "copper_edge_clearance|145475000|96125000|9fa9125d-feae-43db-a294-3dd282a6d577|6942a11b-527b-4230-9739-aeddeddf2c24",
-        "copper_edge_clearance|145760698|97273778|3bc7a5b8-5897-433e-b112-0c7c7506f8bb|d3d335ea-b740-4465-87b8-0dbfd424cc7d",
-        "copper_edge_clearance|147239302|97273778|3bc7a5b8-5897-433e-b112-0c7c7506f8bb|221e7bb8-3412-471e-85ec-ebe596cdfe41",
-        "copper_edge_clearance|147525000|96125000|f16f9fe4-3435-4850-b518-74b369402253|dfb1cdfb-536f-4b1e-b3a4-c3e57015e911",
-        "lib_footprint_mismatch|121015000|104592500|95be49f8-da1a-4a99-8b36-b1ad6315d803|00000000-0000-0000-0000-000000000000",
-        "lib_footprint_mismatch|133614999|117065000|ea620118-0300-4787-9686-9bdd539a630a|00000000-0000-0000-0000-000000000000"
-      ],
+      "diff_pair_dimensions": [],
+      "drc_exclusions": [],
       "meta": {
         "version": 2
       },
@@ -118,9 +105,9 @@
       },
       "rules": {
         "max_error": 0.005,
-        "min_clearance": 0.09999999999999999,
+        "min_clearance": 0.0,
         "min_connection": 0.0,
-        "min_copper_edge_clearance": 0.19999999999999998,
+        "min_copper_edge_clearance": 0.5,
         "min_hole_clearance": 0.25,
         "min_hole_to_hole": 0.25,
         "min_microvia_diameter": 0.19999999999999998,
@@ -133,9 +120,7 @@
         "min_track_width": 0.0,
         "min_via_annular_width": 0.09999999999999999,
         "min_via_diameter": 0.5,
-        "solder_mask_clearance": 0.0,
-        "solder_mask_min_width": 0.0,
-        "solder_mask_to_copper_clearance": 0.005,
+        "solder_mask_to_copper_clearance": 0.0,
         "use_height_for_length_calcs": true
       },
       "teardrop_options": [
@@ -178,20 +163,8 @@
           "td_width_to_size_filter_ratio": 0.9
         }
       ],
-      "track_widths": [
-        0.0,
-        0.2,
-        0.3,
-        0.5,
-        1.0,
-        2.0
-      ],
-      "via_dimensions": [
-        {
-          "diameter": 0.0,
-          "drill": 0.0
-        }
-      ],
+      "track_widths": [],
+      "via_dimensions": [],
       "zones_allow_external_fillets": false
     },
     "layer_presets": [],
@@ -396,13 +369,13 @@
       "missing_input_pin": "warning",
       "missing_power_pin": "error",
       "missing_unit": "warning",
-      "multiple_net_names": "ignore",
+      "multiple_net_names": "warning",
       "net_not_bus_member": "warning",
       "no_connect_connected": "warning",
       "no_connect_dangling": "warning",
       "pin_not_connected": "error",
       "pin_not_driven": "error",
-      "pin_to_pin": "error",
+      "pin_to_pin": "warning",
       "power_pin_not_driven": "error",
       "similar_labels": "warning",
       "simulation_model_issue": "ignore",
@@ -417,7 +390,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "bierdeckel.kicad_pro",
+    "filename": "bierdeckel_rund.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -434,9 +407,9 @@
         "name": "Default",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.25,
-        "via_diameter": 0.8,
-        "via_drill": 0.4,
+        "track_width": 0.2,
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
         "wire_width": 6
       }
     ],
@@ -465,13 +438,7 @@
       "dashed_lines_gap_length_ratio": 3.0,
       "default_line_thickness": 6.0,
       "default_text_size": 50.0,
-      "field_names": [
-        {
-          "name": "mpn",
-          "url": false,
-          "visible": false
-        }
-      ],
+      "field_names": [],
       "intersheets_ref_own_page": false,
       "intersheets_ref_prefix": "",
       "intersheets_ref_short": false,
@@ -502,18 +469,6 @@
     [
       "a4ffe097-37ef-4e19-a91a-ae57f4a5aad1",
       ""
-    ],
-    [
-      "50c38405-262b-4545-a718-e373c21b6380",
-      "LEDs"
-    ],
-    [
-      "06d9cd17-cb19-4cdd-8e67-c41d1b4a676e",
-      "PSU"
-    ],
-    [
-      "67cff1c4-a4ae-4e77-90c9-75aa7da1f628",
-      "Pressure Gauge"
     ]
   ],
   "text_variables": {}
