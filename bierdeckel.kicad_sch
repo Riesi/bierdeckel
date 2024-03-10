@@ -1200,6 +1200,31 @@
     )
   )
 
+  (symbol (lib_id "power:GND") (at 30.48 97.79 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 078ceb4c-5335-4276-8d23-128bb77b7b11)
+    (property "Reference" "#PWR062" (at 30.48 104.14 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GND" (at 33.02 101.6 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 30.48 97.79 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 30.48 97.79 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid d8e5a5c8-0d42-4c63-bdac-b294027fe936))
+    (instances
+      (project "bierdeckel"
+        (path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1"
+          (reference "#PWR062") (unit 1)
+        )
+      )
+    )
+  )
+
   (symbol (lib_id "bier:SW_DIP_x05") (at 41.91 132.08 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 116bd103-2a08-49bb-bae1-fc18ddccc4d9)
@@ -1367,6 +1392,35 @@
       (project "bierdeckel"
         (path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1"
           (reference "C8") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:R") (at 30.48 93.98 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 2f7f4c31-1e7a-43c5-8afa-c827c362a883)
+    (property "Reference" "B9" (at 33.02 92.71 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "0R" (at 33.02 95.25 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "Resistor_SMD:R_1206_3216Metric" (at 28.702 93.98 90)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 30.48 93.98 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "mpn" "CR1206-J/-000ELF" (at 30.48 93.98 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 9f63a766-814e-4fd4-876c-ed8df8e73ab5))
+    (pin "2" (uuid 0e0719e4-4500-40d1-abd9-90a1e36a6d62))
+    (instances
+      (project "bierdeckel"
+        (path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1"
+          (reference "B9") (unit 1)
         )
       )
     )
@@ -1787,7 +1841,7 @@
     (property "Footprint" "Button_Switch_SMD:SW_Push_1P1T_XKB_TS-1187A" (at 151.13 64.77 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "https://www.digikey.at/en/products/detail/c-k/PTS526-SK15-SMTR2-LFS/10056626" (at 151.13 64.77 0)
+    (property "Datasheet" "~" (at 151.13 64.77 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "part#" "PTS526 SK15 SMTR2 LFS" (at 156.21 64.77 0)
@@ -2276,6 +2330,31 @@
       (project "bierdeckel"
         (path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1"
           (reference "C6") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:GND") (at 30.48 90.17 180) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid ce2d4ac3-76cd-4021-8c18-38f75d315e0b)
+    (property "Reference" "#PWR061" (at 30.48 83.82 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GND" (at 31.75 86.36 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 30.48 90.17 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 30.48 90.17 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 70f4c8a7-8b03-41e0-bda1-f20148c52423))
+    (instances
+      (project "bierdeckel"
+        (path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1"
+          (reference "#PWR061") (unit 1)
         )
       )
     )

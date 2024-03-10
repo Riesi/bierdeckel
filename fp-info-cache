@@ -1,4 +1,4 @@
-22433270331356640
+22436688860603703
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -92113,11 +92113,25 @@ Varistor VF
 2
 2
 bier
+LPS3015-222MRC
+
+
+0
+6
+2
+bier
+Texas_S-PVSON-N10_ThermalVias
+3x3mm Body, 0.5mm Pitch, S-PVSON-N10, DRC, http://www.ti.com/lit/ds/symlink/tps61201.pdf
+0.5 S-PVSON-N10 DRC
+0
+33
+11
+bier
 WSON-8-1EP_2x2mm_P0.5mm_EP0.9x1.6mm_ThermalVias
 8-Lead Plastic WSON, 2x2mm Body, 0.5mm Pitch, WSON-8, http://www.ti.com/lit/ds/symlink/lm27761.pdf
 WSON 8 1EP ThermalVias
 0
-14
+11
 8
 bier
 pogo_receptor

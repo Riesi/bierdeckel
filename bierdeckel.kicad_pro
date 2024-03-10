@@ -45,7 +45,7 @@
         "silk_text_thickness": 0.15,
         "silk_text_upright": false,
         "zones": {
-          "min_clearance": 0.5
+          "min_clearance": 0.19999999999999998
         }
       },
       "diff_pair_dimensions": [
@@ -56,12 +56,10 @@
         }
       ],
       "drc_exclusions": [
-        "copper_edge_clearance|145475000|96125000|9fa9125d-feae-43db-a294-3dd282a6d577|6942a11b-527b-4230-9739-aeddeddf2c24",
-        "copper_edge_clearance|145760698|97273778|3bc7a5b8-5897-433e-b112-0c7c7506f8bb|d3d335ea-b740-4465-87b8-0dbfd424cc7d",
-        "copper_edge_clearance|147239302|97273778|3bc7a5b8-5897-433e-b112-0c7c7506f8bb|221e7bb8-3412-471e-85ec-ebe596cdfe41",
-        "copper_edge_clearance|147525000|96125000|f16f9fe4-3435-4850-b518-74b369402253|dfb1cdfb-536f-4b1e-b3a4-c3e57015e911",
-        "lib_footprint_mismatch|121015000|104592500|95be49f8-da1a-4a99-8b36-b1ad6315d803|00000000-0000-0000-0000-000000000000",
-        "lib_footprint_mismatch|133614999|117065000|ea620118-0300-4787-9686-9bdd539a630a|00000000-0000-0000-0000-000000000000"
+        "copper_edge_clearance|145475000|96125000|dd2919b4-a656-487a-816a-dcc774410127|42c7af86-8e1b-4a88-80f0-6354162b5276",
+        "copper_edge_clearance|145760698|97273778|8651df33-5ecd-48bd-b18d-6aa1aeb8abf7|d0b78417-9966-400d-b27f-a5c57978e3b7",
+        "copper_edge_clearance|147239302|97273778|8651df33-5ecd-48bd-b18d-6aa1aeb8abf7|d81d6073-213e-42f0-ab36-58f4c03ee250",
+        "copper_edge_clearance|147525000|96125000|142df35e-04eb-42c9-9449-a7a2b6854016|0051b142-7096-4f1c-b17d-fc52f6a72931"
       ],
       "meta": {
         "version": 2
@@ -125,7 +123,7 @@
         "min_hole_to_hole": 0.25,
         "min_microvia_diameter": 0.19999999999999998,
         "min_microvia_drill": 0.09999999999999999,
-        "min_resolved_spokes": 2,
+        "min_resolved_spokes": 1,
         "min_silk_clearance": 0.0,
         "min_text_height": 0.7999999999999999,
         "min_text_thickness": 0.08,
@@ -180,16 +178,33 @@
       ],
       "track_widths": [
         0.0,
+        0.1,
+        0.15,
         0.2,
-        0.3,
+        0.25,
         0.5,
-        1.0,
-        2.0
+        1.0
       ],
       "via_dimensions": [
         {
           "diameter": 0.0,
           "drill": 0.0
+        },
+        {
+          "diameter": 0.2,
+          "drill": 0.1
+        },
+        {
+          "diameter": 0.4,
+          "drill": 0.3
+        },
+        {
+          "diameter": 0.5,
+          "drill": 0.3
+        },
+        {
+          "diameter": 3.0,
+          "drill": 0.2
         }
       ],
       "zones_allow_external_fillets": false
@@ -424,7 +439,7 @@
     "classes": [
       {
         "bus_width": 12,
-        "clearance": 0.2,
+        "clearance": 0.01,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.2,
