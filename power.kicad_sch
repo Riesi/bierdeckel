@@ -1581,10 +1581,6 @@
 		(color 0 0 0 0)
 		(uuid "fd7a204e-f63f-4779-aec8-46c7d7b2e82c")
 	)
-	(no_connect
-		(at 74.93 135.89)
-		(uuid "f7739ba7-0bae-4f6b-9d6d-22a95df00839")
-	)
 	(wire
 		(pts
 			(xy 96.52 53.34) (xy 102.87 53.34)
@@ -1927,6 +1923,16 @@
 	)
 	(wire
 		(pts
+			(xy 77.47 137.16) (xy 77.47 135.89)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a76d676f-9752-4b8f-8c43-eb06a2711261")
+	)
+	(wire
+		(pts
 			(xy 68.58 57.15) (xy 80.01 57.15)
 		)
 		(stroke
@@ -2044,6 +2050,16 @@
 			(type default)
 		)
 		(uuid "c7d9f9b5-39d8-43b6-98e5-1f7894d8dea5")
+	)
+	(wire
+		(pts
+			(xy 77.47 135.89) (xy 74.93 135.89)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dd3484b3-48e0-4018-8147-c9b5b2865314")
 	)
 	(wire
 		(pts
@@ -3718,6 +3734,84 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 77.47 140.97 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a331fadf-e1d1-423e-8a82-afdfa8e499e6")
+		(property "Reference" "R14"
+			(at 83.82 140.716 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 77.47 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+			(at 79.248 140.97 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 77.47 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 77.47 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "mpn" "CR0805-FX-1002ELF "
+			(at 77.47 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "eac590a3-e4a9-4518-b269-aa1ecbd67339")
+		)
+		(pin "2"
+			(uuid "afd63d2d-2a03-4ad0-8a50-cf48840b867c")
+		)
+		(instances
+			(project "bierdeckel"
+				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
+					(reference "R14")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+3.3V")
 		(at 125.73 59.69 0)
 		(unit 1)
@@ -4379,6 +4473,72 @@
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
 					(reference "R3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 77.47 144.78 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "eb867f3c-2bf4-4ae3-8b29-9ef60e19091e")
+		(property "Reference" "#PWR010"
+			(at 77.47 151.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 77.47 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 77.47 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 77.47 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 77.47 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2e903650-0045-4933-98a2-e06fc86285a1")
+		)
+		(instances
+			(project "bierdeckel"
+				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
+					(reference "#PWR010")
 					(unit 1)
 				)
 			)
