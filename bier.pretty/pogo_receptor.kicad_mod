@@ -1,17 +1,86 @@
-(footprint "pogo_receptor" (version 20221018) (generator pcbnew)
-  (layer "F.Cu")
-  (attr smd)
-  (fp_text reference "REF**" (at 0 -0.5 unlocked) (layer "F.SilkS")
-      (effects (font (size 1 1) (thickness 0.1)))
-    (tstamp 0b4363da-8f31-4034-8526-1d1f99990ef5)
-  )
-  (fp_text value "pogo_receptor" (at 0 1 unlocked) (layer "F.Fab")
-      (effects (font (size 1 1) (thickness 0.15)))
-    (tstamp 8d88b9a2-d070-4863-ab7c-9dd08982e533)
-  )
-  (fp_text user "${REFERENCE}" (at 0 2.5 unlocked) (layer "F.Fab")
-      (effects (font (size 1 1) (thickness 0.15)))
-    (tstamp fcf76174-a6e4-42d6-b194-2ddf61584136)
-  )
-  (pad "1" smd circle (at 0 0 90) (size 3.6 3.6) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp 71803f36-df75-417c-a1cf-43a1db2687d5))
+(footprint "pogo_receptor"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at 0 -0.5 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "0b4363da-8f31-4034-8526-1d1f99990ef5")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+		)
+	)
+	(property "Value" "pogo_receptor"
+		(at 0 1 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "8d88b9a2-d070-4863-ab7c-9dd08982e533")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Footprint" "pogo_receptor"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "c769dc24-6dbb-4877-8ac9-be024b374375")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "f6746afc-1535-4973-bc08-5be900a4bb2f")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "e0ee70f9-c458-4784-984a-15ab9579bd21")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(attr smd)
+	(fp_text user "${REFERENCE}"
+		(at 0 2.5 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "fcf76174-a6e4-42d6-b194-2ddf61584136")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" smd circle
+		(at 0 0 90)
+		(size 3.6 3.6)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(solder_paste_margin_ratio -1)
+		(uuid "71803f36-df75-417c-a1cf-43a1db2687d5")
+	)
 )
