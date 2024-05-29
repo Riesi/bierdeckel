@@ -63817,7 +63817,7 @@
 			(justify left bottom)
 		)
 	)
-	(gr_text "Bierdeckel v0.1\nby Riesi, Raini,\nMichinix (C) 2024"
+	(gr_text "Bierdeckel v0.2\nby Riesi, Raini,\nMichinix (C) 2024"
 		(at 150.75 114.25 0)
 		(layer "F.SilkS")
 		(uuid "fc19889b-4139-4069-8e4a-f747e0d38a8e")
