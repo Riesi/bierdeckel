@@ -813,7 +813,7 @@
 		(uuid "6e43280c-fa1a-417f-8d0a-bbeef42757b5")
 	)
 	(junction
-		(at 40.64 53.34)
+		(at 48.26 53.34)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "9c0dbe3c-8b1c-4a25-97f4-b87c385efce7")
@@ -864,16 +864,6 @@
 	)
 	(wire
 		(pts
-			(xy 54.61 74.93) (xy 54.61 72.39)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "003ff96e-a67c-428c-b9f8-8e7f91ede116")
-	)
-	(wire
-		(pts
 			(xy 93.98 62.23) (xy 104.14 62.23)
 		)
 		(stroke
@@ -891,6 +881,16 @@
 			(type default)
 		)
 		(uuid "1cba579f-2675-4b8f-bbd3-6ffa070be4bc")
+	)
+	(wire
+		(pts
+			(xy 54.61 72.39) (xy 54.61 74.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1d718467-ddcb-4b31-8285-85c5507f2ed2")
 	)
 	(wire
 		(pts
@@ -974,7 +974,7 @@
 	)
 	(wire
 		(pts
-			(xy 40.64 53.34) (xy 50.8 53.34)
+			(xy 48.26 53.34) (xy 50.8 53.34)
 		)
 		(stroke
 			(width 0)
@@ -1034,23 +1034,33 @@
 	)
 	(wire
 		(pts
-			(xy 54.61 64.77) (xy 54.61 62.23)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c53c8bf6-1391-4560-b8a8-13abedf7cb31")
-	)
-	(wire
-		(pts
-			(xy 40.64 52.07) (xy 40.64 53.34)
+			(xy 48.26 52.07) (xy 48.26 53.34)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "cc44e39f-48e9-4439-8477-b3d98bf74d9a")
+	)
+	(wire
+		(pts
+			(xy 54.61 63.5) (xy 54.61 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d1fe81dd-c8ca-4544-9978-c08ebf0dc3e0")
+	)
+	(wire
+		(pts
+			(xy 44.45 53.34) (xy 48.26 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "da9d9e49-4e55-43b4-bd92-3dba720cbfa2")
 	)
 	(wire
 		(pts
@@ -1114,7 +1124,7 @@
 		)
 		(uuid 6e54c3a2-25e7-4320-a3db-6c346b9c90b2)
 	)
-	(text_box "Wheatstone bridge with two 350 Ohm pressure gauges (BF350-3AA).\nAmplification of the subtraction circuit needs to be adjusted still.\n\n"
+	(text_box "Wheatstone bridge with four 350 Ohm pressure gauges (BF350-3AA).\nUb= Uq*1/4*(4*deltaR/R)\nFor 1Ohm delta an amplification of 200 should be a reasonable guess."
 		(exclude_from_sim no)
 		(at 43.18 85.09 0)
 		(size 43.18 35.56)
@@ -1201,6 +1211,81 @@
 		(uuid "130ff9d3-dee9-4733-ac60-ae871b46abcf")
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 40.64 60.96 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "002d32ac-947c-4b5c-8a71-c5088610c905")
+		(property "Reference" "TP11"
+			(at 34.036 56.896 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 30.988 59.436 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
+			(at 45.72 60.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 45.72 60.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 40.64 60.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "mpn" ""
+			(at 40.64 60.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2d21feea-2946-4d14-a469-169913e91886")
+		)
+		(instances
+			(project "bierdeckel"
+				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/67cff1c4-a4ae-4e77-90c9-75aa7da1f628"
+					(reference "TP11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 107.95 76.2 0)
 		(mirror y)
@@ -1268,8 +1353,83 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 44.45 53.34 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "09ea926f-32f0-492b-b316-0d61859d982a")
+		(property "Reference" "TP10"
+			(at 40.64 54.61 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 39.37 52.07 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
+			(at 44.45 48.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 44.45 48.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 44.45 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "mpn" ""
+			(at 44.45 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "22da8353-adf5-42d5-b50f-fab9096c5ebc")
+		)
+		(instances
+			(project "bierdeckel"
+				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/67cff1c4-a4ae-4e77-90c9-75aa7da1f628"
+					(reference "TP10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+3.3V")
-		(at 40.64 52.07 0)
+		(at 48.26 52.07 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -1278,7 +1438,7 @@
 		(fields_autoplaced yes)
 		(uuid "13b5e872-afd0-42a4-96e4-426ca49bfb47")
 		(property "Reference" "#PWR048"
-			(at 40.64 55.88 0)
+			(at 48.26 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1287,7 +1447,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 40.64 46.99 0)
+			(at 48.26 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1295,7 +1455,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 40.64 52.07 0)
+			(at 48.26 52.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1304,7 +1464,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 40.64 52.07 0)
+			(at 48.26 52.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1313,7 +1473,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 40.64 52.07 0)
+			(at 48.26 52.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1351,7 +1511,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10k"
+		(property "Value" "1k"
 			(at 102.87 64.77 90)
 			(effects
 				(font
@@ -1412,6 +1572,81 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 54.61 63.5 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "253bf903-e106-49ce-b1d7-3741b72afe25")
+		(property "Reference" "TP9"
+			(at 62.992 67.564 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 64.262 65.024 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
+			(at 49.53 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 49.53 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 54.61 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "mpn" ""
+			(at 54.61 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7029377b-fb95-4b38-a69e-132b1e320db9")
+		)
+		(instances
+			(project "bierdeckel"
+				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/67cff1c4-a4ae-4e77-90c9-75aa7da1f628"
+					(reference "TP9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 107.95 72.39 0)
 		(unit 1)
@@ -1429,7 +1664,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10k"
+		(property "Value" "200k"
 			(at 107.95 74.93 90)
 			(effects
 				(font
@@ -1507,7 +1742,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10k"
+		(property "Value" "1k"
 			(at 110.49 62.23 90)
 			(effects
 				(font
@@ -1594,7 +1829,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "TestPoint:TestPoint_Pad_D3.0mm"
+		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
 			(at 45.72 74.93 0)
 			(effects
 				(font
@@ -1669,7 +1904,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "TestPoint:TestPoint_Pad_D3.0mm"
+		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
 			(at 50.8 58.42 0)
 			(effects
 				(font
@@ -1877,7 +2112,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "TestPoint:TestPoint_Pad_D3.0mm"
+		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
 			(at 35.56 64.77 0)
 			(effects
 				(font
@@ -1920,85 +2155,6 @@
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/67cff1c4-a4ae-4e77-90c9-75aa7da1f628"
 					(reference "TP4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 40.64 57.15 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "9d97eaba-b426-48ec-bf76-1f789a8c5f16")
-		(property "Reference" "R8"
-			(at 43.18 55.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "348"
-			(at 43.18 58.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 38.862 57.15 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 40.64 57.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 40.64 57.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "mpn" "CRCW0805348RFKEA"
-			(at 40.64 57.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "3819587b-337f-4742-ab25-1fee885512d6")
-		)
-		(pin "2"
-			(uuid "9f8b288a-1084-495c-afcb-846482c83aa9")
-		)
-		(instances
-			(project "bierdeckel"
-				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/67cff1c4-a4ae-4e77-90c9-75aa7da1f628"
-					(reference "R8")
 					(unit 1)
 				)
 			)
@@ -2146,85 +2302,6 @@
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/67cff1c4-a4ae-4e77-90c9-75aa7da1f628"
 					(reference "#PWR051")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 54.61 68.58 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "bcf7754f-55e1-4b19-8df2-06b36f0a7556")
-		(property "Reference" "R9"
-			(at 57.15 67.31 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "348"
-			(at 57.15 69.85 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 52.832 68.58 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 54.61 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 54.61 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "mpn" "CRCW0805348RFKEA"
-			(at 54.61 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "701b0508-1472-4f56-b777-6e9459ff7936")
-		)
-		(pin "2"
-			(uuid "e150e8b5-aa8c-4802-b462-4370f4107b11")
-		)
-		(instances
-			(project "bierdeckel"
-				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/67cff1c4-a4ae-4e77-90c9-75aa7da1f628"
-					(reference "R9")
 					(unit 1)
 				)
 			)
@@ -2389,7 +2466,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "TestPoint:TestPoint_Pad_D3.0mm"
+		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
 			(at 59.69 60.96 0)
 			(effects
 				(font
@@ -2536,6 +2613,81 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 54.61 72.39 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "eaff3f31-71b1-4daa-9ce8-0b58abdcbe69")
+		(property "Reference" "TP8"
+			(at 57.15 73.152 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 55.88 70.612 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
+			(at 59.69 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 59.69 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 54.61 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "mpn" ""
+			(at 54.61 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "551ab6a6-64d2-46c3-889c-37b3a9eeb6b5")
+		)
+		(instances
+			(project "bierdeckel"
+				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/67cff1c4-a4ae-4e77-90c9-75aa7da1f628"
+					(reference "TP8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 137.16 73.66 90)
 		(unit 1)
@@ -2553,7 +2705,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10k"
+		(property "Value" "200k"
 			(at 139.7 73.66 90)
 			(effects
 				(font
