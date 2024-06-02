@@ -2426,7 +2426,7 @@
 		(descr "SMD pad as test Point, diameter 2.0mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP6"
-			(at 0 -1.998 270)
+			(at 0 -1.998 -90)
 			(layer "F.SilkS")
 			(hide yes)
 			(uuid "81d12089-35b0-4d2c-9122-6bd70a73890e")
@@ -63902,6 +63902,24 @@
 				(thickness 0.15)
 			)
 			(justify left bottom)
+		)
+	)
+	(gr_text_box "Lipo"
+		(start 108 109.5)
+		(end 184 130)
+		(layer "Cmts.User")
+		(uuid "b88cc155-a527-41e2-9ccf-0e1ffc836ace")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left top)
+		)
+		(border yes)
+		(stroke
+			(width 0.1)
+			(type solid)
 		)
 	)
 	(dimension
