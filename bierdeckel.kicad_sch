@@ -3315,16 +3315,15 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 77.47 86.36 0)
+		(at 45.72 78.74 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "3e003d46-b79c-47e2-9359-03b515079f78")
 		(property "Reference" "#PWR013"
-			(at 77.47 92.71 0)
+			(at 45.72 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3333,7 +3332,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 77.47 91.44 0)
+			(at 45.72 82.804 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3341,7 +3340,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 77.47 86.36 0)
+			(at 45.72 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3350,7 +3349,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 77.47 86.36 0)
+			(at 45.72 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3359,7 +3358,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 77.47 86.36 0)
+			(at 45.72 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3465,16 +3464,15 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 77.47 78.74 180)
+		(at 45.72 71.12 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "42e440f5-2ea0-4bcb-8a3c-52b258309d8a")
 		(property "Reference" "#PWR012"
-			(at 77.47 72.39 0)
+			(at 45.72 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3483,7 +3481,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 77.47 73.66 0)
+			(at 45.72 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3491,7 +3489,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 77.47 78.74 0)
+			(at 45.72 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3500,7 +3498,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 77.47 78.74 0)
+			(at 45.72 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3509,7 +3507,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 77.47 78.74 0)
+			(at 45.72 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4260,7 +4258,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 77.47 82.55 0)
+		(at 45.72 74.93 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4269,7 +4267,7 @@
 		(fields_autoplaced yes)
 		(uuid "bbdc53c4-1961-4678-a337-ac2d481ab873")
 		(property "Reference" "B5"
-			(at 80.01 81.28 0)
+			(at 48.26 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4278,7 +4276,7 @@
 			)
 		)
 		(property "Value" "0R"
-			(at 80.01 83.82 0)
+			(at 48.26 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4287,7 +4285,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_1206_3216Metric"
-			(at 75.692 82.55 90)
+			(at 43.942 74.93 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4296,7 +4294,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 77.47 82.55 0)
+			(at 45.72 74.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4305,7 +4303,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 77.47 82.55 0)
+			(at 45.72 74.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4314,7 +4312,7 @@
 			)
 		)
 		(property "mpn" "CR1206-J/-000ELF"
-			(at 77.47 82.55 0)
+			(at 45.72 74.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)

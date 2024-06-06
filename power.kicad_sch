@@ -2191,7 +2191,7 @@
 		)
 		(uuid 86033027-8bfb-4075-aa4e-25aa75f4a035)
 	)
-	(text_box "27k4 => 4.2V\n600 => 500mA"
+	(text_box "27k4 => 4.2V\n600 => 500mA\n2k => 150mA"
 		(exclude_from_sim no)
 		(at 24.13 135.89 0)
 		(size 17.78 15.24)
