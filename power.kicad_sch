@@ -2409,7 +2409,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0aa372f3-ea7b-42bc-863b-31d5f6e84c42")
-		(property "Reference" "#PWR036"
+		(property "Reference" "#PWR033"
 			(at 39.37 134.62 0)
 			(effects
 				(font
@@ -2459,7 +2459,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "#PWR036")
+					(reference "#PWR033")
 					(unit 1)
 				)
 			)
@@ -2554,7 +2554,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0f8e9dc8-5018-4047-8a9f-059717f44dd1")
-		(property "Reference" "C11"
+		(property "Reference" "C12"
 			(at 100.33 123.19 0)
 			(effects
 				(font
@@ -2617,7 +2617,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "C11")
+					(reference "C12")
 					(unit 1)
 				)
 			)
@@ -2633,7 +2633,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "11df63cc-25f1-43b9-b265-086c89652bfa")
-		(property "Reference" "#PWR037"
+		(property "Reference" "#PWR034"
 			(at 44.45 148.59 0)
 			(effects
 				(font
@@ -2683,7 +2683,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "#PWR037")
+					(reference "#PWR034")
 					(unit 1)
 				)
 			)
@@ -2786,7 +2786,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "12e07238-2af1-4555-9198-13e6953a1683")
-		(property "Reference" "#PWR039"
+		(property "Reference" "#PWR035"
 			(at 48.26 71.12 0)
 			(effects
 				(font
@@ -2836,7 +2836,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "#PWR039")
+					(reference "#PWR035")
 					(unit 1)
 				)
 			)
@@ -2928,7 +2928,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2db05773-6919-4d0a-82e7-880e50b1fafa")
-		(property "Reference" "#PWR043"
+		(property "Reference" "#PWR041"
 			(at 96.52 134.62 0)
 			(effects
 				(font
@@ -2978,7 +2978,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "#PWR043")
+					(reference "#PWR041")
 					(unit 1)
 				)
 			)
@@ -3060,7 +3060,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3514358c-db63-4466-ab3b-805067b03b2b")
-		(property "Reference" "C12"
+		(property "Reference" "C13"
 			(at 107.95 69.85 0)
 			(effects
 				(font
@@ -3123,7 +3123,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "C12")
+					(reference "C13")
 					(unit 1)
 				)
 			)
@@ -3139,7 +3139,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3960754f-a7b6-44c1-befa-c7d5744382f7")
-		(property "Reference" "#PWR042"
+		(property "Reference" "#PWR040"
 			(at 88.9 86.36 0)
 			(effects
 				(font
@@ -3189,7 +3189,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "#PWR042")
+					(reference "#PWR040")
 					(unit 1)
 				)
 			)
@@ -3204,7 +3204,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3da53ee4-4f79-42f7-ae68-5fe76dcd5829")
-		(property "Reference" "C15"
+		(property "Reference" "C11"
 			(at 61.468 60.198 0)
 			(effects
 				(font
@@ -3267,7 +3267,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "C15")
+					(reference "C11")
 					(unit 1)
 				)
 			)
@@ -3282,7 +3282,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "5de0c57d-bd26-4d3f-b13c-179e54bcdbf0")
-		(property "Reference" "R7"
+		(property "Reference" "R8"
 			(at 81.28 129.54 90)
 			(effects
 				(font
@@ -3345,7 +3345,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "R7")
+					(reference "R8")
 					(unit 1)
 				)
 			)
@@ -3361,7 +3361,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "6410972d-efa7-4862-ad2d-5963dd565ff9")
-		(property "Reference" "C13"
+		(property "Reference" "C14"
 			(at 129.54 63.5 0)
 			(effects
 				(font
@@ -3424,7 +3424,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "C13")
+					(reference "C14")
 					(unit 1)
 				)
 			)
@@ -3602,7 +3602,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "800cde9a-58be-45e2-b1e5-98d7e496a575")
-		(property "Reference" "#PWR046"
+		(property "Reference" "#PWR044"
 			(at 125.73 76.2 0)
 			(effects
 				(font
@@ -3652,7 +3652,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "#PWR046")
+					(reference "#PWR044")
 					(unit 1)
 				)
 			)
@@ -3746,7 +3746,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "92f4a631-f34a-411d-b048-d0b10b6242a6")
-		(property "Reference" "#PWR041"
+		(property "Reference" "#PWR038"
 			(at 67.31 87.63 0)
 			(effects
 				(font
@@ -3796,7 +3796,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "#PWR041")
+					(reference "#PWR038")
 					(unit 1)
 				)
 			)
@@ -3886,7 +3886,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "a331fadf-e1d1-423e-8a82-afdfa8e499e6")
-		(property "Reference" "R14"
+		(property "Reference" "R6"
 			(at 83.82 140.716 0)
 			(effects
 				(font
@@ -3949,7 +3949,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "R14")
+					(reference "R6")
 					(unit 1)
 				)
 			)
@@ -3965,7 +3965,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a3c88dce-f367-4103-a03d-a90307a32726")
-		(property "Reference" "#PWR045"
+		(property "Reference" "#PWR043"
 			(at 125.73 63.5 0)
 			(effects
 				(font
@@ -4015,7 +4015,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "#PWR045")
+					(reference "#PWR043")
 					(unit 1)
 				)
 			)
@@ -4031,7 +4031,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a415399a-259e-4f2d-9a0d-6ed9ca28cc54")
-		(property "Reference" "#PWR040"
+		(property "Reference" "#PWR037"
 			(at 66.04 147.32 0)
 			(effects
 				(font
@@ -4081,7 +4081,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "#PWR040")
+					(reference "#PWR037")
 					(unit 1)
 				)
 			)
@@ -4097,7 +4097,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b0701aa8-d771-405d-9858-8511a269ca98")
-		(property "Reference" "#PWR038"
+		(property "Reference" "#PWR036"
 			(at 50.8 148.59 0)
 			(effects
 				(font
@@ -4147,7 +4147,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "#PWR038")
+					(reference "#PWR036")
 					(unit 1)
 				)
 			)
@@ -4266,7 +4266,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c6d43616-9fd8-412a-9bda-021573ccd9f8")
-		(property "Reference" "R6"
+		(property "Reference" "R7"
 			(at 81.28 124.46 90)
 			(effects
 				(font
@@ -4329,7 +4329,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "R6")
+					(reference "R7")
 					(unit 1)
 				)
 			)
@@ -4422,7 +4422,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c89edc31-5874-4edf-9412-3542fa607825")
-		(property "Reference" "#PWR044"
+		(property "Reference" "#PWR042"
 			(at 106.68 83.82 0)
 			(effects
 				(font
@@ -4472,7 +4472,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "#PWR044")
+					(reference "#PWR042")
 					(unit 1)
 				)
 			)
@@ -4488,7 +4488,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c90cebc5-6ee8-4dc2-aad0-3c5b2d37d8d9")
-		(property "Reference" "#PWR047"
+		(property "Reference" "#PWR045"
 			(at 125.73 142.24 0)
 			(effects
 				(font
@@ -4538,7 +4538,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "#PWR047")
+					(reference "#PWR045")
 					(unit 1)
 				)
 			)
@@ -4632,7 +4632,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "eb867f3c-2bf4-4ae3-8b29-9ef60e19091e")
-		(property "Reference" "#PWR010"
+		(property "Reference" "#PWR039"
 			(at 77.47 151.13 0)
 			(effects
 				(font
@@ -4682,7 +4682,7 @@
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "#PWR010")
+					(reference "#PWR039")
 					(unit 1)
 				)
 			)
