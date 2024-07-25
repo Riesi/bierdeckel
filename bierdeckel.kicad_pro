@@ -59,10 +59,7 @@
         }
       ],
       "drc_exclusions": [
-        "copper_edge_clearance|145775000|95475000|89c0e071-c971-4317-b99b-933eccb27ba9|521ab5c2-317d-4821-8b0a-5b89768d0ad1",
-        "copper_edge_clearance|145775000|97525000|5362bf45-7562-4929-9d2a-cd187078eaa6|a6728e3f-264a-43c9-8905-132cf176de2f",
-        "copper_edge_clearance|146875000|95475000|89c0e071-c971-4317-b99b-933eccb27ba9|8b1a6e7b-4ebf-490e-9434-c2f5f6ee1659",
-        "copper_edge_clearance|146875000|97525000|5362bf45-7562-4929-9d2a-cd187078eaa6|513827f8-8106-471f-a3a1-2bdfac319fb1"
+        "unconnected_items|121500000|74375000|5cdce8cb-7279-4679-bcbb-212f54346cba|affbbb1c-1f86-430c-8cce-31f068e5fdc4"
       ],
       "meta": {
         "version": 2
@@ -512,7 +509,7 @@
       "plot": "",
       "pos_files": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "bierdeckel.step",
       "svg": "",
       "vrml": ""
     },

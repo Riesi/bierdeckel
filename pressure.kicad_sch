@@ -974,7 +974,7 @@
 	)
 	(wire
 		(pts
-			(xy 48.26 53.34) (xy 54.61 53.34)
+			(xy 48.26 53.34) (xy 50.8 53.34)
 		)
 		(stroke
 			(width 0)
@@ -991,16 +991,6 @@
 			(type default)
 		)
 		(uuid "97d9dae7-5157-4628-ba71-147e806672c1")
-	)
-	(wire
-		(pts
-			(xy 54.61 53.34) (xy 54.61 54.61)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ab216bd2-6240-496d-9fdf-8ddcec5fc2d2")
 	)
 	(wire
 		(pts
@@ -1034,6 +1024,16 @@
 	)
 	(wire
 		(pts
+			(xy 40.64 53.34) (xy 48.26 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bca77cf2-c208-4b70-9e95-8564b463c4b1")
+	)
+	(wire
+		(pts
 			(xy 40.64 66.04) (xy 40.64 63.5)
 		)
 		(stroke
@@ -1064,13 +1064,13 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 53.34) (xy 48.26 53.34)
+			(xy 40.64 53.34) (xy 40.64 54.61)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "da9d9e49-4e55-43b4-bd92-3dba720cbfa2")
+		(uuid "d4d4b67a-c4a0-4f43-abc9-03606d3bb810")
 	)
 	(wire
 		(pts
@@ -1134,7 +1134,7 @@
 		)
 		(uuid 6e54c3a2-25e7-4320-a3db-6c346b9c90b2)
 	)
-	(text_box "Wheatstone bridge with four 350 Ohm pressure gauges (BF350-3AA).\nUb= Uq*1/4*(4*deltaR/R)\nFor 1Ohm delta an amplification of 200 should be a reasonable guess."
+	(text_box "Wheatstone bridge with four 350 Ohm pressure gauges (BF350-3AA).\nUb= Uq*1/4*(4*deltaR/R)\nFor 1Ohm delta an amplification of 200 should be a reasonable guess.\n\nResistance decreases when bent upwards!"
 		(exclude_from_sim no)
 		(at 43.18 85.09 0)
 		(size 43.18 35.56)
@@ -1222,7 +1222,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 40.64 62.23 0)
+		(at 54.61 62.23 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -1230,7 +1230,7 @@
 		(dnp no)
 		(uuid "002d32ac-947c-4b5c-8a71-c5088610c905")
 		(property "Reference" "TP11"
-			(at 34.036 58.166 0)
+			(at 58.42 58.674 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1239,7 +1239,7 @@
 			)
 		)
 		(property "Value" "TestPoint"
-			(at 30.988 60.706 0)
+			(at 55.372 61.214 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1248,7 +1248,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
-			(at 45.72 62.23 0)
+			(at 59.69 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1257,7 +1257,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 45.72 62.23 0)
+			(at 59.69 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1266,7 +1266,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 40.64 62.23 0)
+			(at 54.61 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1275,7 +1275,7 @@
 			)
 		)
 		(property "mpn" ""
-			(at 40.64 62.23 0)
+			(at 54.61 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1364,7 +1364,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 43.18 53.34 90)
+		(at 50.8 53.34 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -1372,7 +1372,7 @@
 		(dnp no)
 		(uuid "09ea926f-32f0-492b-b316-0d61859d982a")
 		(property "Reference" "TP10"
-			(at 39.37 54.61 90)
+			(at 54.61 52.07 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1381,7 +1381,7 @@
 			)
 		)
 		(property "Value" "TestPoint"
-			(at 38.1 52.07 90)
+			(at 55.88 54.61 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1390,7 +1390,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
-			(at 43.18 48.26 0)
+			(at 50.8 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1399,7 +1399,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 43.18 48.26 0)
+			(at 50.8 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1408,7 +1408,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 43.18 53.34 0)
+			(at 50.8 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1417,7 +1417,7 @@
 			)
 		)
 		(property "mpn" ""
-			(at 43.18 53.34 0)
+			(at 50.8 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1583,7 +1583,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 54.61 58.42 180)
+		(at 40.64 58.42 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -1591,7 +1591,7 @@
 		(dnp no)
 		(uuid "23cb119a-56c4-415d-9eea-092b9a79e191")
 		(property "Reference" "R8"
-			(at 57.15 57.15 90)
+			(at 43.18 57.15 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1599,8 +1599,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1k"
-			(at 54.61 55.88 90)
+		(property "Value" "350"
+			(at 40.64 55.88 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1609,7 +1609,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 56.388 58.42 90)
+			(at 42.418 58.42 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1618,7 +1618,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 54.61 58.42 0)
+			(at 40.64 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1627,7 +1627,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 54.61 58.42 0)
+			(at 40.64 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1636,7 +1636,7 @@
 			)
 		)
 		(property "mpn" "CR0805-FX-1002ELF "
-			(at 54.61 58.42 0)
+			(at 40.64 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1677,7 +1677,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "350"
 			(at 54.61 66.04 90)
 			(effects
 				(font
