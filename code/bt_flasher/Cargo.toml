@@ -1,0 +1,17 @@
+[package]
+name = "bt_flasher"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+btleplug = {version = "^0.11.6"}
+rand = "*"
+tokio = { version = "^1", features = ["full"] }
+uuid = "*"
+futures = "0.3.31"
+
+num-derive = "*"
+num-traits = "*"
+
+[dev-dependencies]
+pretty_env_logger = "0.5.0"
