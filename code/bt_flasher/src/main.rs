@@ -1,18 +1,18 @@
 use btleplug::api::{Central, Manager as _, Peripheral, ScanFilter, WriteType};
 use btleplug::platform::{Adapter, Manager};
 use std::error::Error;
-use std::time::Duration;
 use tokio::time;
 use uuid::{uuid, Uuid};
 use futures::stream::StreamExt;
 use std::thread;
+use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use num_derive::FromPrimitive;    
 use num_traits::FromPrimitive;
 use num_derive::ToPrimitive;    
 use num_traits::ToPrimitive;
 
-#[derive(FromPrimitive)]
+#[derive(FromPrimitive,Debug)]
 enum OTAControlResponse {
   FLASH_ACK = 0x00,
   FLASH_NAK = 0x01,
@@ -97,7 +97,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
                         peripheral.subscribe(&notify_characteristic).await?;
                         // Print the first 4 notifications received.
                         let mut notification_stream =
-                            peripheral.notifications().await?.take(4);
+                            peripheral.notifications().await?;
 
                         // tokio::spawn(async move { 
                         //     if let Some(data) = notification_stream.next().await {
@@ -129,32 +129,144 @@ async fn main() -> Result<(), Box<dyn Error>> {
                                 panic!("aaaa");
                             }
                         }
-                        if let Ok(bin_data) = std::fs::read("ota-updating-test.bin"){
-                            let chunks = bin_data.chunks(512);
-                            let mut count = 0;
+                        let start_flash = SystemTime::now().duration_since(UNIX_EPOCH).expect("Time went backwards");
+                        let flash_file = "ota-updating-test.bin";
+                        //let flash_file = "test.bin";
+                        //let flash_file = "test_big.bin";
+                        const CHUNK_SIZE: usize = 512;
+                        if let Ok(bin_data) = std::fs::read(flash_file){
+                            let chunks = bin_data.chunks(CHUNK_SIZE);
+                            let mut count:f32 = 0f32;
                             println!("Chunk size: {}", chunks.len());
                             for chunk in chunks {
+                                let since_the_epoch = SystemTime::now().duration_since(UNIX_EPOCH).expect("Time went backwards");
+                                let time_diff = since_the_epoch.as_millis()-start_flash.as_millis();
+                                let speed = (CHUNK_SIZE as f32)*count/time_diff.to_f32().unwrap();
+                                println!("Elapsed:{:?}, Speed: {:#?}B/s",time_diff, speed);
                                 peripheral.write(&data_characteristic, chunk, WriteType::WithoutResponse).await?;
                                 if let Some(data) = notification_stream.next().await{
-                                    count+=1;
+                                    count+=1f32;
                                     println!("Sent data {count}!");
-                                    if let Some(OTAControlResponse::FLASH_ACK) = FromPrimitive::from_u8(*data.value.first().unwrap()) {
-                                        println!("Data sent!");
+                                    if let Some(x) = FromPrimitive::from_u8(*data.value.first().unwrap()){
+                                        match x {
+                                            OTAControlResponse::FLASH_ACK => println!("Data sent!"),
+                                            OTAControlResponse::FLASH_NAK => println!("Failed to send!"),
+                                            _=> println!("Unknown error! {:#?}", x),
+                                        }
                                     }else{
-                                        println!("failed to send");
+                                        println!("Nothing received!")
+                                    }
+                                }
+                            }
+                        }
+                        let end_flash = SystemTime::now().duration_since(UNIX_EPOCH).expect("Time went backwards");
+                        println!("End: {:?}",end_flash.as_millis()%1000);
+                        println!("Took: {:?}",end_flash.as_millis()-start_flash.as_millis());
+                        let cmd = &[ToPrimitive::to_u8(&OTAControl::DONE).unwrap()];
+                        peripheral.write(&control_characteristic, cmd, WriteType::WithoutResponse).await?;
+                        loop {
+                            if let Some(data) = notification_stream.next().await{
+                                if let Some(x) = FromPrimitive::from_u8(*data.value.first().unwrap()){
+                                    match x {
+                                        OTAControlResponse::FLASH_ACK => println!("Data sent!"),
+                                        OTAControlResponse::FLASH_NAK => println!("Failed to send!"),
+                                        OTAControlResponse::DONE_ACK => {
+                                            println!("Done flash!");
+                                            break;
+                                        },
+                                        OTAControlResponse::DONE_NAK => {
+                                            println!("Faile done!");
+                                            break;
+                                    },
+                                        _=> println!("Unknown error! {:#?}", x),
                                     }
                                 }
                             }
                         }
 
-                        let cmd = &[ToPrimitive::to_u8(&OTAControl::DONE).unwrap()];
-                        peripheral.write(&control_characteristic, cmd, WriteType::WithoutResponse).await?;
+                        println!("Disconnecting from peripheral ...");
+                        peripheral.disconnect().await?;
+                    }
+                } else {
+                    //println!("Skipping unknown peripheral {:?}", peripheral);
+                }
+            }
+            if let Err(e) = adapter.stop_scan().await{
+                println!("{:?}",e );
+            }
+        }
+    }
 
+    time::sleep(Duration::from_millis(20000)).await;
+
+    for adapter in adapter_list.iter() {
+        println!("Starting scan...");
+        adapter
+            .start_scan(ScanFilter::default())
+            .await
+            .expect("Can't scan BLE adapter for connected devices...");
+        time::sleep(Duration::from_secs(2)).await;
+        let peripherals = adapter.peripherals().await?;
+
+        if peripherals.is_empty() {
+            eprintln!("->>> BLE peripheral devices were not found, sorry. Exiting...");
+        } else {
+            // All peripheral devices in range.
+            for peripheral in peripherals.iter() {
+                let properties = peripheral.properties().await?;
+                let is_connected = peripheral.is_connected().await?;
+                let local_name = properties
+                    .unwrap()
+                    .local_name
+                    .unwrap_or(String::from("(peripheral name unknown)"));
+                println!(
+                    "Peripheral {:?} is connected: {:?}",
+                    &local_name, is_connected
+                );
+                // Check if it's the peripheral we want.
+                if local_name.contains(PERIPHERAL_NAME_MATCH_FILTER) {
+                    println!("Found matching peripheral {:?}...", &local_name);
+                    if !is_connected {
+                        // Connect if we aren't already connected.
+                        if let Err(err) = peripheral.connect().await {
+                            eprintln!("Error connecting to peripheral, skipping: {}", err);
+                            continue;
+                        }
+                    }
+                    let is_connected = peripheral.is_connected().await?;
+                    println!(
+                        "Now connected ({:?}) to peripheral {:?}.",
+                        is_connected, &local_name
+                    );
+                    if is_connected {
+                        println!("Discover peripheral {:?} services...", local_name);
+                        peripheral.discover_services().await?;
+                        let chars = peripheral.characteristics();
+                        let control_characteristic = chars.iter().find(|c| c.uuid == CONTROL_UUID).unwrap();
+                        let data_characteristic = chars.iter().find(|c| c.uuid == WRITE_UUID).unwrap();
+                        let mtu_characteristic = chars.iter().find(|c| c.uuid == MTU_UUID).unwrap();
+                        let notify_characteristic = chars.iter().find(|c| c.uuid == NOTIFY_UUID).unwrap();
+
+                        peripheral.subscribe(&notify_characteristic).await?;
+                        // Print the first 4 notifications received.
+                        let mut notification_stream =
+                            peripheral.notifications().await?;
+
+                        let cmd: u8 = ToPrimitive::to_u8(&OTAControl::VERIFY).unwrap();
+                        peripheral.write(&control_characteristic, &[cmd], WriteType::WithoutResponse).await?;
                         if let Some(data) = notification_stream.next().await{
-                            if let Some(OTAControlResponse::DONE_ACK) = FromPrimitive::from_u8(*data.value.first().unwrap()) {
-
-                            }else{
-                                println!("failed to done");
+                            if let Some(x) = FromPrimitive::from_u8(*data.value.first().unwrap()){
+                                match x {
+                                    OTAControlResponse::DONE_ACK => {
+                                        println!("Verification done!");
+                                        break;
+                                    },
+                                    OTAControlResponse::DONE_NAK => {
+                                        println!("Faile  verification!");
+                                        break;
+                                },
+                                    _=> println!("Unknown error! {:#?}", x),
+                                }
                             }
                         }
 
