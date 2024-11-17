@@ -1,10 +1,9 @@
 use btleplug::api::{Central, Manager as _, Peripheral, ScanFilter, WriteType};
-use btleplug::platform::{Adapter, Manager};
+use btleplug::platform::Manager;
 use std::error::Error;
 use tokio::time;
 use uuid::{uuid, Uuid};
 use futures::stream::StreamExt;
-use std::thread;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use num_derive::FromPrimitive;    
@@ -99,15 +98,6 @@ async fn main() -> Result<(), Box<dyn Error>> {
                         let mut notification_stream =
                             peripheral.notifications().await?;
 
-                        // tokio::spawn(async move { 
-                        //     if let Some(data) = notification_stream.next().await {
-                        //         println!(
-                        //             "Received data from {:?} [{:?}]: {:?}",
-                        //             local_name, data.uuid, data.value
-                        //         );
-                        //     }
-                        // });    
-
                         let cmd: u8 = ToPrimitive::to_u8(&OTAControl::ABORT).unwrap();
                         peripheral.write(&control_characteristic, &[cmd], WriteType::WithoutResponse).await?;
 
@@ -197,7 +187,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         }
     }
 
-    time::sleep(Duration::from_millis(20000)).await;
+    time::sleep(Duration::from_millis(10000)).await;
 
     for adapter in adapter_list.iter() {
         println!("Starting scan...");
@@ -243,8 +233,6 @@ async fn main() -> Result<(), Box<dyn Error>> {
                         peripheral.discover_services().await?;
                         let chars = peripheral.characteristics();
                         let control_characteristic = chars.iter().find(|c| c.uuid == CONTROL_UUID).unwrap();
-                        let data_characteristic = chars.iter().find(|c| c.uuid == WRITE_UUID).unwrap();
-                        let mtu_characteristic = chars.iter().find(|c| c.uuid == MTU_UUID).unwrap();
                         let notify_characteristic = chars.iter().find(|c| c.uuid == NOTIFY_UUID).unwrap();
 
                         peripheral.subscribe(&notify_characteristic).await?;
