@@ -22,9 +22,10 @@ impl LedPattern {
     pub fn time_step_ms(&self) -> u64 {
         self.time_step as u64 * 10 + 10
     }
-
+    // TODO add conversion checks on input range
     fn convert_ms_to_time_step(time: u64) -> u8 {
-        ((time - 10) / 10) as u8
+        let conv = (time - 10) / 10;
+        conv.clamp(0, u8::MAX as u64) as u8
     }
 
 }
@@ -41,6 +42,7 @@ impl LedAnimation {
             index: 0,
         }
     }
+    // TODO fix patterns with only 1 state hanging
     pub fn next_pattern(&mut self) -> Option<LedPattern> {
         let ret = if let Some(pat) = self.entries.get(self.index) {
             Some(pat.clone())
