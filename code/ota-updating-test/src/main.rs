@@ -1,4 +1,5 @@
-
+#![feature(array_repeat)]
+use std::array;
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
@@ -350,187 +351,66 @@ control_characteristic
 
     let mut ani_vec = Vec::new();
     let mut ani = LedAnimation::new();
+    let mut rainbow = [
+        RGB8 {
+            r: 0xff, g: 0, b: 0,
+        },
+        RGB8 {
+            r: 0, g: 0xff, b: 0,
+        },
+        RGB8 {
+            r: 0, g: 0, b: 0xff,
+        },
+        RGB8 {
+            r: 0, g: 0xff, b: 0xff,
+        },
+        RGB8 {
+            r: 0xff, g: 0, b: 0xff,
+        },
+    ];
     ani.add_pattern(LedPattern::new(
         100,
-        [
-            RGB8 {
-                r: 0xff, g: 0, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0xff, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0, b: 0xff,
-            },
-            RGB8 {
-                r: 0, g: 0xff, b: 0xff,
-            },
-            RGB8 {
-                r: 0xff, g: 0, b: 0xff,
-            },
-        ],
+        rainbow.clone(),
     ));
+    rainbow.rotate_right(1);
     ani.add_pattern(LedPattern::new(
         100,
-        [
-            RGB8 {
-                r: 0xff, g: 0, b: 0xff,
-            },
-            RGB8 {
-                r: 0xff, g: 0, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0xff, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0, b: 0xff,
-            },
-            RGB8 {
-                r: 0, g: 0xff, b: 0xff,
-            },
-        ],
+        rainbow.clone(),
     ));
+    rainbow.rotate_right(1);
     ani.add_pattern(LedPattern::new(
         100,
-        [
-            RGB8 {
-                r: 0, g: 0xff, b: 0xff,
-            },
-            RGB8 {
-                r: 0xff, g: 0, b: 0xff,
-            },
-            RGB8 {
-                r: 0xff, g: 0, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0xff, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0, b: 0xff,
-            },
-        ],
+        rainbow.clone(),
     ));
+    rainbow.rotate_right(1);
     ani.add_pattern(LedPattern::new(
         100,
-        [
-            RGB8 {
-                r: 0, g: 0, b: 0xff,
-            },
-            RGB8 {
-                r: 0, g: 0xff, b: 0xff,
-            },
-            RGB8 {
-                r: 0xff, g: 0, b: 0xff,
-            },
-            RGB8 {
-                r: 0xff, g: 0, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0xff, b: 0,
-            },
-        ],
+        rainbow.clone(),
     ));
+    rainbow.rotate_right(1);
     ani.add_pattern(LedPattern::new(
         100,
-        [
-            RGB8 {
-                r: 0, g: 0xff, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0, b: 0xff,
-            },
-            RGB8 {
-                r: 0, g: 0xff, b: 0xff,
-            },
-            RGB8 {
-                r: 0xff, g: 0, b: 0xff,
-            },
-            RGB8 {
-                r: 0xff, g: 0, b: 0,
-            },
-        ],
+        rainbow.clone(),
     ));
+
     let mut ani2 = LedAnimation::new();
     ani2.add_pattern(LedPattern::new(
         800,
-        [
-            RGB8 {
-                r: 0, g: 0, b: 0x0f,
-            },
-            RGB8 {
-                r: 0, g: 0, b: 0x0f,
-            },
-            RGB8 {
-                r: 0, g: 0, b: 0x0f,
-            },
-            RGB8 {
-                r: 0, g: 0, b: 0x0f,
-            },
-            RGB8 {
-                r: 0, g: 0, b: 0x0f,
-            },
-        ],
+        array::repeat(led_animation::BLUE_H),
     ));
     ani2.add_pattern(LedPattern::new(
         200,
-        [
-            RGB8 {
-                r: 0, g: 0, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0, b: 0,
-            },
-        ],
+        array::repeat(led_animation::BLACK),
     ));
+
     let mut ani3 = LedAnimation::new();
     ani3.add_pattern(LedPattern::new(
         1500,
-        [
-            RGB8 {
-                r: 0, g: 0x0f, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0x0f, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0x0f, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0x0f, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0x0f, b: 0,
-            },
-        ],
+        array::repeat(led_animation::GREEN_H),
     ));
     ani3.add_pattern(LedPattern::new(
         400,
-        [
-            RGB8 {
-                r: 0, g: 0, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0, b: 0,
-            },
-            RGB8 {
-                r: 0, g: 0, b: 0,
-            },
-        ],
+        array::repeat(led_animation::BLACK),
     ));
 
     ani_vec.push(ani);
