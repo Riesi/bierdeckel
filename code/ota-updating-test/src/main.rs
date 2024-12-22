@@ -347,6 +347,8 @@ control_characteristic
     let channel = peripherals.rmt.channel0;
     //let mut ws2812 = LedPixelEsp32Rmt::<RGBW8, LedPixelColorGrbw32>::new(channel, ws2812_pin).unwrap();
 
+
+    let mut ani_vec = Vec::new();
     let mut ani = LedAnimation::new();
     ani.add_pattern(LedPattern::new(
         100,
@@ -448,12 +450,98 @@ control_characteristic
             },
         ],
     ));
+    let mut ani2 = LedAnimation::new();
+    ani2.add_pattern(LedPattern::new(
+        800,
+        [
+            RGB8 {
+                r: 0, g: 0, b: 0x0f,
+            },
+            RGB8 {
+                r: 0, g: 0, b: 0x0f,
+            },
+            RGB8 {
+                r: 0, g: 0, b: 0x0f,
+            },
+            RGB8 {
+                r: 0, g: 0, b: 0x0f,
+            },
+            RGB8 {
+                r: 0, g: 0, b: 0x0f,
+            },
+        ],
+    ));
+    ani2.add_pattern(LedPattern::new(
+        200,
+        [
+            RGB8 {
+                r: 0, g: 0, b: 0,
+            },
+            RGB8 {
+                r: 0, g: 0, b: 0,
+            },
+            RGB8 {
+                r: 0, g: 0, b: 0,
+            },
+            RGB8 {
+                r: 0, g: 0, b: 0,
+            },
+            RGB8 {
+                r: 0, g: 0, b: 0,
+            },
+        ],
+    ));
+    let mut ani3 = LedAnimation::new();
+    ani3.add_pattern(LedPattern::new(
+        1500,
+        [
+            RGB8 {
+                r: 0, g: 0x0f, b: 0,
+            },
+            RGB8 {
+                r: 0, g: 0x0f, b: 0,
+            },
+            RGB8 {
+                r: 0, g: 0x0f, b: 0,
+            },
+            RGB8 {
+                r: 0, g: 0x0f, b: 0,
+            },
+            RGB8 {
+                r: 0, g: 0x0f, b: 0,
+            },
+        ],
+    ));
+    ani3.add_pattern(LedPattern::new(
+        400,
+        [
+            RGB8 {
+                r: 0, g: 0, b: 0,
+            },
+            RGB8 {
+                r: 0, g: 0, b: 0,
+            },
+            RGB8 {
+                r: 0, g: 0, b: 0,
+            },
+            RGB8 {
+                r: 0, g: 0, b: 0,
+            },
+            RGB8 {
+                r: 0, g: 0, b: 0,
+            },
+        ],
+    ));
+
+    ani_vec.push(ani);
+    ani_vec.push(ani2);
+    ani_vec.push(ani3);
 
     let mut ws2812 = Ws2812Esp32Rmt::new(channel, ws2812_pin).unwrap();
 
     let thread_led = thread::spawn(move || {
         loop{
-            ani.next_pattern().map(|p| {
+          ani_vec.last_mut().unwrap().next_pattern().map(|p| {
             let d = p.led_data.iter().copied();
             ws2812.write_nocopy(d).unwrap();
             thread::sleep(Duration::from_millis(p.time_step_ms()));
