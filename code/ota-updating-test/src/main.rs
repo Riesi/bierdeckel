@@ -3,11 +3,11 @@ use std::array;
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
+use std::collections::HashMap;
 use log::LevelFilter;
 
 use esp_idf_hal::peripherals::Peripherals;
 
-use smart_leds::RGB8;
 use ws2812_esp32_rmt_driver::Ws2812Esp32Rmt;
 
 use esp32_nimble::{uuid128, BLEAdvertisementData, BLEDevice, NimbleProperties};
@@ -22,6 +22,16 @@ use esp_ota;
 
 pub mod led_animation;
 use crate::led_animation::{LedAnimation, LedPattern};
+
+#[derive(Debug, PartialEq, Eq, Hash)]
+enum LedState {
+  BtWait,
+  BtFlashing,
+  BtVerified,
+  DefaultPattern,
+  ActivePattern,
+  ErrorPattern,
+}
 
 #[derive(ToPrimitive)]
 enum OTAControlResponse {
@@ -109,6 +119,7 @@ fn main(){
 
   let ota_state = Arc::new(Mutex::new(OTAStateHandle{state: OTAState::Initial}));
 
+  let led_state = Arc::new(Mutex::new(LedState::DefaultPattern));
   
   // unsafe{
   //   let mut mac_address = esp_idf_sys::esp_base_mac_addr_get(mac_address);
@@ -178,6 +189,8 @@ let control_characteristic = service.lock().create_characteristic(
   control_uuid,
   NimbleProperties::READ | NimbleProperties::WRITE,
 );
+
+let ctrl_led_state = led_state.clone();
 let ctrl_state = ota_state.clone();
 let notifier = notifying_characteristic.clone();
 let ota_fin = ota.clone();
@@ -202,12 +215,14 @@ control_characteristic
           OTAControl::VERIFY => {
             let val = match ota_fin.lock().unwrap().1.take(){
               Some(esp_ota::ErrorKind::InvalidRollbackState) => {
+                *ctrl_led_state.lock().unwrap() = LedState::BtVerified;
                 esp_ota::mark_app_valid();
                 log::debug!("Validated image!");
                 // TODO reenable flashing or maybe reboot
                 ToPrimitive::to_u8(&OTAControlResponse::DoneAck).unwrap()
               },
               Some(e) => {
+                *ctrl_led_state.lock().unwrap() = LedState::ErrorPattern;
                 log::error!("{:#?}", e);
                 ToPrimitive::to_u8(&OTAControlResponse::DoneNak).unwrap()
               },
@@ -222,13 +237,13 @@ control_characteristic
             OTAEvent::Verify
           },
           OTAControl::FLASH => {
+            *ctrl_led_state.lock().unwrap() = LedState::BtFlashing;
             OTAEvent::FlashData
           },
           OTAControl::ABORT => {
             OTAEvent::Abort
           },
           OTAControl::DONE => {
-
             log::debug!("OTA flashing done!");
             // Performs validation of the newly written app image and completes the OTA update.
             let opt = ota_fin.lock().unwrap().0.take();
@@ -348,8 +363,6 @@ control_characteristic
     let channel = peripherals.rmt.channel0;
     //let mut ws2812 = LedPixelEsp32Rmt::<RGBW8, LedPixelColorGrbw32>::new(channel, ws2812_pin).unwrap();
 
-
-    let mut ani_vec = Vec::new();
     let rainbow = [
         led_animation::RED,
         led_animation::GREEN,
@@ -361,48 +374,72 @@ control_characteristic
         100,
         rainbow.clone(),
     );
-    let ani = LedAnimation::new_rotation(rainbow_pat);
+    let default_pattern = LedAnimation::new_rotation(rainbow_pat);
 
-    let mut ani2 = LedAnimation::new();
-    ani2.add_pattern(LedPattern::new(
+    let mut bt_wait = LedAnimation::new();
+    bt_wait.add_pattern(LedPattern::new(
         800,
         array::repeat(led_animation::BLUE_H),
     ));
-    ani2.add_pattern(LedPattern::new(
+    bt_wait.add_pattern(LedPattern::new(
         200,
         array::repeat(led_animation::BLACK),
     ));
 
-    let mut ani3 = LedAnimation::new();
-    ani3.add_pattern(LedPattern::new(
+    let mut active_pattern = LedAnimation::new();
+    active_pattern.add_pattern(LedPattern::new(
         1500,
         array::repeat(led_animation::GREEN_H),
     ));
-    ani3.add_pattern(LedPattern::new(
+    active_pattern.add_pattern(LedPattern::new(
         400,
         array::repeat(led_animation::BLACK),
     ));
 
-    let mut ani4 = LedAnimation::new();
-    ani4.add_pattern(LedPattern::new(
+    let mut bt_flashing = LedAnimation::new();
+    bt_flashing.add_pattern(LedPattern::new(
         300,
         array::repeat(led_animation::YELLOW_H),
     ));
-    ani4.add_pattern(LedPattern::new(
+    bt_flashing.add_pattern(LedPattern::new(
+        200,
+        array::repeat(led_animation::BLACK),
+    ));
+    let mut bt_verified = LedAnimation::new();
+    bt_verified.add_pattern(LedPattern::new(
+        300,
+        array::repeat(led_animation::PINK_H),
+    ));
+    bt_verified.add_pattern(LedPattern::new(
+        200,
+        array::repeat(led_animation::BLACK),
+    ));
+    let mut error_pattern = LedAnimation::new();
+    error_pattern.add_pattern(LedPattern::new(
+        300,
+        array::repeat(led_animation::RED),
+    ));
+    error_pattern.add_pattern(LedPattern::new(
         200,
         array::repeat(led_animation::BLACK),
     ));
 
-    ani_vec.push(ani);
-    ani_vec.push(ani2);
-    ani_vec.push(ani3);
-    ani_vec.push(ani4);
+    let mut led_map:  HashMap<LedState, LedAnimation> = HashMap::new();
+    led_map.insert(LedState::BtWait, bt_wait);
+    led_map.insert(LedState::BtFlashing, bt_flashing);
+    led_map.insert(LedState::BtVerified, bt_verified);
+    led_map.insert(LedState::DefaultPattern, default_pattern);
+    led_map.insert(LedState::ActivePattern, active_pattern);
+    led_map.insert(LedState::ErrorPattern, error_pattern);
 
     let mut ws2812 = Ws2812Esp32Rmt::new(channel, ws2812_pin).unwrap();
 
-    let thread_led = thread::spawn(move || {
+
+    *led_state.lock().unwrap() = LedState::BtWait;
+
+    let _thread_led = thread::spawn(move || {
         loop{
-          ani_vec.first_mut().unwrap().next_pattern().map(|p| {
+          led_map.get_mut(&led_state.lock().unwrap()).unwrap().next_pattern().map(|p| {
             let d = p.led_data.iter().copied();
             ws2812.write_nocopy(d).unwrap();
             thread::sleep(Duration::from_millis(p.time_step_ms()));
