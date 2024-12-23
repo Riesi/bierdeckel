@@ -383,9 +383,20 @@ control_characteristic
         array::repeat(led_animation::BLACK),
     ));
 
+    let mut ani4 = LedAnimation::new();
+    ani4.add_pattern(LedPattern::new(
+        300,
+        array::repeat(led_animation::YELLOW_H),
+    ));
+    ani4.add_pattern(LedPattern::new(
+        200,
+        array::repeat(led_animation::BLACK),
+    ));
+
     ani_vec.push(ani);
     ani_vec.push(ani2);
     ani_vec.push(ani3);
+    ani_vec.push(ani4);
 
     let mut ws2812 = Ws2812Esp32Rmt::new(channel, ws2812_pin).unwrap();
 
