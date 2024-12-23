@@ -350,8 +350,7 @@ control_characteristic
 
 
     let mut ani_vec = Vec::new();
-    let mut ani = LedAnimation::new();
-    let mut rainbow = [
+    let rainbow = [
         RGB8 {
             r: 0xff, g: 0, b: 0,
         },
@@ -368,30 +367,11 @@ control_characteristic
             r: 0xff, g: 0, b: 0xff,
         },
     ];
-    ani.add_pattern(LedPattern::new(
+    let rainbow_pat = LedPattern::new(
         100,
         rainbow.clone(),
-    ));
-    rainbow.rotate_right(1);
-    ani.add_pattern(LedPattern::new(
-        100,
-        rainbow.clone(),
-    ));
-    rainbow.rotate_right(1);
-    ani.add_pattern(LedPattern::new(
-        100,
-        rainbow.clone(),
-    ));
-    rainbow.rotate_right(1);
-    ani.add_pattern(LedPattern::new(
-        100,
-        rainbow.clone(),
-    ));
-    rainbow.rotate_right(1);
-    ani.add_pattern(LedPattern::new(
-        100,
-        rainbow.clone(),
-    ));
+    );
+    let ani = LedAnimation::new_rotation(rainbow_pat);
 
     let mut ani2 = LedAnimation::new();
     ani2.add_pattern(LedPattern::new(
@@ -421,7 +401,7 @@ control_characteristic
 
     let thread_led = thread::spawn(move || {
         loop{
-          ani_vec.last_mut().unwrap().next_pattern().map(|p| {
+          ani_vec.first_mut().unwrap().next_pattern().map(|p| {
             let d = p.led_data.iter().copied();
             ws2812.write_nocopy(d).unwrap();
             thread::sleep(Duration::from_millis(p.time_step_ms()));

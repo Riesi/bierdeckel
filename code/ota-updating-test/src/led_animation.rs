@@ -54,6 +54,17 @@ impl LedAnimation {
             index: 0,
         }
     }
+    pub fn new_rotation(mut pat: LedPattern) -> Self {
+        let mut entries = Vec::new();
+        for _ in 0..LED_COUNT {
+            entries.push(pat.clone());
+            pat.led_data.rotate_right(1);
+        }
+        Self {
+            entries,
+            index: 0,
+        }
+    }
     // TODO fix patterns with only 1 state hanging
     pub fn next_pattern(&mut self) -> Option<LedPattern> {
         let ret = if let Some(pat) = self.entries.get(self.index) {
