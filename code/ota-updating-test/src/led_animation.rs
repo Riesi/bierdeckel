@@ -7,6 +7,9 @@ pub const GREEN: RGB8 = RGB8 { r: 0, g: 0xff, b: 0, };
 pub const BLUE: RGB8 = RGB8 { r: 0, g: 0, b: 0xff, };
 pub const WHITE: RGB8 = RGB8 { r: 0xff, g: 0xff, b: 0xff, };
 
+pub const PINK: RGB8 = RGB8 { r: 0xff, g: 0, b: 0xff, };
+pub const CYAN: RGB8 = RGB8 { r: 0, g: 0xff, b: 0xff, };
+
 pub const RED_H: RGB8 = RGB8 { r: 0x0f, g: 0, b: 0, };
 pub const GREEN_H: RGB8 = RGB8 { r: 0, g: 0x0f, b: 0, };
 pub const BLUE_H: RGB8 = RGB8 { r: 0, g: 0, b: 0x0f, };

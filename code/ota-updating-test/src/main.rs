@@ -351,21 +351,11 @@ control_characteristic
 
     let mut ani_vec = Vec::new();
     let rainbow = [
-        RGB8 {
-            r: 0xff, g: 0, b: 0,
-        },
-        RGB8 {
-            r: 0, g: 0xff, b: 0,
-        },
-        RGB8 {
-            r: 0, g: 0, b: 0xff,
-        },
-        RGB8 {
-            r: 0, g: 0xff, b: 0xff,
-        },
-        RGB8 {
-            r: 0xff, g: 0, b: 0xff,
-        },
+        led_animation::RED,
+        led_animation::GREEN,
+        led_animation::BLUE,
+        led_animation::CYAN,
+        led_animation::PINK,
     ];
     let rainbow_pat = LedPattern::new(
         100,
