@@ -3,7 +3,7 @@ use std::array;
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
-use std::collections::HashMap;
+use std::collections::{HashMap, VecDeque};
 use log::LevelFilter;
 
 use esp_idf_hal::peripherals::Peripherals;
@@ -119,7 +119,9 @@ fn main(){
 
   let ota_state = Arc::new(Mutex::new(OTAStateHandle{state: OTAState::Initial}));
 
-  let led_state = Arc::new(Mutex::new(LedState::DefaultPattern));
+  let mut animation_queue = VecDeque::new();
+  animation_queue.push_back(LedState::ActivePattern);
+  let animation_queue = Arc::new(Mutex::new(animation_queue));
   
   // unsafe{
   //   let mut mac_address = esp_idf_sys::esp_base_mac_addr_get(mac_address);
@@ -190,7 +192,7 @@ let control_characteristic = service.lock().create_characteristic(
   NimbleProperties::READ | NimbleProperties::WRITE,
 );
 
-let ctrl_led_state = led_state.clone();
+let ctrl_animation = animation_queue.clone();
 let ctrl_state = ota_state.clone();
 let notifier = notifying_characteristic.clone();
 let ota_fin = ota.clone();
@@ -215,14 +217,14 @@ control_characteristic
           OTAControl::VERIFY => {
             let val = match ota_fin.lock().unwrap().1.take(){
               Some(esp_ota::ErrorKind::InvalidRollbackState) => {
-                *ctrl_led_state.lock().unwrap() = LedState::BtVerified;
+                ctrl_animation.lock().unwrap().push_back(LedState::BtVerified);
                 esp_ota::mark_app_valid();
                 log::debug!("Validated image!");
                 // TODO reenable flashing or maybe reboot
                 ToPrimitive::to_u8(&OTAControlResponse::DoneAck).unwrap()
               },
               Some(e) => {
-                *ctrl_led_state.lock().unwrap() = LedState::ErrorPattern;
+                ctrl_animation.lock().unwrap().push_back(LedState::ErrorPattern);
                 log::error!("{:#?}", e);
                 ToPrimitive::to_u8(&OTAControlResponse::DoneNak).unwrap()
               },
@@ -237,7 +239,7 @@ control_characteristic
             OTAEvent::Verify
           },
           OTAControl::FLASH => {
-            *ctrl_led_state.lock().unwrap() = LedState::BtFlashing;
+            ctrl_animation.lock().unwrap().push_back(LedState::BtFlashing);
             OTAEvent::FlashData
           },
           OTAControl::ABORT => {
@@ -363,20 +365,22 @@ control_characteristic
     let channel = peripherals.rmt.channel0;
     //let mut ws2812 = LedPixelEsp32Rmt::<RGBW8, LedPixelColorGrbw32>::new(channel, ws2812_pin).unwrap();
 
+    let mut ws2812 = Ws2812Esp32Rmt::new(channel, ws2812_pin).unwrap();
+
     let rainbow = [
-        led_animation::RED,
-        led_animation::GREEN,
-        led_animation::BLUE,
-        led_animation::CYAN,
-        led_animation::PINK,
+      led_animation::RED,
+      led_animation::GREEN,
+      led_animation::BLUE,
+      led_animation::CYAN,
+      led_animation::PINK,
     ];
     let rainbow_pat = LedPattern::new(
         100,
         rainbow.clone(),
     );
-    let default_pattern = LedAnimation::new_rotation(rainbow_pat);
-
-    let mut bt_wait = LedAnimation::new();
+    let default_pattern = LedAnimation::new_rotation(4, rainbow_pat);
+    
+    let mut bt_wait = LedAnimation::new(4);
     bt_wait.add_pattern(LedPattern::new(
         800,
         array::repeat(led_animation::BLUE_H),
@@ -385,8 +389,8 @@ control_characteristic
         200,
         array::repeat(led_animation::BLACK),
     ));
-
-    let mut active_pattern = LedAnimation::new();
+    
+    let mut active_pattern = LedAnimation::new(4);
     active_pattern.add_pattern(LedPattern::new(
         1500,
         array::repeat(led_animation::GREEN_H),
@@ -395,8 +399,8 @@ control_characteristic
         400,
         array::repeat(led_animation::BLACK),
     ));
-
-    let mut bt_flashing = LedAnimation::new();
+    
+    let mut bt_flashing = LedAnimation::new(4);
     bt_flashing.add_pattern(LedPattern::new(
         300,
         array::repeat(led_animation::YELLOW_H),
@@ -405,7 +409,7 @@ control_characteristic
         200,
         array::repeat(led_animation::BLACK),
     ));
-    let mut bt_verified = LedAnimation::new();
+    let mut bt_verified = LedAnimation::new(4);
     bt_verified.add_pattern(LedPattern::new(
         300,
         array::repeat(led_animation::PINK_H),
@@ -414,7 +418,7 @@ control_characteristic
         200,
         array::repeat(led_animation::BLACK),
     ));
-    let mut error_pattern = LedAnimation::new();
+    let mut error_pattern = LedAnimation::new(4);
     error_pattern.add_pattern(LedPattern::new(
         300,
         array::repeat(led_animation::RED),
@@ -423,7 +427,7 @@ control_characteristic
         200,
         array::repeat(led_animation::BLACK),
     ));
-
+    
     let mut led_map:  HashMap<LedState, LedAnimation> = HashMap::new();
     led_map.insert(LedState::BtWait, bt_wait);
     led_map.insert(LedState::BtFlashing, bt_flashing);
@@ -432,18 +436,21 @@ control_characteristic
     led_map.insert(LedState::ActivePattern, active_pattern);
     led_map.insert(LedState::ErrorPattern, error_pattern);
 
-    let mut ws2812 = Ws2812Esp32Rmt::new(channel, ws2812_pin).unwrap();
-
-
-    *led_state.lock().unwrap() = LedState::BtWait;
+    animation_queue.lock().unwrap().push_back(LedState::BtWait);
 
     let _thread_led = thread::spawn(move || {
         loop{
-          led_map.get_mut(&led_state.lock().unwrap()).unwrap().next_pattern().map(|p| {
-            let d = p.led_data.iter().copied();
-            ws2812.write_nocopy(d).unwrap();
-            thread::sleep(Duration::from_millis(p.time_step_ms()));
-        });
+          let state = animation_queue.lock().unwrap().pop_front().unwrap_or(LedState::DefaultPattern);
+          let led_ani = led_map.get_mut(&state).unwrap();
+          let mut cycle = 0;
+          while cycle < led_ani.min_repeats {
+            led_ani.next_pattern().map(|p| {
+                let d = p.led_data.iter().copied();
+                ws2812.write_nocopy(d).unwrap();
+                thread::sleep(Duration::from_millis(p.time_step_ms()));
+            });
+            cycle += 1;
+          }
         }
     });
 

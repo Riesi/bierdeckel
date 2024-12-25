@@ -53,17 +53,19 @@ impl LedPattern {
 
 pub struct LedAnimation {
     entries: Vec<LedPattern>,
+    pub min_repeats: u8,
     index: usize,
 }
 
 impl LedAnimation {
-    pub fn new() -> Self {
+    pub fn new(min_repeats: u8) -> Self {
         Self {
             entries: Vec::new(),
+            min_repeats,
             index: 0,
         }
     }
-    pub fn new_rotation(mut pat: LedPattern) -> Self {
+    pub fn new_rotation(min_repeats: u8, mut pat: LedPattern) -> Self {
         let mut entries = Vec::new();
         for _ in 0..LED_COUNT {
             entries.push(pat.clone());
@@ -71,6 +73,7 @@ impl LedAnimation {
         }
         Self {
             entries,
+            min_repeats,
             index: 0,
         }
     }
