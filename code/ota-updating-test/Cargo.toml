@@ -54,4 +54,5 @@ esp-idf-svc = "0.49"
 
 [build-dependencies]
 embuild = "0.32.0"
+cc = "=1.1.30" # Version "1.1.30" necessary until a new version of `esp-idf-sys` is released
 anyhow = "1"
