@@ -90,4 +90,7 @@ impl LedAnimation {
     pub fn add_pattern(&mut self, pattern: LedPattern) {
         self.entries.push(pattern);
     }
+    pub fn get_min_repeats(&self) -> u8 {
+        self.min_repeats*(self.entries.len() as u8)
+    }
 }

@@ -439,17 +439,26 @@ control_characteristic
     animation_queue.lock().unwrap().push_back(LedState::BtWait);
 
     let _thread_led = thread::spawn(move || {
+      let mut state = LedState::DefaultPattern;
+      let mut cycle = 0;
         loop{
-          let state = animation_queue.lock().unwrap().pop_front().unwrap_or(LedState::DefaultPattern);
+          if let Some(st) = animation_queue.lock().unwrap().pop_front(){
+            state = st;
+            cycle = 0;
+          }
+
           let led_ani = led_map.get_mut(&state).unwrap();
-          let mut cycle = 0;
-          while cycle < led_ani.min_repeats {
+          loop{
             led_ani.next_pattern().map(|p| {
                 let d = p.led_data.iter().copied();
                 ws2812.write_nocopy(d).unwrap();
                 thread::sleep(Duration::from_millis(p.time_step_ms()));
             });
-            cycle += 1;
+            if cycle < led_ani.get_min_repeats() {
+              cycle += 1;
+            }else{
+              break;
+            }
           }
         }
     });
