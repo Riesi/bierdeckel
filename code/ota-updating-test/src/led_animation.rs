@@ -77,7 +77,6 @@ impl LedAnimation {
             index: 0,
         }
     }
-    // TODO fix patterns with only 1 state hanging
     pub fn next_pattern(&mut self) -> Option<LedPattern> {
         let ret = if let Some(pat) = self.entries.get(self.index) {
             Some(pat.clone())

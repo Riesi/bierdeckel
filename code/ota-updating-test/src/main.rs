@@ -464,6 +464,6 @@ control_characteristic
     });
 
     loop {
-
+      thread::sleep(Duration::from_millis(100));
     }
 }
