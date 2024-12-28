@@ -131,8 +131,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
                             for chunk in chunks {
                                 let since_the_epoch = SystemTime::now().duration_since(UNIX_EPOCH).expect("Time went backwards");
                                 let time_diff = since_the_epoch.as_millis()-start_flash.as_millis();
-                                let speed = (CHUNK_SIZE as f32)*count/time_diff.to_f32().unwrap();
-                                println!("Elapsed:{:?}, Speed: {:#?}B/s",time_diff, speed);
+                                let speed = (CHUNK_SIZE as f32)*count/time_diff.to_f32().unwrap()*(1000f32/1024f32);
+                                println!("Elapsed:{:?}, Speed: {:#?}kB/s",time_diff, speed);
                                 peripheral.write(&data_characteristic, chunk, WriteType::WithoutResponse).await?;
                                 if let Some(data) = notification_stream.next().await{
                                     count+=1f32;
