@@ -276,6 +276,7 @@ control_characteristic
         log::info!("__ Transition from {:?}", a.state);
         if let OTAState::Failure = a.next(event) {
           log::error!("Failed state!");
+          ctrl_animation.lock().unwrap().push_back(LedState::ErrorPattern);
           let val = ToPrimitive::to_u8(&OTAControlResponse::FlashNak).unwrap();
           notifier.lock().set_value(&[val]).notify();
         }else{
