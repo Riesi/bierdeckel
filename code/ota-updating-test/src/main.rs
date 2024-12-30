@@ -7,6 +7,9 @@ use std::collections::{HashMap, VecDeque};
 use log::LevelFilter;
 
 use esp_idf_hal::peripherals::Peripherals;
+use esp_idf_hal::adc::attenuation::DB_11;
+use esp_idf_hal::adc::oneshot::config::AdcChannelConfig;
+use esp_idf_hal::adc::oneshot::*;
 
 use ws2812_esp32_rmt_driver::Ws2812Esp32Rmt;
 
@@ -464,7 +467,20 @@ control_characteristic
         }
     });
 
+    let adc = AdcDriver::new(peripherals.adc1).unwrap();
+
+    // configuring pin to analog read, you can regulate the adc input voltage range depending on your need
+    // for this example we use the attenuation of 11db which sets the input voltage range to around 0-3.6V
+    let config = AdcChannelConfig {
+        attenuation: DB_11,
+        ..Default::default()
+    };
+
+    let mut adc_pin = AdcChannelDriver::new(&adc, peripherals.pins.gpio4, &config).unwrap();
+    
     loop {
-      thread::sleep(Duration::from_millis(100));
+      thread::sleep(Duration::from_millis(500));
+      // you can change the sleep duration depending on how often you want to sample
+      log::info!("ADC value: {}", adc.read(&mut adc_pin).unwrap());
     }
 }
