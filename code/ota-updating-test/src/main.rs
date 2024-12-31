@@ -479,7 +479,8 @@ control_characteristic
     // for this example we use the attenuation of 11db which sets the input voltage range to around 0-3.6V
     let config = AdcChannelConfig {
         attenuation: DB_11,
-        ..Default::default()
+        resolution: Resolution12Bit,
+        calibration: false,
     };
 
     let mut adc_pin = AdcChannelDriver::new(&adc, peripherals.pins.gpio4, &config).unwrap();
@@ -487,6 +488,7 @@ control_characteristic
     loop {
       thread::sleep(Duration::from_millis(500));
       // you can change the sleep duration depending on how often you want to sample
-      log::info!("ADC value: {}", adc.read(&mut adc_pin).unwrap());
+      let adc_val = adc.read(&mut adc_pin).unwrap();
+      log::info!("ADC value: {}mV, {}V", adc_val, adc_val as f32 / 1000f32);
     }
 }
