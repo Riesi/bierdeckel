@@ -1,5 +1,5 @@
 use btleplug::api::{Central, Manager as _, Peripheral, ScanFilter, WriteType};
-use btleplug::platform::Manager;
+use btleplug::platform::{Adapter, Manager};
 use std::error::Error;
 use tokio::time;
 use uuid::{uuid, Uuid};
@@ -44,23 +44,50 @@ async fn main() -> Result<(), Box<dyn Error>> {
     if adapter_list.is_empty() {
         eprintln!("No Bluetooth adapters found");
     }
+    let mut retries = 5;
+    while retries > 0 {
+        if let Ok(()) = flash_firmware(&adapter_list).await{
+            break
+        }
+        retries -= 1;
+        time::sleep(Duration::from_millis(200)).await;
+        println!("Retrying flash...");
+    }
+    retries = 5;
 
+    time::sleep(Duration::from_millis(10000)).await;
+    while retries > 0 {
+        if let Ok(()) = validate_firmware(&adapter_list).await{
+            break
+        }
+        retries -= 1;
+        time::sleep(Duration::from_millis(200)).await;
+        println!("Retrying verification...");
+    }
+    time::sleep(Duration::from_millis(200)).await;
+
+    Ok(())
+}
+
+async fn flash_firmware(adapter_list: &Vec<Adapter>) -> Result<(), ()> {
     for adapter in adapter_list.iter() {
         println!("Starting scan...");
+
+
         adapter
             .start_scan(ScanFilter::default())
             .await
             .expect("Can't scan BLE adapter for connected devices...");
         time::sleep(Duration::from_secs(2)).await;
-        let peripherals = adapter.peripherals().await?;
+        let peripherals = adapter.peripherals().await.unwrap();
 
         if peripherals.is_empty() {
             eprintln!("->>> BLE peripheral devices were not found, sorry. Exiting...");
         } else {
             // All peripheral devices in range.
             for peripheral in peripherals.iter() {
-                let properties = peripheral.properties().await?;
-                let is_connected = peripheral.is_connected().await?;
+                let properties = peripheral.properties().await.unwrap();
+                let is_connected = peripheral.is_connected().await.unwrap();
                 let local_name = properties
                     .unwrap()
                     .local_name
@@ -79,29 +106,29 @@ async fn main() -> Result<(), Box<dyn Error>> {
                             continue;
                         }
                     }
-                    let is_connected = peripheral.is_connected().await?;
+                    let is_connected = peripheral.is_connected().await.unwrap();
                     println!(
                         "Now connected ({:?}) to peripheral {:?}.",
                         is_connected, &local_name
                     );
                     if is_connected {
                         println!("Discover peripheral {:?} services...", local_name);
-                        peripheral.discover_services().await?;
+                        peripheral.discover_services().await.unwrap();
                         let chars = peripheral.characteristics();
                         let control_characteristic = chars.iter().find(|c| c.uuid == CONTROL_UUID).unwrap();
                         let data_characteristic = chars.iter().find(|c| c.uuid == WRITE_UUID).unwrap();
                         let mtu_characteristic = chars.iter().find(|c| c.uuid == MTU_UUID).unwrap();
                         let notify_characteristic = chars.iter().find(|c| c.uuid == NOTIFY_UUID).unwrap();
 
-                        peripheral.subscribe(&notify_characteristic).await?;
+                        peripheral.subscribe(&notify_characteristic).await.unwrap();
                         // Print the first 4 notifications received.
                         let mut notification_stream =
-                            peripheral.notifications().await?;
+                            peripheral.notifications().await.unwrap();
 
                         let cmd: u8 = ToPrimitive::to_u8(&OTAControl::ABORT).unwrap();
-                        peripheral.write(&control_characteristic, &[cmd], WriteType::WithoutResponse).await?;
+                        peripheral.write(&control_characteristic, &[cmd], WriteType::WithoutResponse).await.unwrap();
 
-                        let mtu = peripheral.read(&mtu_characteristic).await?;
+                        let mtu = peripheral.read(&mtu_characteristic).await.unwrap();
                         let mtu = if let Some(&mt) = mtu.first_chunk::<2>(){
                             u16::from_le_bytes(mt)
                         }else{
@@ -110,7 +137,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
                         let mtu = 512;
             
                         let cmd = &[ToPrimitive::to_u8(&OTAControl::FLASH).unwrap()];
-                        peripheral.write(&control_characteristic, cmd, WriteType::WithoutResponse).await?;
+                        peripheral.write(&control_characteristic, cmd, WriteType::WithoutResponse).await.unwrap();
 
                         if let Some(data) = notification_stream.next().await{
                             if let Some(OTAControlResponse::FLASH_ACK) = FromPrimitive::from_u8(*data.value.first().unwrap()) {
@@ -133,7 +160,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
                                 let time_diff = since_the_epoch.as_millis()-start_flash.as_millis();
                                 let speed = (CHUNK_SIZE as f32)*count/time_diff.to_f32().unwrap()*(1000f32/1024f32);
                                 println!("Elapsed:{:?}, Speed: {:#?}kB/s",time_diff, speed);
-                                peripheral.write(&data_characteristic, chunk, WriteType::WithoutResponse).await?;
+                                peripheral.write(&data_characteristic, chunk, WriteType::WithoutResponse).await.unwrap();
                                 if let Some(data) = notification_stream.next().await{
                                     count+=1f32;
                                     println!("Sent data {count}!");
@@ -153,7 +180,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
                         println!("End: {:?}",end_flash.as_millis()%1000);
                         println!("Took: {:?}",end_flash.as_millis()-start_flash.as_millis());
                         let cmd = &[ToPrimitive::to_u8(&OTAControl::DONE).unwrap()];
-                        peripheral.write(&control_characteristic, cmd, WriteType::WithoutResponse).await?;
+                        peripheral.write(&control_characteristic, cmd, WriteType::WithoutResponse).await.unwrap();
                         loop {
                             if let Some(data) = notification_stream.next().await{
                                 if let Some(x) = FromPrimitive::from_u8(*data.value.first().unwrap()){
@@ -175,7 +202,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
                         }
 
                         println!("Disconnecting from peripheral ...");
-                        peripheral.disconnect().await?;
+                        peripheral.disconnect().await.unwrap();
                     }
                 } else {
                     //println!("Skipping unknown peripheral {:?}", peripheral);
@@ -184,11 +211,15 @@ async fn main() -> Result<(), Box<dyn Error>> {
             if let Err(e) = adapter.stop_scan().await{
                 println!("{:?}",e );
             }
+            return Ok(());
         }
     }
+    Err(())
+}
 
-    time::sleep(Duration::from_millis(10000)).await;
 
+
+async fn validate_firmware(adapter_list: &Vec<Adapter>) -> Result<(), ()> {
     for adapter in adapter_list.iter() {
         println!("Starting scan...");
         adapter
@@ -196,15 +227,15 @@ async fn main() -> Result<(), Box<dyn Error>> {
             .await
             .expect("Can't scan BLE adapter for connected devices...");
         time::sleep(Duration::from_secs(2)).await;
-        let peripherals = adapter.peripherals().await?;
+        let peripherals = adapter.peripherals().await.unwrap();
 
         if peripherals.is_empty() {
             eprintln!("->>> BLE peripheral devices were not found, sorry. Exiting...");
         } else {
             // All peripheral devices in range.
             for peripheral in peripherals.iter() {
-                let properties = peripheral.properties().await?;
-                let is_connected = peripheral.is_connected().await?;
+                let properties = peripheral.properties().await.unwrap();
+                let is_connected = peripheral.is_connected().await.unwrap();
                 let local_name = properties
                     .unwrap()
                     .local_name
@@ -223,25 +254,25 @@ async fn main() -> Result<(), Box<dyn Error>> {
                             continue;
                         }
                     }
-                    let is_connected = peripheral.is_connected().await?;
+                    let is_connected = peripheral.is_connected().await.unwrap();
                     println!(
                         "Now connected ({:?}) to peripheral {:?}.",
                         is_connected, &local_name
                     );
                     if is_connected {
                         println!("Discover peripheral {:?} services...", local_name);
-                        peripheral.discover_services().await?;
+                        peripheral.discover_services().await.unwrap();
                         let chars = peripheral.characteristics();
                         let control_characteristic = chars.iter().find(|c| c.uuid == CONTROL_UUID).unwrap();
                         let notify_characteristic = chars.iter().find(|c| c.uuid == NOTIFY_UUID).unwrap();
 
-                        peripheral.subscribe(&notify_characteristic).await?;
+                        peripheral.subscribe(&notify_characteristic).await.unwrap();
                         // Print the first 4 notifications received.
                         let mut notification_stream =
-                            peripheral.notifications().await?;
+                            peripheral.notifications().await.unwrap();
 
                         let cmd: u8 = ToPrimitive::to_u8(&OTAControl::VERIFY).unwrap();
-                        peripheral.write(&control_characteristic, &[cmd], WriteType::WithoutResponse).await?;
+                        peripheral.write(&control_characteristic, &[cmd], WriteType::WithoutResponse).await.unwrap();
                         if let Some(data) = notification_stream.next().await{
                             if let Some(x) = FromPrimitive::from_u8(*data.value.first().unwrap()){
                                 match x {
@@ -259,7 +290,9 @@ async fn main() -> Result<(), Box<dyn Error>> {
                         }
 
                         println!("Disconnecting from peripheral ...");
-                        peripheral.disconnect().await?;
+                        peripheral.disconnect().await.unwrap();
+
+                        return Ok(());
                     }
                 } else {
                     //println!("Skipping unknown peripheral {:?}", peripheral);
@@ -267,8 +300,5 @@ async fn main() -> Result<(), Box<dyn Error>> {
             }
         }
     }
-
-    time::sleep(Duration::from_millis(200)).await;
-
-    Ok(())
+    Err(())
 }
