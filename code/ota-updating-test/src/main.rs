@@ -8,6 +8,7 @@ use log::LevelFilter;
 
 use esp_idf_hal::peripherals::Peripherals;
 use esp_idf_hal::adc::attenuation::DB_11;
+use esp_idf_hal::adc::Resolution::Resolution12Bit;
 use esp_idf_hal::adc::oneshot::config::AdcChannelConfig;
 use esp_idf_hal::adc::oneshot::*;
 
@@ -15,6 +16,7 @@ use ws2812_esp32_rmt_driver::Ws2812Esp32Rmt;
 
 use esp32_nimble::{uuid128, BLEAdvertisementData, BLEDevice, NimbleProperties};
 use esp32_nimble::enums::{PowerType, PowerLevel};
+use esp32_nimble::utilities::BleUuid;
 
 use num_derive::FromPrimitive;    
 use num_traits::FromPrimitive;
@@ -25,6 +27,15 @@ use esp_ota;
 
 pub mod led_animation;
 use crate::led_animation::{LedAnimation, LedPattern};
+
+
+
+const MTU_UUID: BleUuid     = uuid128!("BBBBBBBB-21C0-46A4-B722-270E3AE3D830");
+const NOTIFY_UUID: BleUuid  = uuid128!("BBD671AA-21C0-46A4-B722-270E3AE3D830");
+const CONTROL_UUID: BleUuid = uuid128!("7AD671AA-21C0-46A4-B722-270E3AE3D830");
+const WRITE_UUID: BleUuid   = uuid128!("23408888-1F40-4CD8-9B89-CA8D45F8A5B0");
+
+const BIER_SERVICE_UUID: BleUuid  = uuid128!("fafafafa-fafa-fafa-fafa-fafafafafafa");
 
 #[derive(Debug, PartialEq, Eq, Hash)]
 enum LedState {
@@ -115,11 +126,6 @@ fn main(){
     println!("Failed to set log level: {:#?}", e);
   }
 
-  let mtu_uuid = uuid128!("BBBBBBBB-21C0-46A4-B722-270E3AE3D830");
-  let notify_uuid = uuid128!("BBD671AA-21C0-46A4-B722-270E3AE3D830");
-  let control_uuid = uuid128!("7AD671AA-21C0-46A4-B722-270E3AE3D830");
-  let write_uuid = uuid128!("23408888-1F40-4CD8-9B89-CA8D45F8A5B0");
-
   let ota_state = Arc::new(Mutex::new(OTAStateHandle{state: OTAState::Initial}));
 
   let mut animation_queue = VecDeque::new();
@@ -173,7 +179,7 @@ fn main(){
 
   // A static characteristic.
   let static_characteristic = service.lock().create_characteristic(
-    mtu_uuid,
+    MTU_UUID,
     NimbleProperties::READ,
   );
   let _ = ble_device.set_preferred_mtu(esp_idf_svc::sys::BLE_ATT_MTU_MAX.try_into().unwrap_or(23u16));
@@ -184,14 +190,14 @@ fn main(){
 
   // A characteristic that notifies every second.
   let notifying_characteristic = service.lock().create_characteristic(
-    notify_uuid,
+    NOTIFY_UUID,
     NimbleProperties::READ | NimbleProperties::NOTIFY,
   );
   notifying_characteristic.lock().set_value(b"nak");
   
 // A control characteristic.
 let control_characteristic = service.lock().create_characteristic(
-  control_uuid,
+  CONTROL_UUID,
   NimbleProperties::READ | NimbleProperties::WRITE,
 );
 
@@ -297,7 +303,7 @@ control_characteristic
   
   // A writable characteristic.
   let writable_characteristic = service.lock().create_characteristic(
-    write_uuid,
+    WRITE_UUID,
     NimbleProperties::READ | NimbleProperties::WRITE,
   );
   let mut chunk_count = 0;
@@ -344,7 +350,7 @@ control_characteristic
   let ad_res = ble_advertising.lock().set_data(
     BLEAdvertisementData::new()
       .name("Bierdeckel")
-      .add_service_uuid(uuid128!("fafafafa-fafa-fafa-fafa-fafafafafafa")),
+      .add_service_uuid(BIER_SERVICE_UUID),
   );
   if let Err(bleerr) = ad_res {
     loop{
