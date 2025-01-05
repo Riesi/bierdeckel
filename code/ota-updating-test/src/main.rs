@@ -1,6 +1,8 @@
 #![feature(array_repeat)]
 use std::array;
 use std::sync::{Arc, Mutex};
+use std::sync::mpsc::{Sender, Receiver};
+use std::sync::mpsc;
 use std::thread;
 use std::time::Duration;
 use std::collections::{HashMap, VecDeque};
@@ -131,7 +133,9 @@ fn main(){
   let mut animation_queue = VecDeque::new();
   animation_queue.push_back(LedState::ActivePattern);
   let animation_queue = Arc::new(Mutex::new(animation_queue));
-  
+
+  let (brightness_tx, brightness_rx): (Sender<f32>, Receiver<f32>) = mpsc::channel();
+
   // unsafe{
   //   let mut mac_address = esp_idf_sys::esp_base_mac_addr_get(mac_address);
   // }
@@ -451,6 +455,7 @@ control_characteristic
     let _thread_led = thread::spawn(move || {
       let mut state = LedState::DefaultPattern;
       let mut cycle = 0;
+      let mut fact = 1f32;
         loop{
           if let Some(st) = animation_queue.lock().unwrap().pop_front(){
             state = st;
@@ -460,9 +465,17 @@ control_characteristic
           let led_ani = led_map.get_mut(&state).unwrap();
           loop{
             led_ani.next_pattern().map(|p| {
-                let d = p.led_data.iter().copied();
-                ws2812.write_nocopy(d).unwrap();
-                thread::sleep(Duration::from_millis(p.time_step_ms()));
+              //let f = brightness_ctrl.lock().unwrap();
+              fact = brightness_rx.try_recv().unwrap_or(fact);
+              let mut data = p.led_data.clone();
+              for da in data.iter_mut(){
+                da.r = (da.r as f32* fact ) as u8;
+                da.g = (da.g as f32* fact ) as u8;
+                da.b = (da.b as f32* fact ) as u8;
+              }
+              let d = data.iter().copied();
+              ws2812.write_nocopy(d).unwrap();
+              thread::sleep(Duration::from_millis(p.time_step_ms()));
             });
             if cycle < led_ani.get_min_repeats() {
               cycle += 1;
@@ -484,11 +497,15 @@ control_characteristic
     };
 
     let mut adc_pin = AdcChannelDriver::new(&adc, peripherals.pins.gpio4, &config).unwrap();
-    
+    let mut factor = 1f32;
     loop {
       thread::sleep(Duration::from_millis(500));
-      // you can change the sleep duration depending on how often you want to sample
       let adc_val = adc.read(&mut adc_pin).unwrap();
-      log::info!("ADC value: {}mV, {}V", adc_val, adc_val as f32 / 1000f32);
+      let f = (adc_val as f32 / 27.72f32).round() / 100f32;
+      if factor != f{
+        factor = f;
+        brightness_tx.send(factor).unwrap();
+      }
+      log::info!("ADC value: {}mV, scale {}", adc_val, factor);
     }
 }
