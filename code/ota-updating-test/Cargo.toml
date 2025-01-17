@@ -48,6 +48,8 @@ esp-ota = { path = "./esp-ota" }
 num-derive = "*"
 num-traits = "*"
 
+single_value_channel = "*"
+
 [dev-dependencies]
 anyhow = "1"
 esp-idf-svc = "0.49"

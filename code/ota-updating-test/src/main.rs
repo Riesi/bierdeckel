@@ -1,8 +1,6 @@
 #![feature(array_repeat)]
 use std::array;
 use std::sync::{Arc, Mutex};
-use std::sync::mpsc::{Sender, Receiver};
-use std::sync::mpsc;
 use std::thread;
 use std::time::Duration;
 use std::collections::{HashMap, VecDeque};
@@ -134,7 +132,7 @@ fn main(){
   animation_queue.push_back(LedState::ActivePattern);
   let animation_queue = Arc::new(Mutex::new(animation_queue));
 
-  let (brightness_tx, brightness_rx): (Sender<f32>, Receiver<f32>) = mpsc::channel();
+  let (mut brightness_rx, brightness_tx) = single_value_channel::channel_starting_with(-1f32);
 
   // unsafe{
   //   let mut mac_address = esp_idf_sys::esp_base_mac_addr_get(mac_address);
@@ -451,6 +449,7 @@ control_characteristic
     led_map.insert(LedState::ErrorPattern, error_pattern);
 
     animation_queue.lock().unwrap().push_back(LedState::BtWait);
+    animation_queue.lock().unwrap().push_back(LedState::DefaultPattern);
 
     let _thread_led = thread::spawn(move || {
       let mut state = LedState::DefaultPattern;
@@ -465,8 +464,7 @@ control_characteristic
           let led_ani = led_map.get_mut(&state).unwrap();
           loop{
             led_ani.next_pattern().map(|p| {
-              //let f = brightness_ctrl.lock().unwrap();
-              fact = brightness_rx.try_recv().unwrap_or(fact);
+              fact = *brightness_rx.latest();
               let mut data = p.led_data.clone();
               for da in data.iter_mut(){
                 da.r = (da.r as f32* fact ) as u8;
@@ -499,12 +497,12 @@ control_characteristic
     let mut adc_pin = AdcChannelDriver::new(&adc, peripherals.pins.gpio4, &config).unwrap();
     let mut factor = 1f32;
     loop {
-      thread::sleep(Duration::from_millis(500));
+      thread::sleep(Duration::from_millis(100));
       let adc_val = adc.read(&mut adc_pin).unwrap();
-      let f = (adc_val as f32 / 27.72f32).round() / 100f32;
+      let f = (adc_val as f32 / 27.72f32).round() / 100f32; 
       if factor != f{
         factor = f;
-        brightness_tx.send(factor).unwrap();
+        brightness_tx.update(factor).unwrap();
       }
       log::info!("ADC value: {}mV, scale {}", adc_val, factor);
     }
