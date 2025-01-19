@@ -28,7 +28,8 @@ use esp_ota;
 pub mod led_animation;
 use crate::led_animation::{LedAnimation, LedPattern};
 
-
+const WEIGHT_EMPTY:u16 = 860;
+const WEIGHT_FULL:u16 = 350;
 
 const MTU_UUID: BleUuid     = uuid128!("BBBBBBBB-21C0-46A4-B722-270E3AE3D830");
 const NOTIFY_UUID: BleUuid  = uuid128!("BBD671AA-21C0-46A4-B722-270E3AE3D830");
@@ -387,12 +388,12 @@ control_characteristic
       led_animation::PINK,
     ];
     let rainbow_pat = LedPattern::new(
-        100,
+        200,
         rainbow.clone(),
     );
     let default_pattern = LedAnimation::new_rotation(4, rainbow_pat);
     
-    let mut bt_wait = LedAnimation::new(4);
+    let mut bt_wait = LedAnimation::new(2);
     bt_wait.add_pattern(LedPattern::new(
         800,
         array::repeat(led_animation::BLUE_H),
@@ -402,7 +403,7 @@ control_characteristic
         array::repeat(led_animation::BLACK),
     ));
     
-    let mut active_pattern = LedAnimation::new(4);
+    let mut active_pattern = LedAnimation::new(2);
     active_pattern.add_pattern(LedPattern::new(
         1500,
         array::repeat(led_animation::GREEN_H),
@@ -499,11 +500,15 @@ control_characteristic
     loop {
       thread::sleep(Duration::from_millis(100));
       let adc_val = adc.read(&mut adc_pin).unwrap();
-      let f = (adc_val as f32 / 27.72f32).round() / 100f32; 
+      let norm_cent = 1001f32-((((adc_val.min(WEIGHT_EMPTY).max(WEIGHT_FULL) - WEIGHT_FULL) as f32)*1000f32) / (WEIGHT_EMPTY-WEIGHT_FULL) as f32).round();
+      //let norm_cent = 1001f32-(adc_val as f32 / 2.772f32).round();
+
+      let loggy = norm_cent.log2()/1001.0f32.log2();
+      let f = loggy; 
       if factor != f{
         factor = f;
         brightness_tx.update(factor).unwrap();
       }
-      log::info!("ADC value: {}mV, scale {}", adc_val, factor);
+      log::info!("ADC value: {}mV, scale {}, cent {}, log{}", adc_val, factor, norm_cent, loggy);
     }
 }
