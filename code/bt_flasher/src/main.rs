@@ -50,7 +50,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     scan(&adapter_list, false).await.unwrap();
 
     // Delay to prevent 
-    time::sleep(Duration::from_millis(2000)).await;
+    time::sleep(Duration::from_millis(4000)).await;
 
     // Verify
     scan(&adapter_list, true).await.unwrap();
