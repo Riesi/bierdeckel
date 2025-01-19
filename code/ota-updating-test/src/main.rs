@@ -133,7 +133,7 @@ fn main(){
   animation_queue.push_back(LedState::ActivePattern);
   let animation_queue = Arc::new(Mutex::new(animation_queue));
 
-  let (mut brightness_rx, brightness_tx) = single_value_channel::channel_starting_with(-1f32);
+  let (mut brightness_rx, brightness_tx) = single_value_channel::channel_starting_with(1f32);
 
   // unsafe{
   //   let mut mac_address = esp_idf_sys::esp_base_mac_addr_get(mac_address);
