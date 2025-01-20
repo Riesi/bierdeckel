@@ -506,19 +506,17 @@ control_characteristic
     loop {
       thread::sleep(Duration::from_millis(100));
       let adc_val = adc.read(&mut adc_pin).unwrap();
-      let norm_cent = log_factor_e-((((adc_val.min(WEIGHT_EMPTY).max(WEIGHT_FULL) - WEIGHT_FULL) as f32)*log_factor) / (WEIGHT_EMPTY-WEIGHT_FULL) as f32);
-      //let norm_cent = 1001f32-(adc_val as f32 / 2.772f32).round();
-
-      let loggy = norm_cent.log2()/log_factor_e.log2();
-      let f = loggy; 
-
       let f = if adc_val < WEIGHT_TARGET1{
           1f32
       }else{
-          if(adc_val<WEIGHT_TARGET2){
+          if adc_val<WEIGHT_TARGET2 {
             1f32-(adc_val-WEIGHT_TARGET1) as f32/((WEIGHT_TARGET2-WEIGHT_TARGET1) as f32/(1f32-LIGHT_LIMIT))
           }else{
-            LIGHT_LIMIT-(adc_val-WEIGHT_TARGET2) as f32/((WEIGHT_EMPTY-WEIGHT_TARGET2) as f32/LIGHT_LIMIT)
+            if adc_val<WEIGHT_EMPTY {
+              LIGHT_LIMIT-(adc_val-WEIGHT_TARGET2) as f32/((WEIGHT_EMPTY-WEIGHT_TARGET2) as f32/LIGHT_LIMIT)
+            }else{
+              0f32
+            }
           }
       };
       if factor != f{
