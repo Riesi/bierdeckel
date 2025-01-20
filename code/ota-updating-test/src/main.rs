@@ -30,6 +30,9 @@ use crate::led_animation::{LedAnimation, LedPattern};
 
 const WEIGHT_EMPTY:u16 = 860;
 const WEIGHT_FULL:u16 = 350;
+const WEIGHT_TARGET1:u16 = 500;
+const WEIGHT_TARGET2:u16 = 600;
+const LIGHT_LIMIT:f32 = 0.35;
 
 const MTU_UUID: BleUuid     = uuid128!("BBBBBBBB-21C0-46A4-B722-270E3AE3D830");
 const NOTIFY_UUID: BleUuid  = uuid128!("BBD671AA-21C0-46A4-B722-270E3AE3D830");
@@ -508,6 +511,16 @@ control_characteristic
 
       let loggy = norm_cent.log2()/log_factor_e.log2();
       let f = loggy; 
+
+      let f = if adc_val < WEIGHT_TARGET1{
+          1f32
+      }else{
+          if(adc_val<WEIGHT_TARGET2){
+            1f32-(adc_val-WEIGHT_TARGET1) as f32/((WEIGHT_TARGET2-WEIGHT_TARGET1) as f32/(1f32-LIGHT_LIMIT))
+          }else{
+            LIGHT_LIMIT-(adc_val-WEIGHT_TARGET2) as f32/((WEIGHT_EMPTY-WEIGHT_TARGET2) as f32/LIGHT_LIMIT)
+          }
+      };
       if factor != f{
         factor = f;
         brightness_tx.update(factor).unwrap();
