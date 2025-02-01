@@ -33,16 +33,16 @@ embassy = ["esp-idf-svc/embassy-sync", "esp-idf-svc/critical-section", "esp-idf-
 [dependencies]
 log = { version = "0.4", default-features = false }
 embedded-hal = {version = "1.0.0"}
-esp-idf-svc = { version = "0.49", default-features = false }
-esp-idf-hal = {version = "0.44"}
-esp-idf-sys = {version = "0.35"}
+esp-idf-svc = { version = "0.51", default-features = false }
+esp-idf-hal = {version = "0.45"}
+esp-idf-sys = {version = "0.36"}
 
 smart-leds = "0.4.0"
 smart-leds-trait = { version = "0.3", optional = true }
-ws2812-esp32-rmt-driver = { version = "0.10.0", features = ["smart-leds-trait"] }
+ws2812-esp32-rmt-driver = { version = "0.11", features = ["smart-leds-trait"] }
 
-esp32-nimble = "0.8"
-esp-ota = { version = "0.2.1" }
+esp32-nimble = "0.10.0"
+esp-ota = { version = "0.2.2" }
 anyhow = "1.0.95"
 
 num-derive = "0.4.2"
@@ -54,6 +54,6 @@ single_value_channel = "1.2.2"
 anyhow = "1"
 
 [build-dependencies]
-embuild = "0.32.0"
-cc = "=1.1.30" # Version "1.1.30" necessary until a new version of `esp-idf-sys` is released
+embuild = "0.33.0"
+cc = "=1.2" # Version "1.1.30" necessary until a new version of `esp-idf-sys` is released
 anyhow = "1"

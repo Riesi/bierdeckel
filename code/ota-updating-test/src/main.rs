@@ -9,7 +9,7 @@ use log::LevelFilter;
 use esp_idf_hal::peripherals::Peripherals;
 use esp_idf_hal::adc::attenuation::DB_11;
 use esp_idf_hal::adc::Resolution::Resolution12Bit;
-use esp_idf_hal::adc::oneshot::config::AdcChannelConfig;
+use esp_idf_hal::adc::oneshot::config::{AdcChannelConfig, Calibration};
 use esp_idf_hal::adc::oneshot::*;
 
 use ws2812_esp32_rmt_driver::Ws2812Esp32Rmt;
@@ -126,7 +126,7 @@ fn main(){
   esp_idf_svc::sys::link_patches();
   // Bind the log crate to the ESP Logging facilities
   esp_idf_svc::log::EspLogger::initialize_default();
-  if let Err(e) = esp_idf_svc::log::EspLogger.set_target_level("NimBLE", LevelFilter::Error){
+  if let Err(e) = esp_idf_svc::log::set_target_level("NimBLE", LevelFilter::Error){
     println!("Failed to set log level: {:#?}", e);
   }
 
@@ -495,7 +495,7 @@ control_characteristic
     let config = AdcChannelConfig {
         attenuation: DB_11,
         resolution: Resolution12Bit,
-        calibration: false,
+        calibration: Calibration::None,
     };
 
     let mut adc_pin = AdcChannelDriver::new(&adc, peripherals.pins.gpio4, &config).unwrap();
@@ -523,6 +523,6 @@ control_characteristic
         factor = f;
         brightness_tx.update(factor).unwrap();
       }
-      log::info!("ADC value: {}mV, scale {}, cent {}, log{}", adc_val, factor, norm_cent, loggy);
+      log::info!("ADC value: {}mV, scale {}", adc_val, factor);
     }
 }
