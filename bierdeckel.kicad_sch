@@ -2324,7 +2324,6 @@
 	)
 	(label "USB+"
 		(at 24.13 41.91 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2335,7 +2334,6 @@
 	)
 	(label "AD3"
 		(at 29.21 132.08 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2346,7 +2344,6 @@
 	)
 	(label "Vcharge"
 		(at 29.21 26.67 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2357,7 +2354,6 @@
 	)
 	(label "RST"
 		(at 163.83 59.69 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2368,7 +2364,6 @@
 	)
 	(label "USB+"
 		(at 237.49 69.85 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2379,7 +2374,6 @@
 	)
 	(label "Vbat"
 		(at 71.12 177.8 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2390,7 +2384,6 @@
 	)
 	(label "Vreg_in"
 		(at 20.32 175.26 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2401,7 +2394,6 @@
 	)
 	(label "Vcharge"
 		(at 20.32 172.72 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2412,7 +2404,6 @@
 	)
 	(label "USB-"
 		(at 237.49 67.31 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2423,7 +2414,6 @@
 	)
 	(label "Vbat"
 		(at 29.21 127 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2434,7 +2424,6 @@
 	)
 	(label "Vpress"
 		(at 237.49 80.01 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2445,7 +2434,6 @@
 	)
 	(label "AD3"
 		(at 237.49 85.09 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2456,7 +2444,6 @@
 	)
 	(label "AD1"
 		(at 237.49 90.17 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2467,7 +2454,6 @@
 	)
 	(label "AD2"
 		(at 237.49 82.55 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2478,7 +2464,6 @@
 	)
 	(label "AD2"
 		(at 29.21 129.54 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2489,7 +2474,6 @@
 	)
 	(label "AD1"
 		(at 29.21 137.16 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2500,7 +2484,6 @@
 	)
 	(label "Vreg_in"
 		(at 67.31 127 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2511,7 +2494,6 @@
 	)
 	(label "~{BOOTLOADER}"
 		(at 158.75 88.9 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2522,7 +2504,6 @@
 	)
 	(label "USB-"
 		(at 24.13 36.83 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2533,7 +2514,6 @@
 	)
 	(label "AD0"
 		(at 29.21 134.62 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2544,7 +2524,6 @@
 	)
 	(label "LED_DATA"
 		(at 241.3 95.25 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2555,7 +2534,6 @@
 	)
 	(label "AD0"
 		(at 237.49 87.63 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2566,7 +2544,6 @@
 	)
 	(label "~{BOOTLOADER}"
 		(at 243.84 92.71 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)

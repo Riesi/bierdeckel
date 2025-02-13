@@ -59,6 +59,10 @@
         }
       ],
       "drc_exclusions": [
+        "copper_edge_clearance|145726222|95760698|87840a3d-4d15-4e79-a709-b286a9b0fd12|81a36c0a-4f6f-4cf9-99f6-ef5d02b6e666",
+        "copper_edge_clearance|145775000|97525000|83aa667d-33ad-473c-84ef-fcb50707aca4|6e447c41-b2de-4d06-825f-2642052d97fe",
+        "copper_edge_clearance|146875000|97525000|83aa667d-33ad-473c-84ef-fcb50707aca4|d94169b7-c96a-4b57-afd9-8dd21698e59d",
+        "copper_edge_clearance|147273778|95760698|4a7bffa8-e610-4b13-842b-59dd48020d0c|605f9240-e117-4477-b67f-b82078516f4d",
         "unconnected_items|121500000|74375000|5cdce8cb-7279-4679-bcbb-212f54346cba|affbbb1c-1f86-430c-8cce-31f068e5fdc4"
       ],
       "meta": {
