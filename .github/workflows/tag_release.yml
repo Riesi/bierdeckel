@@ -1,0 +1,91 @@
+name: "tagged-release"
+
+on:
+  push:
+    paths:
+      - '*.kicad_sch'
+      - '*.kicad_pcb'
+      - '*.kibot.yaml'
+      - '.github/workflows/kibot_action.yml'
+    tags:
+      - "v*"
+
+permissions:
+  contents: "write"
+  packages: "write"
+  pull-requests: "read"
+
+jobs:
+  ERC:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Run ERC
+      uses: INTI-CMNB/KiBot@v2_k8
+      with:
+        dir: Generated
+        skip: drc
+        targets: __NONE__
+
+    - name: Retrieve results
+      uses: actions/upload-artifact@v4
+      with:
+        name: ERC_Output
+        path: Generated
+
+
+  DRC:
+    runs-on: ubuntu-latest
+    needs: ERC
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Run DRC
+      uses: INTI-CMNB/KiBot@v2_k8
+      with:
+        dir: Generated
+        skip: erc
+        targets: __NONE__
+
+    - name: Retrieve results
+      uses: actions/upload-artifact@v4
+      with:
+        name: DRC_Output
+        path: Generated
+
+
+  tagged-release:
+    name: "Tagged Release"
+    runs-on: "ubuntu-latest"
+    needs: [ERC, DRC]
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Cache 3D models data
+        id: models-cache
+        uses: set-soft/cache@main
+        with:
+          path: ~/cache_3d
+          key: cache_3d
+
+      - uses: INTI-CMNB/KiBot@v2_k8
+        with:
+          dir: build
+          variant: default
+          skip: erc,drc
+          cache3D: YES
+
+      - name: "Zip build files"
+        run: |
+          cd build
+          zip -r "../${{ github.event.repository.name }}.zip" .
+
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/**/*.step,*.zip"
+          generateReleaseNotes: true
+            
