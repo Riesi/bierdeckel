@@ -957,6 +957,12 @@
 		(uuid "d3a4a79e-6c78-4aae-850a-c875960c862d")
 	)
 	(junction
+		(at 168.91 52.07)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0648a87b-4555-4b65-89cc-cc302f9a62b2")
+	)
+	(junction
 		(at 151.13 39.37)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -990,13 +996,23 @@
 	)
 	(wire
 		(pts
-			(xy 162.56 52.07) (xy 151.13 52.07)
+			(xy 176.53 52.07) (xy 168.91 52.07)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "27abd0a6-6104-4647-9636-50e1da49a395")
+	)
+	(wire
+		(pts
+			(xy 168.91 55.88) (xy 168.91 52.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2bf46004-090e-4688-8884-4c32a42d16a0")
 	)
 	(wire
 		(pts
@@ -1037,6 +1053,16 @@
 			(type default)
 		)
 		(uuid "46a4ae0c-951d-4df9-94fd-f784dd6014c9")
+	)
+	(wire
+		(pts
+			(xy 156.21 52.07) (xy 151.13 52.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5d435618-071d-42ac-a5de-3e22fa1a1f0b")
 	)
 	(wire
 		(pts
@@ -1097,6 +1123,26 @@
 			(type default)
 		)
 		(uuid "a331f302-7988-4f09-88b8-4ba1e8cb0740")
+	)
+	(wire
+		(pts
+			(xy 168.91 52.07) (xy 163.83 52.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "baa2620e-aef0-43f3-8f6c-33d4f0fa8221")
+	)
+	(wire
+		(pts
+			(xy 168.91 66.04) (xy 168.91 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c37ee326-c0bd-4528-8ac1-e2b5c452c1f2")
 	)
 	(wire
 		(pts
@@ -1190,7 +1236,7 @@
 	)
 	(hierarchical_label "Vpress"
 		(shape output)
-		(at 162.56 52.07 0)
+		(at 176.53 52.07 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1418,7 +1464,7 @@
 			)
 		)
 		(property "Value" "4k"
-			(at 109.22 60.96 90)
+			(at 109.22 62.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1426,7 +1472,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 110.998 63.5 90)
 			(effects
 				(font
@@ -1478,6 +1524,85 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:C")
+		(at 168.91 59.69 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "3edcd3de-476c-4de9-ad18-a94ce682ba5f")
+		(property "Reference" "C31"
+			(at 167.64 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "0.1uF"
+			(at 166.37 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+			(at 167.9448 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 168.91 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 168.91 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "mpn" "KGM21NR71H104KT"
+			(at 168.91 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "4f7dafc0-b371-4db6-8bf4-8c94a1868fea")
+		)
+		(pin "2"
+			(uuid "a42d38df-b2ab-4e39-a63f-b8162caf08cb")
+		)
+		(instances
+			(project "bierdeckel"
+				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/67cff1c4-a4ae-4e77-90c9-75aa7da1f628"
+					(reference "C31")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 90.17 76.2 0)
 		(unit 1)
@@ -1504,7 +1629,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 88.392 76.2 90)
 			(effects
 				(font
@@ -1687,6 +1812,73 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 168.91 66.04 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "69075ac6-23e3-47d3-b428-a41d17c53842")
+		(property "Reference" "#PWR076"
+			(at 168.91 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 168.91 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 168.91 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 168.91 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 168.91 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "537bc658-3f7c-4976-a1d6-561ba072bf46")
+		)
+		(instances
+			(project "bierdeckel"
+				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/67cff1c4-a4ae-4e77-90c9-75aa7da1f628"
+					(reference "#PWR076")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Snapeda:INA317IDGKR")
 		(at 133.35 59.69 0)
 		(unit 1)
@@ -1774,6 +1966,84 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 160.02 52.07 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "88a23539-3b51-4e97-baef-e72207d7ab9d")
+		(property "Reference" "R22"
+			(at 157.988 49.784 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "4k"
+			(at 158.496 52.07 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 160.02 50.292 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 160.02 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 160.02 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "mpn" "CR0805-FX-1002ELF "
+			(at 160.02 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "47a035c7-949d-4af0-854e-874195cdc209")
+		)
+		(pin "2"
+			(uuid "f44655a5-9d85-4e9c-b333-dc0c0c627beb")
+		)
+		(instances
+			(project "bierdeckel"
+				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/67cff1c4-a4ae-4e77-90c9-75aa7da1f628"
+					(reference "R22")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C")
 		(at 44.45 30.48 0)
 		(mirror y)
@@ -1801,7 +2071,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
 			(at 43.4848 34.29 0)
 			(effects
 				(font
@@ -2141,7 +2411,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
 			(at 143.51 38.4048 0)
 			(effects
 				(font
@@ -2419,7 +2689,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 91.948 66.04 90)
 			(effects
 				(font
