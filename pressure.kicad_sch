@@ -5,113 +5,6 @@
 	(uuid "052fb6d1-e353-4557-8a9a-236dd02124d6")
 	(paper "A4")
 	(lib_symbols
-		(symbol "Connector:TestPoint"
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 0.762)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "TP"
-				(at 0 6.858 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "TestPoint"
-				(at 0 5.08 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 5.08 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "~"
-				(at 5.08 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "test point"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "test point tp"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_fp_filters" "Pin* Test*"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "TestPoint_0_1"
-				(circle
-					(center 0 3.302)
-					(radius 0.762)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "TestPoint_1_1"
-				(pin passive line
-					(at 0 0 90)
-					(length 2.54)
-					(name "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "Device:C"
 			(pin_numbers
 				(hide yes)
@@ -1077,6 +970,16 @@
 	)
 	(wire
 		(pts
+			(xy 83.82 43.18) (xy 80.01 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "162a0cfd-e80b-4108-9413-673a64a3fa9a")
+	)
+	(wire
+		(pts
 			(xy 107.95 57.15) (xy 115.57 57.15)
 		)
 		(stroke
@@ -1084,16 +987,6 @@
 			(type default)
 		)
 		(uuid "1c5a25df-c25b-408f-9c1a-d070b6e98aca")
-	)
-	(wire
-		(pts
-			(xy 83.82 43.18) (xy 80.01 43.18)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1d5fc5de-b29e-4da0-9f1e-bec3db08e17f")
 	)
 	(wire
 		(pts
@@ -1167,16 +1060,6 @@
 	)
 	(wire
 		(pts
-			(xy 44.45 45.72) (xy 49.53 45.72)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "854785d2-cab6-4827-83e7-85b9ace0042a")
-	)
-	(wire
-		(pts
 			(xy 115.57 62.23) (xy 115.57 59.69)
 		)
 		(stroke
@@ -1214,6 +1097,16 @@
 			(type default)
 		)
 		(uuid "a331f302-7988-4f09-88b8-4ba1e8cb0740")
+	)
+	(wire
+		(pts
+			(xy 44.45 45.72) (xy 49.53 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c41ec92e-bcd5-4d64-9d90-b117bc45cd89")
 	)
 	(wire
 		(pts
@@ -1266,22 +1159,22 @@
 		(uuid "89f8c684-07ea-4a43-8b6a-1bdbdb094b67")
 	)
 	(label "VR-"
-		(at 49.53 45.72 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "8f2e5c7c-3dcf-4418-b962-e0a235d8f2a1")
-	)
-	(label "VR+"
-		(at 80.01 43.18 0)
+		(at 44.45 45.72 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
+		)
+		(uuid "8f2e5c7c-3dcf-4418-b962-e0a235d8f2a1")
+	)
+	(label "VR+"
+		(at 83.82 43.18 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
 		)
 		(uuid "d0f744ea-556b-450e-9673-ad85d939d282")
 	)
@@ -1305,81 +1198,6 @@
 			(justify left)
 		)
 		(uuid "c23d65cf-b75a-4a1b-a9a1-7e3757c04d06")
-	)
-	(symbol
-		(lib_id "Connector:TestPoint")
-		(at 44.45 45.72 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(uuid "002d32ac-947c-4b5c-8a71-c5088610c905")
-		(property "Reference" "TP7"
-			(at 42.164 43.688 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "TestPoint"
-			(at 39.878 46.99 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 44.45 40.64 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 44.45 40.64 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "test point"
-			(at 44.45 45.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "mpn" ""
-			(at 44.45 45.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "2d21feea-2946-4d14-a469-169913e91886")
-		)
-		(instances
-			(project "bierdeckel"
-				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/67cff1c4-a4ae-4e77-90c9-75aa7da1f628"
-					(reference "TP7")
-					(unit 1)
-				)
-			)
-		)
 	)
 	(symbol
 		(lib_id "power:GND")
@@ -1437,7 +1255,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "88f7876d-3fc0-4686-a650-59a8e3500ea7")
+			(uuid "4d15e11b-2ca3-42e8-9855-1ab2411b4219")
 		)
 		(instances
 			(project "bierdeckel"
@@ -1503,7 +1321,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "c582e926-73fc-4df2-babb-4a00e6d5de9d")
+			(uuid "c8bab850-97b6-47db-ba09-e94507ccd6e7")
 		)
 		(instances
 			(project "bierdeckel"
@@ -1570,7 +1388,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "11a741fc-7777-4e51-96d1-66472400da9c")
+			(uuid "21bcc210-aa97-4795-8fb8-5653f41ca3da")
 		)
 		(instances
 			(project "bierdeckel"
@@ -1645,10 +1463,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "364da165-6f91-4b06-a805-4eac81e41dff")
+			(uuid "0dd7ef83-5bdf-4df5-ad6e-b4a0eceacd40")
 		)
 		(pin "2"
-			(uuid "9c986879-40bb-4d7c-9020-ed2e1412537f")
+			(uuid "bac3c371-3b18-4d89-8657-70b1a3435c81")
 		)
 		(instances
 			(project "bierdeckel"
@@ -1723,10 +1541,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "3d968766-21ff-45a5-ae1c-d67dc300ac3f")
+			(uuid "8410bac2-9614-4cc3-84a0-782e10128b2a")
 		)
 		(pin "2"
-			(uuid "74fe61e3-c069-4756-8bb9-cbc849cb2d06")
+			(uuid "18f8a093-401e-46a7-ba3d-328bdbf105c0")
 		)
 		(instances
 			(project "bierdeckel"
@@ -1791,7 +1609,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "76f780b1-14fe-4c45-8dc2-9c546c8748fb")
+			(uuid "2c4e6afa-70c1-4d07-87fc-97b9fa4aef58")
 		)
 		(instances
 			(project "bierdeckel"
@@ -1857,7 +1675,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "6acd4644-e931-41c1-8113-ba70b181290a")
+			(uuid "8db7f320-58f3-447f-9b26-73e00e7aa147")
 		)
 		(instances
 			(project "bierdeckel"
@@ -1923,31 +1741,31 @@
 			)
 		)
 		(pin "6"
-			(uuid "fadf8bde-8253-45d8-8912-d370fbd7a61d")
+			(uuid "cee3b36e-fb16-4346-966a-ee59dbbed15f")
 		)
 		(pin "5"
-			(uuid "f56a3b78-423f-4e08-b77d-24ea76ea6ff2")
+			(uuid "f1c5285b-10aa-47e1-96a5-8be0d925d0cf")
 		)
 		(pin "3"
-			(uuid "38bc9954-66d2-439c-ae47-7c69d46a7b85")
+			(uuid "6422e258-4525-4b83-9cda-50dc74045164")
 		)
 		(pin "8"
-			(uuid "1d5184fe-0875-4ddc-8f41-c833089224b3")
+			(uuid "540af3eb-37de-4460-b5bb-842daef37fb5")
 		)
 		(pin "1"
-			(uuid "950ff7f9-c7c0-4d6c-9352-c5e8e232a6ac")
+			(uuid "7b348b0d-00d4-476f-a80d-18a5b2a2c986")
 		)
 		(pin "2"
-			(uuid "043a977e-404c-432c-b1ee-93e7b733c68c")
+			(uuid "3f9c0fa0-7a1c-4ba7-8ea0-80629581fcf7")
 		)
 		(pin "4"
-			(uuid "51feb294-d535-4b88-93d7-ab91247c1373")
+			(uuid "0f322992-6d1c-4da6-845d-34f4499df1f7")
 		)
 		(pin "7"
-			(uuid "4dc4bb4b-5c0b-4096-a46d-3159209de7ce")
+			(uuid "24ad4362-33b9-482d-bea1-f5e504c68a01")
 		)
 		(instances
-			(project ""
+			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/67cff1c4-a4ae-4e77-90c9-75aa7da1f628"
 					(reference "U6")
 					(unit 1)
@@ -2020,10 +1838,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "422a1e85-fa9d-400a-a0d9-b4463eb198c6")
+			(uuid "11f6cb0d-b126-4c42-8dc9-8b5075b3b324")
 		)
 		(pin "2"
-			(uuid "025dbb09-5714-4693-a7f3-7461bbd20342")
+			(uuid "bc70c873-ac54-470f-8105-43df13659c1a")
 		)
 		(instances
 			(project "bierdeckel"
@@ -2089,87 +1907,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "a3a0a4d9-a001-44f1-b367-adb37dba7665")
+			(uuid "cefa46e9-de6e-47d0-9083-d18bf2fd6817")
 		)
 		(instances
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/67cff1c4-a4ae-4e77-90c9-75aa7da1f628"
 					(reference "#PWR075")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:TestPoint")
-		(at 83.82 43.18 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(uuid "98752fd2-1d96-4bb2-b892-74230e1ad6dd")
-		(property "Reference" "TP4"
-			(at 87.884 41.402 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "TestPoint"
-			(at 97.79 41.402 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 83.82 48.26 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 83.82 48.26 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "test point"
-			(at 83.82 43.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "mpn" ""
-			(at 83.82 43.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "b56eab97-9bab-4176-af95-2c603b7b38a2")
-		)
-		(instances
-			(project "bierdeckel"
-				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/67cff1c4-a4ae-4e77-90c9-75aa7da1f628"
-					(reference "TP4")
 					(unit 1)
 				)
 			)
@@ -2230,7 +1973,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "fa15a748-ac0c-492a-951c-457847dcd749")
+			(uuid "1d50072d-0129-45ed-aca5-226acbb97b1f")
 		)
 		(instances
 			(project "bierdeckel"
@@ -2347,22 +2090,22 @@
 			)
 		)
 		(pin "4"
-			(uuid "75916440-b281-4b71-ab01-bd65524c300e")
+			(uuid "232e5af1-1e2f-46ac-a5d5-7d9ae25ac4c0")
 		)
 		(pin "3"
-			(uuid "74839e58-d618-4de0-96b3-90f655aa733e")
+			(uuid "247969c1-d5f0-454d-9158-c35171864ead")
 		)
 		(pin "2"
-			(uuid "e08181a8-0a75-4ae6-bd90-29f6ac1d87ce")
+			(uuid "5bbc4b29-931e-4cc0-8f26-5b6140989fec")
 		)
 		(pin "1"
-			(uuid "57415258-5d83-4a99-9f6f-c28151dc8676")
+			(uuid "d1e8d1dd-a0f9-4175-818e-5a1371f2e98e")
 		)
 		(pin "5"
-			(uuid "6839745a-6334-4ade-8f22-dabba83436ea")
+			(uuid "a6f299c1-a6bd-46ec-a6b7-8b6298e34076")
 		)
 		(instances
-			(project ""
+			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/67cff1c4-a4ae-4e77-90c9-75aa7da1f628"
 					(reference "IC1")
 					(unit 1)
@@ -2435,10 +2178,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "1b65bca0-febd-4068-90d2-0b4aec727501")
+			(uuid "0fa941b3-ddf6-44ba-8709-4fb8b287c3b4")
 		)
 		(pin "2"
-			(uuid "e78171d2-3458-4d5e-9fa4-2c70e455f479")
+			(uuid "2b81a81a-1375-4d9a-8b37-617402a0429d")
 		)
 		(instances
 			(project "bierdeckel"
@@ -2506,7 +2249,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "5db212a9-5cf6-4f64-bdfa-21d46b778425")
+			(uuid "c5b4e2cb-7e60-45f8-9041-712526ec813d")
 		)
 		(instances
 			(project "bierdeckel"
@@ -2572,7 +2315,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "6b75df8c-6379-4021-bcec-c58c518209be")
+			(uuid "6086e03d-a116-4efc-8cfa-71ac241224e4")
 		)
 		(instances
 			(project "bierdeckel"
@@ -2638,7 +2381,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "2d16bda9-2956-4151-a523-60eb60a48e60")
+			(uuid "5eca350f-49c5-48aa-8d1a-0d188c52f7a9")
 		)
 		(instances
 			(project "bierdeckel"
@@ -2713,10 +2456,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "8b893d9f-e359-41f2-b859-4944cadfebbc")
+			(uuid "6450cff8-244b-4bf4-85c8-7777e1412286")
 		)
 		(pin "2"
-			(uuid "d13c39b2-6ba7-4f5d-847e-592ce13f66ff")
+			(uuid "52a39a0f-2c7f-46bc-9f06-e1d359a5c49f")
 		)
 		(instances
 			(project "bierdeckel"
