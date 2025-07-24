@@ -3797,12 +3797,6 @@
 		(uuid "46425f01-8883-42c2-b22e-0f4039831473")
 	)
 	(junction
-		(at 45.72 45.72)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "5da1864d-d57e-41d2-a574-3efa7040fe89")
-	)
-	(junction
 		(at 124.46 68.58)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3813,6 +3807,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "7413102b-28f0-4f18-95cd-48e9cd78302b")
+	)
+	(junction
+		(at 45.72 50.8)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "83dbc47b-3c41-4696-b92a-51dfb64eef4a")
 	)
 	(junction
 		(at 135.89 74.93)
@@ -3839,12 +3839,6 @@
 		(uuid "97661e0c-6ef3-4924-b12d-6608975c0636")
 	)
 	(junction
-		(at 45.72 50.8)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "9c6121d3-5161-45c8-9c66-5b23e05a75e0")
-	)
-	(junction
 		(at 210.82 45.72)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3855,6 +3849,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b1b16e08-78e4-4d37-b8c9-57f22c685e12")
+	)
+	(junction
+		(at 45.72 45.72)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "bd9996e3-7a2d-4a6d-aa9e-94dcee686490")
 	)
 	(junction
 		(at 176.53 59.69)
@@ -3929,6 +3929,16 @@
 			(type default)
 		)
 		(uuid "01370706-8d90-4da8-bee9-fc6ab1aa82a7")
+	)
+	(wire
+		(pts
+			(xy 45.72 45.72) (xy 54.61 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "01aafed7-c228-4de7-a84c-c75e63b202ae")
 	)
 	(wire
 		(pts
@@ -4392,16 +4402,6 @@
 	)
 	(wire
 		(pts
-			(xy 45.72 50.8) (xy 66.04 50.8)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9551acac-dc37-47f0-b784-be0e562ade80")
-	)
-	(wire
-		(pts
 			(xy 238.76 80.01) (xy 255.27 80.01)
 		)
 		(stroke
@@ -4602,6 +4602,16 @@
 	)
 	(wire
 		(pts
+			(xy 45.72 50.8) (xy 54.61 50.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e30e10cc-8057-4884-970d-485c000607b3")
+	)
+	(wire
+		(pts
 			(xy 243.84 143.51) (xy 233.68 143.51)
 		)
 		(stroke
@@ -4619,16 +4629,6 @@
 			(type default)
 		)
 		(uuid "e600266d-8549-4991-a564-a614d5b94978")
-	)
-	(wire
-		(pts
-			(xy 45.72 45.72) (xy 66.04 45.72)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e8c07240-885d-43ae-a47f-f3c932df6bf7")
 	)
 	(wire
 		(pts
@@ -8531,81 +8531,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:TestPoint")
-		(at 66.04 45.72 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(uuid "e2a2f82b-393d-4120-8f36-b66fe6a99c11")
-		(property "Reference" "J3"
-			(at 66.04 44.704 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "Pogo"
-			(at 70.104 44.958 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "TestPoint:TestPoint_Pad_D1.5mm"
-			(at 66.04 50.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.digikey.at/en/products/detail/harwin-inc/S70-332002045R/6211252"
-			(at 66.04 50.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "test point"
-			(at 66.04 45.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "mpn" ""
-			(at 66.04 45.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "d3163e01-472d-43de-984d-96fe626c09c1")
-		)
-		(instances
-			(project "bierdeckel"
-				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1"
-					(reference "J3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
 		(at 107.95 83.82 0)
 		(unit 1)
@@ -9161,81 +9086,6 @@
 			(project ""
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1"
 					(reference "U5")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:TestPoint")
-		(at 66.04 50.8 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(uuid "f24ac6f4-aa8b-48f1-89b4-e2bb90f62356")
-		(property "Reference" "J4"
-			(at 66.04 49.784 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "Pogo"
-			(at 70.104 50.038 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "TestPoint:TestPoint_Pad_D1.5mm"
-			(at 66.04 55.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.digikey.at/en/products/detail/harwin-inc/S70-332002045R/6211252"
-			(at 66.04 55.88 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "test point"
-			(at 66.04 50.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "mpn" ""
-			(at 66.04 50.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "382ed5ad-eecb-402a-a6c0-32d71db0c2d3")
-		)
-		(instances
-			(project "bierdeckel"
-				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1"
-					(reference "J4")
 					(unit 1)
 				)
 			)
