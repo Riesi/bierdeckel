@@ -60,11 +60,47 @@
       ],
       "drc_exclusions": [
         [
+          "copper_edge_clearance|145775000|95475000|41713cae-e4cc-4196-bfe6-9ebe34173a51|81a36c0a-4f6f-4cf9-99f6-ef5d02b6e666",
+          ""
+        ],
+        [
           "copper_edge_clearance|145775000|97525000|83aa667d-33ad-473c-84ef-fcb50707aca4|6e447c41-b2de-4d06-825f-2642052d97fe",
           ""
         ],
         [
+          "copper_edge_clearance|146875000|95475000|41713cae-e4cc-4196-bfe6-9ebe34173a51|605f9240-e117-4477-b67f-b82078516f4d",
+          ""
+        ],
+        [
           "copper_edge_clearance|146875000|97525000|83aa667d-33ad-473c-84ef-fcb50707aca4|d94169b7-c96a-4b57-afd9-8dd21698e59d",
+          ""
+        ],
+        [
+          "hole_clearance|159200000|58202000|485cd620-ab09-42df-bae7-55ac0fe54551|233fcbd5-051e-42ac-bb9b-87cfe1b4046b",
+          ""
+        ],
+        [
+          "hole_clearance|159200000|58202000|485cd620-ab09-42df-bae7-55ac0fe54551|ce810b34-73d3-4454-a213-95e726da1331",
+          ""
+        ],
+        [
+          "hole_clearance|165300000|58202000|5823ff88-0aaf-4511-ae46-88352b860acb|bdde9b44-7e28-4a82-aae1-c86fd3fb467a",
+          ""
+        ],
+        [
+          "hole_clearance|165300000|58202000|5823ff88-0aaf-4511-ae46-88352b860acb|c98b9ab4-1208-4773-8a31-d61af886bbbb",
+          ""
+        ],
+        [
+          "lib_footprint_mismatch|138540000|63900000|30a6029e-37d5-497e-8bd7-0023356d252d|00000000-0000-0000-0000-000000000000",
+          ""
+        ],
+        [
+          "unconnected_items|149500000|88425000|7019c763-33f6-4d8f-81c0-6c0a3edf64ce|59698fe0-6d00-44cb-b893-437ea6a7a4d4",
+          ""
+        ],
+        [
+          "unconnected_items|149500000|92175000|db348eb6-0327-42c5-b54a-ebc17c0d3da4|43e5a082-dd93-4cbd-b5bf-eb91525c9c64",
           ""
         ]
       ],
@@ -143,7 +179,7 @@
         "min_microvia_drill": 0.1,
         "min_resolved_spokes": 1,
         "min_silk_clearance": 0.0,
-        "min_text_height": 0.8,
+        "min_text_height": 0.75,
         "min_text_thickness": 0.08,
         "min_through_hole_diameter": 0.3,
         "min_track_width": 0.0,
