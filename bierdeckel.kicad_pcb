@@ -10811,7 +10811,7 @@
 	(footprint "Resistor_SMD:R_1206_3216Metric"
 		(layer "F.Cu")
 		(uuid "a9c179f6-4df2-4d23-b48e-cc716f85932b")
-		(at 94.9 65.7 -90)
+		(at 115.1 58.5 -90)
 		(descr "Resistor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "resistor")
 		(property "Reference" "B3"
@@ -67274,14 +67274,6 @@
 		(uuid "e4c24b66-4dad-4fa1-b2b4-f9e92889fa29")
 	)
 	(segment
-		(start 114.5 69.55)
-		(end 114.5 65.853748)
-		(width 1)
-		(layer "F.Cu")
-		(net 2)
-		(uuid "efe2a5e6-6815-493c-a3cf-fc8b5dcee823")
-	)
-	(segment
 		(start 173.725 96.075)
 		(end 177.1 92.7)
 		(width 0.5)
@@ -71209,9 +71201,8 @@
 			"c53cf34e-3e7b-478b-8cfd-829b0ccfceb7" "c6c579e9-338c-4cb3-9bd6-92651a131e0a"
 			"d080d14a-b0cb-42f4-9839-25b9dda2cc1a" "d832029b-9f37-413b-a7ae-0f20db9cde78"
 			"dc85090e-04e8-4ee3-81e6-23dbbdc6f5c2" "e53f2e9a-951c-4d8f-98bc-b19d5fea81a5"
-			"ea633121-6b1c-4ca4-9539-7a4bd0b7e377" "efe2a5e6-6815-493c-a3cf-fc8b5dcee823"
-			"f68b30c1-1f82-45d7-a3d0-c7877e3d5d87" "fc7081c3-ab43-4d9d-bfea-540c2efae0ea"
-			"fe8c37be-36af-461d-b1cc-327ae24ce7f0"
+			"ea633121-6b1c-4ca4-9539-7a4bd0b7e377" "f68b30c1-1f82-45d7-a3d0-c7877e3d5d87"
+			"fc7081c3-ab43-4d9d-bfea-540c2efae0ea" "fe8c37be-36af-461d-b1cc-327ae24ce7f0"
 		)
 	)
 	(group ""
