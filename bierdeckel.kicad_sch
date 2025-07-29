@@ -5369,7 +5369,7 @@
 				)
 			)
 		)
-		(property "Value" "USB4110-GF-A"
+		(property "Value" "USB-TYPE-C-020"
 			(at 29.21 25.4 0)
 			(effects
 				(font
@@ -5404,7 +5404,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "USB4110-GF-A"
+		(property "mpn" "C2927040"
 			(at 29.21 45.72 0)
 			(effects
 				(font

@@ -4142,7 +4142,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "150060BS73220"
+		(property "Value" "XL-1608UBC-04"
 			(at 91.44 121.92 0)
 			(effects
 				(font
@@ -4178,7 +4178,7 @@
 				(hide yes)
 			)
 		)
-		(property "part#" "150060BS73220"
+		(property "part#" "C965807"
 			(at 78.74 125.73 0)
 			(effects
 				(font
@@ -4187,7 +4187,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "XL-1608UBC-04"
+		(property "mpn" "C965807"
 			(at 78.74 125.73 0)
 			(effects
 				(font
@@ -6142,7 +6142,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "150060GS73220"
+		(property "Value" "A-SP192DGHC-C01-4T"
 			(at 92.71 133.35 0)
 			(effects
 				(font
@@ -6178,7 +6178,7 @@
 				(hide yes)
 			)
 		)
-		(property "part#" "150060GS73220"
+		(property "part#" "C19171301"
 			(at 78.74 130.81 0)
 			(effects
 				(font
@@ -6187,7 +6187,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "A-SP192DGHC-C01-4T"
+		(property "mpn" "C19171301"
 			(at 78.74 130.81 0)
 			(effects
 				(font
