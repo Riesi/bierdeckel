@@ -4187,7 +4187,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "150060BS73220"
+		(property "mpn" "XL-1608UBC-04"
 			(at 78.74 125.73 0)
 			(effects
 				(font
@@ -4561,7 +4561,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "CRCW080562K0FKEA"
+		(property "mpn" ""
 			(at 67.31 62.23 0)
 			(effects
 				(font
@@ -5201,7 +5201,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "CL21A106KPFNNNF"
+		(property "mpn" "CL21B105KAFNNNG "
 			(at 60.96 62.23 0)
 			(effects
 				(font
@@ -5889,7 +5889,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "CR0805-FX-1002ELF "
+		(property "mpn" ""
 			(at 86.36 130.81 0)
 			(effects
 				(font
@@ -6187,7 +6187,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "150060GS73220"
+		(property "mpn" "A-SP192DGHC-C01-4T"
 			(at 78.74 130.81 0)
 			(effects
 				(font
@@ -6491,7 +6491,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "CR0805-FX-6200ELF "
+		(property "mpn" ""
 			(at 44.45 134.62 0)
 			(effects
 				(font
@@ -6941,7 +6941,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "CR0805-FX-1002ELF "
+		(property "mpn" ""
 			(at 77.47 140.97 0)
 			(effects
 				(font
@@ -7684,7 +7684,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "CR0805-FX-1002ELF "
+		(property "mpn" ""
 			(at 86.36 125.73 0)
 			(effects
 				(font
@@ -8346,7 +8346,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "CRCW080527K4FKEA"
+		(property "mpn" ""
 			(at 50.8 138.43 0)
 			(effects
 				(font
@@ -8568,7 +8568,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "CRCW08054K99FKEA"
+		(property "mpn" ""
 			(at 67.31 76.2 0)
 			(effects
 				(font

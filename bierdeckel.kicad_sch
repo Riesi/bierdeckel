@@ -4044,7 +4044,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" ""
+		(property "mpn" "BSS138P,215"
 			(at 133.35 68.58 0)
 			(effects
 				(font
@@ -4278,7 +4278,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "CR0805-FX-1002ELF "
+		(property "mpn" ""
 			(at 52.07 35.56 0)
 			(effects
 				(font
@@ -4421,7 +4421,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "CRCW08054K99FKEA"
+		(property "mpn" ""
 			(at 129.54 74.93 0)
 			(effects
 				(font
@@ -4852,6 +4852,15 @@
 				(hide yes)
 			)
 		)
+		(property "mpn" "ESP32-C3-WROOM-02"
+			(at 260.35 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "3"
 			(uuid "c84fe497-d71a-478c-a06d-7e1d786a3c16")
 		)
@@ -4923,9 +4932,9 @@
 		(at 48.26 128.27 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "35942b12-fd5e-47b9-bb12-b005b1cdce1a")
 		(property "Reference" "JP1"
 			(at 43.688 127 0)
@@ -6497,7 +6506,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "CRCW08054K99FKEA"
+		(property "mpn" ""
 			(at 107.95 76.2 0)
 			(effects
 				(font
@@ -6575,7 +6584,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "CRCW08054K99FKEA"
+		(property "mpn" ""
 			(at 107.95 60.96 0)
 			(effects
 				(font
@@ -6720,7 +6729,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "CR0805-FX-1002ELF "
+		(property "mpn" ""
 			(at 52.07 38.1 0)
 			(effects
 				(font
@@ -6959,9 +6968,9 @@
 		(at 48.26 135.89 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "cb62e166-c25a-4638-8e9b-eb89ba189879")
 		(property "Reference" "JP3"
 			(at 43.688 134.62 0)
@@ -7704,7 +7713,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "CRCW080562K0FKEA"
+		(property "mpn" ""
 			(at 148.59 60.96 0)
 			(effects
 				(font
@@ -7790,6 +7799,15 @@
 			)
 		)
 		(property "Sim.Pins" "1=K 2=A"
+			(at 121.92 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "mpn" "1N4148WT"
 			(at 121.92 54.61 0)
 			(effects
 				(font
@@ -7946,7 +7964,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "CRCW08054K99FKEA"
+		(property "mpn" ""
 			(at 148.59 49.53 0)
 			(effects
 				(font
@@ -8090,7 +8108,7 @@
 				(hide yes)
 			)
 		)
-		(property "mpn" "CR0805-FX-1002ELF "
+		(property "mpn" ""
 			(at 232.41 43.18 0)
 			(effects
 				(font
@@ -8119,9 +8137,9 @@
 		(at 48.26 132.08 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "fc08868c-ff76-4435-b339-73292d611e90")
 		(property "Reference" "JP2"
 			(at 43.688 130.81 0)

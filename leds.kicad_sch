@@ -1797,9 +1797,9 @@
 		(at 69.85 62.23 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "4e7f7931-906e-4fb5-87c4-3c36eb252b50")
 		(property "Reference" "D1"
 			(at 73.66 54.61 0)
