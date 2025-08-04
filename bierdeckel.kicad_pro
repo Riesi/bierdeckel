@@ -570,7 +570,7 @@
       "plot": "",
       "pos_files": "",
       "specctra_dsn": "",
-      "step": "bierdeckel.step",
+      "step": "mechanical/bierdeckel_pcb.step",
       "svg": "",
       "vrml": ""
     },
