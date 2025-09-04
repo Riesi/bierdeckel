@@ -2893,6 +2893,18 @@
 		(uuid "e6949a32-20df-4361-88a1-ca1dec157581")
 	)
 	(junction
+		(at 101.6 58.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e84650da-8f44-4c94-a861-5e103a7e4893")
+	)
+	(junction
+		(at 102.87 68.58)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "eb36994c-4f8b-4824-b46d-0788601d4fd9")
+	)
+	(junction
 		(at 147.32 68.58)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2913,12 +2925,20 @@
 		(uuid "2c4e008a-fe92-4e06-96ab-f23c490869ad")
 	)
 	(no_connect
+		(at 234.95 60.96)
+		(uuid "85edb32b-8292-4ea3-8541-6f5c534fc541")
+	)
+	(no_connect
 		(at 44.45 60.96)
 		(uuid "8f574945-c506-4eff-bc73-a2a8cefd5e65")
 	)
 	(no_connect
 		(at 275.59 53.34)
 		(uuid "913d24d8-45ca-41d5-93f9-bedfd363cf4d")
+	)
+	(no_connect
+		(at 229.87 68.58)
+		(uuid "b1fff419-6cb6-4ecc-9859-eec546879430")
 	)
 	(no_connect
 		(at 245.11 58.42)
@@ -3398,7 +3418,7 @@
 	)
 	(wire
 		(pts
-			(xy 91.44 55.88) (xy 91.44 58.42)
+			(xy 90.17 55.88) (xy 90.17 58.42)
 		)
 		(stroke
 			(width 0)
@@ -3445,6 +3465,16 @@
 			(type default)
 		)
 		(uuid "b85a2060-d8ba-49e7-be2d-172c965b3f7c")
+	)
+	(wire
+		(pts
+			(xy 101.6 58.42) (xy 102.87 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bafe7058-3071-47a9-a446-abf1295bd853")
 	)
 	(wire
 		(pts
@@ -3598,7 +3628,7 @@
 	)
 	(wire
 		(pts
-			(xy 91.44 58.42) (xy 92.71 58.42)
+			(xy 90.17 58.42) (xy 91.44 58.42)
 		)
 		(stroke
 			(width 0)
@@ -3828,7 +3858,7 @@
 	)
 	(symbol
 		(lib_id "Switch:SW_Push")
-		(at 97.79 58.42 0)
+		(at 96.52 58.42 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3836,7 +3866,7 @@
 		(dnp no)
 		(uuid "058e8a94-c994-4e3d-b0a0-c05ecf0a3ac0")
 		(property "Reference" "SW1"
-			(at 102.362 55.118 0)
+			(at 101.092 55.118 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3845,7 +3875,7 @@
 			)
 		)
 		(property "Value" "PTS526 SK15 SMTR2 LFS"
-			(at 97.79 53.34 0)
+			(at 96.52 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3854,7 +3884,7 @@
 			)
 		)
 		(property "Footprint" "Button_Switch_SMD:SW_Push_1P1T_XKB_TS-1187A"
-			(at 97.79 53.34 0)
+			(at 96.52 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3863,7 +3893,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 97.79 53.34 0)
+			(at 96.52 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3872,7 +3902,7 @@
 			)
 		)
 		(property "Description" "Push button switch, generic, two pins"
-			(at 97.79 58.42 0)
+			(at 96.52 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3881,7 +3911,7 @@
 			)
 		)
 		(property "part#" "PTS526 SK15 SMTR2 LFS"
-			(at 97.79 58.42 0)
+			(at 96.52 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3890,7 +3920,7 @@
 			)
 		)
 		(property "mpn" "PTS526 SK15 SMTR2 LFS"
-			(at 97.79 58.42 0)
+			(at 96.52 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3973,6 +4003,84 @@
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1"
 					(reference "#PWR02")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 102.87 72.39 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "0c2de877-16ff-4e4c-bbd6-12e89258a706")
+		(property "Reference" "R4"
+			(at 102.108 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 102.87 69.85 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 104.648 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 102.87 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 102.87 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "mpn" ""
+			(at 102.87 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c9875ef0-4ad7-4302-afbe-2a5b77aed772")
+		)
+		(pin "2"
+			(uuid "44ddf626-4451-498f-b09b-abadd796d0db")
+		)
+		(instances
+			(project "bierdeckel"
+				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1"
+					(reference "R4")
 					(unit 1)
 				)
 			)
@@ -4267,7 +4375,7 @@
 	)
 	(symbol
 		(lib_id "power:+BATT")
-		(at 91.44 55.88 0)
+		(at 90.17 55.88 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4276,7 +4384,7 @@
 		(fields_autoplaced yes)
 		(uuid "3054f34d-4d3d-46cc-851d-99e27f4cd4f5")
 		(property "Reference" "#PWR011"
-			(at 91.44 59.69 0)
+			(at 90.17 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4285,7 +4393,7 @@
 			)
 		)
 		(property "Value" "+BATT"
-			(at 91.44 50.8 0)
+			(at 90.17 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4293,7 +4401,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 91.44 55.88 0)
+			(at 90.17 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4302,7 +4410,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 91.44 55.88 0)
+			(at 90.17 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4311,7 +4419,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+BATT\""
-			(at 91.44 55.88 0)
+			(at 90.17 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4675,6 +4783,71 @@
 			(project ""
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1"
 					(reference "JP1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 101.6 58.42 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "37cc15b1-bba5-44e1-af91-24bf27cb9649")
+		(property "Reference" "#FLG03"
+			(at 101.6 56.515 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 97.282 61.976 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 101.6 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 101.6 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 101.6 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "bccb865f-b456-4442-8bd9-fd27b464766c")
+		)
+		(instances
+			(project "bierdeckel"
+				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1"
+					(reference "#FLG03")
 					(unit 1)
 				)
 			)
@@ -5278,6 +5451,71 @@
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1"
 					(reference "C33")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 102.87 76.2 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6da43fda-2638-483d-acd8-47cc28bc8ae6")
+		(property "Reference" "#PWR012"
+			(at 102.87 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 105.156 79.248 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 102.87 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 102.87 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 102.87 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "397c0eca-d051-4828-abd1-341de67d42bb")
+		)
+		(instances
+			(project "bierdeckel"
+				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1"
+					(reference "#PWR012")
 					(unit 1)
 				)
 			)
