@@ -500,9 +500,6 @@ control_characteristic
 
     let mut adc_pin = AdcChannelDriver::new(&adc, peripherals.pins.gpio4, &config).unwrap();
     let mut factor = 1f32;
-
-    let log_factor = 40f32;
-    let log_factor_e = log_factor+1f32;
     loop {
       thread::sleep(Duration::from_millis(100));
       let adc_val = adc.read(&mut adc_pin).unwrap();
