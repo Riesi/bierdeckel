@@ -28,7 +28,7 @@ std = ["alloc", "esp-idf-svc/binstart", "esp-idf-svc/std"]
 alloc = ["esp-idf-svc/alloc"]
 nightly = ["esp-idf-svc/nightly"]
 experimental = ["esp-idf-svc/experimental"]
-embassy = ["esp-idf-svc/embassy-sync", "esp-idf-svc/critical-section", "esp-idf-svc/embassy-time-driver"]
+embassy = ["esp-idf-svc/embassy-sync", "esp-idf-svc/critical-section"]
 
 [dependencies]
 log = { version = "0.4", default-features = false }
@@ -39,9 +39,9 @@ esp-idf-sys = {version = "0.36.1"}
 
 smart-leds = "0.4.0"
 smart-leds-trait = { version = "0.3", optional = true }
-ws2812-esp32-rmt-driver = { version = "0.11", features = ["smart-leds-trait"] }
+ws2812-esp32-rmt-driver = { version = "0.12", features = ["smart-leds-trait"] }
 
-esp32-nimble = "0.10.2"
+esp32-nimble = "0.11.1"
 esp-ota = { version = "0.2.2" }
 anyhow = "1.0.95"
 
@@ -51,5 +51,5 @@ num-traits = "0.2.19"
 single_value_channel = "1.2.2"
 
 [build-dependencies]
-embuild = "0.33.0"
+embuild = "0.33.1"
 anyhow = "1"
