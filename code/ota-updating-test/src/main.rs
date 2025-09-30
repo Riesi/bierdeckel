@@ -28,10 +28,9 @@ use esp_ota;
 pub mod led_animation;
 use crate::led_animation::{LedAnimation, LedPattern};
 
-const WEIGHT_EMPTY:u16 = 860;
-const WEIGHT_FULL:u16 = 350;
+const WEIGHT_EMPTY:u16 = 380;
+const WEIGHT_FULL:u16 = 720;
 const WEIGHT_TARGET1:u16 = 500;
-const WEIGHT_TARGET2:u16 = 600;
 const LIGHT_LIMIT:f32 = 0.35;
 
 const MTU_UUID: BleUuid     = uuid128!("BBBBBBBB-21C0-46A4-B722-270E3AE3D830");
@@ -503,14 +502,14 @@ control_characteristic
     loop {
       thread::sleep(Duration::from_millis(100));
       let adc_val = adc.read(&mut adc_pin).unwrap();
-      let f = if adc_val < WEIGHT_TARGET1{
+      let f = if adc_val > WEIGHT_FULL{
           1f32
       }else{
-          if adc_val<WEIGHT_TARGET2 {
-            1f32-(adc_val-WEIGHT_TARGET1) as f32/((WEIGHT_TARGET2-WEIGHT_TARGET1) as f32/(1f32-LIGHT_LIMIT))
+          if adc_val>WEIGHT_TARGET1 {
+            1f32-(WEIGHT_FULL-adc_val) as f32/((WEIGHT_FULL-WEIGHT_TARGET1) as f32/(1f32-LIGHT_LIMIT))
           }else{
-            if adc_val<WEIGHT_EMPTY {
-              LIGHT_LIMIT-(adc_val-WEIGHT_TARGET2) as f32/((WEIGHT_EMPTY-WEIGHT_TARGET2) as f32/LIGHT_LIMIT)
+            if adc_val>WEIGHT_EMPTY {
+              LIGHT_LIMIT-(WEIGHT_TARGET1-adc_val) as f32/((WEIGHT_TARGET1-WEIGHT_EMPTY) as f32/LIGHT_LIMIT)
             }else{
               0f32
             }
