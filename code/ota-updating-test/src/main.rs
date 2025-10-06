@@ -492,9 +492,9 @@ control_characteristic
     // configuring pin to analog read, you can regulate the adc input voltage range depending on your need
     // for this example we use the attenuation of 11db which sets the input voltage range to around 0-3.6V
     let config = AdcChannelConfig {
-        attenuation: DB_11,
+        attenuation: esp_idf_hal::adc::attenuation::NONE,
         resolution: Resolution12Bit,
-        calibration: Calibration::None,
+        calibration: Calibration::Curve,
     };
 
     let mut adc_pin = AdcChannelDriver::new(&adc, peripherals.pins.gpio4, &config).unwrap();
