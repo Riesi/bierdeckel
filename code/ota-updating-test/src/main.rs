@@ -1,16 +1,17 @@
 #![feature(array_repeat)]
-use log::LevelFilter;
+use log::{LevelFilter, Log};
 use std::array;
 use std::collections::{HashMap, VecDeque};
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
 
-use esp_idf_hal::adc::attenuation::DB_11;
 use esp_idf_hal::adc::oneshot::config::{AdcChannelConfig, Calibration};
 use esp_idf_hal::adc::oneshot::*;
 use esp_idf_hal::adc::Resolution::Resolution12Bit;
+use esp_idf_hal::io::Write;
 use esp_idf_hal::peripherals::Peripherals;
+use esp_idf_hal::usb_serial::{UsbDMinGpio, UsbDPlusGpio, UsbSerialConfig, UsbSerialDriver};
 
 use ws2812_esp32_rmt_driver::Ws2812Esp32Rmt;
 
@@ -104,6 +105,36 @@ impl OTAStateHandle {
     }
 }
 
+use log::{Metadata, Record};
+
+static BT_LOGGER: BtLogger = BtLogger;
+struct BtLogger;
+//{
+//ESPLOG: esp_idf_svc::log::EspLogger,
+//}
+
+impl BtLogger {
+    /*fn new() -> Self{
+      let lo = esp_idf_svc::log::EspLogger::new();
+      lo.initialize();
+      BtLogger{ESPLOG: lo}
+    }*/
+}
+
+impl log::Log for BtLogger {
+    fn enabled(&self, metadata: &Metadata) -> bool {
+        metadata.level() <= log::Level::Info
+        //true
+    }
+
+    fn log(&self, record: &Record) {
+        if self.enabled(record.metadata()) {
+            println!("{} - {}", record.level(), record.args());
+        }
+        println!("{} - {}", record.level(), record.args());
+    }
+    fn flush(&self) {}
+}
 fn main() {
     // It is necessary to call this function once. Otherwise some patches to the runtime
     // implemented by esp-idf-sys might not link properly. See https://github.com/esp-rs/esp-idf-template/issues/71
@@ -112,6 +143,24 @@ fn main() {
     esp_idf_svc::log::EspLogger::initialize_default();
 
     let peripherals = Peripherals::take().unwrap();
+    let usb_serial = peripherals.usb_serial;
+    let usb_p_pin = unsafe { UsbDPlusGpio::new() };
+    let usb_m_pin = unsafe { UsbDMinGpio::new() };
+    let mut usdri = UsbSerialDriver::new(
+        usb_serial,
+        usb_m_pin,
+        usb_p_pin,
+        &UsbSerialConfig::default(),
+    )
+    .unwrap();
+    //let BT_LOGGER = Box::new(BtLogger::new());
+    // TODO: doesnt print stuff on uart
+    log::set_logger(&BT_LOGGER).unwrap();
+
+    writeln!(usdri, "hello world").unwrap();
+    println!("hiiii:");
+    log::info!("uhhh info:");
+
     if let Err(e) = esp_idf_svc::log::set_target_level("NimBLE", LevelFilter::Error) {
         println!("Failed to set log level: {:#?}", e);
     }
