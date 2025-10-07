@@ -125,6 +125,8 @@ fn main(){
   esp_idf_svc::sys::link_patches();
   // Bind the log crate to the ESP Logging facilities
   esp_idf_svc::log::EspLogger::initialize_default();
+
+  let peripherals = Peripherals::take().unwrap();
   if let Err(e) = esp_idf_svc::log::set_target_level("NimBLE", LevelFilter::Error){
     println!("Failed to set log level: {:#?}", e);
   }
@@ -369,10 +371,8 @@ control_characteristic
     loop{
       log::error!("Failed starting ble!\n{bleerr}");
       thread::sleep(Duration::from_millis(500));
+    }
   }
-  }
-
-    let peripherals = Peripherals::take().unwrap();
     
     log::info!("Hello, world!");
 
