@@ -107,18 +107,14 @@ impl OTAStateHandle {
 
 use log::{Metadata, Record};
 
-static BT_LOGGER: BtLogger = BtLogger;
-struct BtLogger;
-//{
-//ESPLOG: esp_idf_svc::log::EspLogger,
-//}
+struct BtLogger<'a>{
+    SERIAL: Option<Mutex<UsbSerialDriver<'a>>>,
+}
 
-impl BtLogger {
-    /*fn new() -> Self{
-      let lo = esp_idf_svc::log::EspLogger::new();
-      lo.initialize();
-      BtLogger{ESPLOG: lo}
-    }*/
+impl <'a>BtLogger<'a> {
+    fn new(usb_ser_dr: UsbSerialDriver<'a>) -> Self{
+      BtLogger{ SERIAL: Some(Mutex::new(usb_ser_dr)) }
+    }
 }
 
 impl log::Log for BtLogger {
@@ -131,7 +127,8 @@ impl log::Log for BtLogger {
         if self.enabled(record.metadata()) {
             println!("{} - {}", record.level(), record.args());
         }
-        println!("{} - {}", record.level(), record.args());
+        writeln!(self.SERIAL, "{} - {}", record.level(), record.args()).unwrap();
+        //println!("{} - {}", record.level(), record.args());
     }
     fn flush(&self) {}
 }
@@ -140,7 +137,7 @@ fn main() {
     // implemented by esp-idf-sys might not link properly. See https://github.com/esp-rs/esp-idf-template/issues/71
     esp_idf_svc::sys::link_patches();
     // Bind the log crate to the ESP Logging facilities
-    esp_idf_svc::log::EspLogger::initialize_default();
+    // esp_idf_svc::log::EspLogger::initialize_default();
 
     let peripherals = Peripherals::take().unwrap();
     let usb_serial = peripherals.usb_serial;
@@ -153,9 +150,12 @@ fn main() {
         &UsbSerialConfig::default(),
     )
     .unwrap();
-    //let BT_LOGGER = Box::new(BtLogger::new());
+    let BT_LOGGER = Box::new(BtLogger::new(usdri));
     // TODO: doesnt print stuff on uart
-    log::set_logger(&BT_LOGGER).unwrap();
+    match log::set_boxed_logger(BT_LOGGER){
+        Ok(..) => (),
+        Err(..) => println!("Error initializing BT logger!"),
+    };
 
     writeln!(usdri, "hello world").unwrap();
     println!("hiiii:");
