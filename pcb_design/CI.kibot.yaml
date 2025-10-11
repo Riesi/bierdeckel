@@ -30,7 +30,7 @@ preflight:
       - filter: 'Ignore the switch cross connection'
         error: 'unconnected_items'
         regex: '+BATT_EXT'
-      - filter: 'Ignore the switch cross connection'
+      - filter: 'Ignore the switch cross connection2'
         error: 'unconnected_items'
         regex: 'SW1 on F.Cu'
   # set_text_variables:
