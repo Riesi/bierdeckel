@@ -4,15 +4,15 @@ name: "Auto Design Checker"
 on:
   push:
     paths:
-      - '*.kicad_sch'
-      - '*.kicad_pcb'
-      - '*.kibot.yaml'
+      - '**.kicad_sch'
+      - '**.kicad_pcb'
+      - '**.kibot.yaml'
       - '.github/workflows/*.yml'
   pull_request:
     paths:
-      - '*.kicad_sch'
-      - '*.kicad_pcb'
-      - '*.kibot.yaml'
+      - '**.kicad_sch'
+      - '**.kicad_pcb'
+      - '**.kibot.yaml'
       - '.github/workflows/*.yml'
   repository_dispatch:
     types: [run_gha]

@@ -3,9 +3,9 @@ name: "tagged-release"
 on:
   push:
     paths:
-      - '*.kicad_sch'
-      - '*.kicad_pcb'
-      - '*.kibot.yaml'
+      - '**.kicad_sch'
+      - '**.kicad_pcb'
+      - '**.kibot.yaml'
       - '.github/workflows/*.yml'
     tags:
       - "v*"
