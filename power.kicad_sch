@@ -2537,12 +2537,6 @@
 		(uuid "2ea15846-447a-4c1d-9039-8a5bed1aa103")
 	)
 	(junction
-		(at 60.96 68.58)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "2f627904-f69b-41d3-8202-af73afaf2910")
-	)
-	(junction
 		(at 67.31 68.58)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2577,12 +2571,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "582437f5-255e-454b-9a28-0a720f55aa0a")
-	)
-	(junction
-		(at 125.73 120.65)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "58988abe-48ee-4260-b1da-c0a1e36303d0")
 	)
 	(junction
 		(at 39.37 120.65)
@@ -2645,6 +2633,12 @@
 		(uuid "beb38132-346b-4a19-a552-271d99e280c7")
 	)
 	(junction
+		(at 125.73 120.65)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ca364d5f-c405-430a-9269-77bf1f3df276")
+	)
+	(junction
 		(at 227.33 67.31)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2697,6 +2691,16 @@
 			(type default)
 		)
 		(uuid "016541ce-5446-4caa-a5ea-70afad8c3973")
+	)
+	(wire
+		(pts
+			(xy 80.01 59.69) (xy 80.01 57.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "01ba29c8-c42b-4cab-a3eb-bbbff0a44fb8")
 	)
 	(wire
 		(pts
@@ -3170,6 +3174,16 @@
 	)
 	(wire
 		(pts
+			(xy 81.28 59.69) (xy 80.01 59.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "729cdedb-2153-4b26-9041-177c25cb3274")
+	)
+	(wire
+		(pts
 			(xy 173.99 82.55) (xy 173.99 85.09)
 		)
 		(stroke
@@ -3590,16 +3604,6 @@
 	)
 	(wire
 		(pts
-			(xy 59.69 68.58) (xy 60.96 68.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e93a207d-3eda-4e5d-bb1a-1212910dde33")
-	)
-	(wire
-		(pts
 			(xy 76.2 64.77) (xy 81.28 64.77)
 		)
 		(stroke
@@ -3718,17 +3722,6 @@
 		)
 		(uuid "ff51bd59-4a36-4cdd-b290-0a4603e50480")
 	)
-	(hierarchical_label "PSU_EN"
-		(shape input)
-		(at 81.28 59.69 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "21c6f31b-950d-4ba5-a521-d2fb6887abb8")
-	)
 	(hierarchical_label "Vcharge"
 		(shape input)
 		(at 31.75 120.65 180)
@@ -3739,17 +3732,6 @@
 			(justify right)
 		)
 		(uuid "3b5c2a16-d681-4f6c-9078-9d2074c92ec5")
-	)
-	(hierarchical_label "UVLO"
-		(shape input)
-		(at 59.69 68.58 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "9e38b5e8-4188-42ee-bb91-71b13370aa97")
 	)
 	(symbol
 		(lib_id "bier:TPS61201DRC")
@@ -5937,72 +5919,6 @@
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
 					(reference "R14")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+BATT")
-		(at 125.73 120.65 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "62341e8e-98cf-4b11-a08a-f8c4cf221343")
-		(property "Reference" "#PWR052"
-			(at 125.73 124.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+BATT"
-			(at 125.73 115.57 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 125.73 120.65 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 125.73 120.65 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+BATT\""
-			(at 125.73 120.65 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "029a91ea-16a8-4cc2-aa2b-df3014e77f68")
-		)
-		(instances
-			(project ""
-				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
-					(reference "#PWR052")
 					(unit 1)
 				)
 			)
@@ -8316,6 +8232,71 @@
 			(project "bierdeckel"
 				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
 					(reference "C29")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+BATT")
+		(at 125.73 120.65 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e30df755-264a-42cd-bb97-2fd4c0c27fd3")
+		(property "Reference" "#PWR052"
+			(at 125.73 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+BATT_EXT"
+			(at 126.746 116.332 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 125.73 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 125.73 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+BATT\""
+			(at 125.73 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "4871e987-114b-4250-b3d4-a12b045196e8")
+		)
+		(instances
+			(project "bierdeckel"
+				(path "/a4ffe097-37ef-4e19-a91a-ae57f4a5aad1/06d9cd17-cb19-4cdd-8e67-c41d1b4a676e"
+					(reference "#PWR052")
 					(unit 1)
 				)
 			)
