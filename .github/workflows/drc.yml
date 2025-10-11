@@ -28,6 +28,7 @@ jobs:
     - name: Run ERC
       uses: INTI-CMNB/KiBot@v2_k9
       with:
+        config: pcb_design/CI.kibot.yaml
         dir: Generated
         skip: drc
         targets: __NONE__
@@ -49,6 +50,7 @@ jobs:
     - name: Run DRC
       uses: INTI-CMNB/KiBot@v2_k9
       with:
+        config: pcb_design/CI.kibot.yaml
         dir: Generated
         skip: erc
         targets: __NONE__
@@ -70,6 +72,7 @@ jobs:
 
     - uses: INTI-CMNB/KiBot@v2_k9
       with:
+        config: pcb_design/CI.kibot.yaml
         dir: default
         variant: default
         skip: erc,drc
