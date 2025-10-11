@@ -26,6 +26,8 @@ jobs:
       uses: INTI-CMNB/KiBot@v2_k9
       with:
         config: pcb_design/CI.kibot.yaml
+        schema: 'pcb_design/bierdeckel.kicad_sch'
+        board: 'pcb_design/bierdeckel.kicad_pcb'
         dir: Generated
         skip: drc
         targets: __NONE__
@@ -48,6 +50,8 @@ jobs:
       uses: INTI-CMNB/KiBot@v2_k9
       with:
         config: pcb_design/CI.kibot.yaml
+        schema: 'pcb_design/bierdeckel.kicad_sch'
+        board: 'pcb_design/bierdeckel.kicad_pcb'
         dir: Generated
         skip: erc
         targets: __NONE__
@@ -76,7 +80,9 @@ jobs:
 
       - uses: INTI-CMNB/KiBot@v2_k9
         with:
-          config: pcb_design/CI.kibot.yaml
+          config: pcb_design/CI.kibot.
+        schema: 'pcb_design/bierdeckel.kicad_sch'
+        board: 'pcb_design/bierdeckel.kicad_pcb'
           dir: build
           variant: default
           skip: erc,drc
