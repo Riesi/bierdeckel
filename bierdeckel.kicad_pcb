@@ -9,6 +9,9 @@
 	(paper "A4")
 	(title_block
 		(title "Bierdeckel")
+		(rev "0.4")
+		(comment 1 "SPDX-License-Identifier: CERN-OHL-S-2.0")
+		(comment 2 "SPDX-FileCopyrightText: 2023-2025 Stefan Riesenberger <stefan.riesenberger@gmail.com>")
 		(comment 4 "AISLER Project ID: MNJWCNXA")
 	)
 	(layers

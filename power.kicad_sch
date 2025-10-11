@@ -4,6 +4,12 @@
 	(generator_version "9.0")
 	(uuid "94a6c6ba-4e80-4b24-9fe5-87faf73ec31a")
 	(paper "A4")
+	(title_block
+		(title "Bierdeckel")
+		(rev "0.4")
+		(comment 1 "SPDX-License-Identifier: CERN-OHL-S-2.0")
+		(comment 2 "SPDX-FileCopyrightText: 2023-2025 Stefan Riesenberger <stefan.riesenberger@gmail.com>")
+	)
 	(lib_symbols
 		(symbol "Battery_Management:BQ51050BRHL"
 			(exclude_from_sim no)

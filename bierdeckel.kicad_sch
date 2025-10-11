@@ -4,6 +4,12 @@
 	(generator_version "9.0")
 	(uuid "a4ffe097-37ef-4e19-a91a-ae57f4a5aad1")
 	(paper "A4")
+	(title_block
+		(title "Bierdeckel")
+		(rev "0.4")
+		(comment 1 "SPDX-License-Identifier: CERN-OHL-S-2.0")
+		(comment 2 "SPDX-FileCopyrightText: 2023-2025 Stefan Riesenberger <stefan.riesenberger@gmail.com>")
+	)
 	(lib_symbols
 		(symbol "Connector:TestPoint"
 			(pin_numbers
