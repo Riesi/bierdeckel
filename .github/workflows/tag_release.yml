@@ -81,8 +81,8 @@ jobs:
       - uses: INTI-CMNB/KiBot@v2_k9
         with:
           config: pcb_design/CI.kibot.
-        schema: 'pcb_design/bierdeckel.kicad_sch'
-        board: 'pcb_design/bierdeckel.kicad_pcb'
+          schema: 'pcb_design/bierdeckel.kicad_sch'
+          board: 'pcb_design/bierdeckel.kicad_pcb'
           dir: build
           variant: default
           skip: erc,drc
