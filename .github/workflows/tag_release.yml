@@ -76,7 +76,7 @@ jobs:
 
       - uses: INTI-CMNB/KiBot@v2_k9
         with:
-        config: pcb_design/CI.kibot.yaml
+          config: pcb_design/CI.kibot.yaml
           dir: build
           variant: default
           skip: erc,drc
