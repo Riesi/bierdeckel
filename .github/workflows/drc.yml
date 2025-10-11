@@ -7,13 +7,13 @@ on:
       - '*.kicad_sch'
       - '*.kicad_pcb'
       - '*.kibot.yaml'
-      - '.github/workflows/drc.yml'
+      - '.github/workflows/*.yml'
   pull_request:
     paths:
       - '*.kicad_sch'
       - '*.kicad_pcb'
       - '*.kibot.yaml'
-      - '.github/workflows/drc.yml'
+      - '.github/workflows/*.yml'
   repository_dispatch:
     types: [run_gha]
 
