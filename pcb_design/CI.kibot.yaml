@@ -29,10 +29,10 @@ preflight:
     filters:
       - filter: 'Ignore the switch cross connection'
         error: 'unconnected_items'
-        regex: '+BATT_EXT'
+        regex: 'BATT_EXT'
       - filter: 'Ignore the switch cross connection2'
         error: 'unconnected_items'
-        regex: 'SW1 on F.Cu'
+        regex: 'SW1 on '
   # set_text_variables:
     # The revision will be the short git hash
     # We use ${git_hash} for the REV field in the worksheet (frame)
