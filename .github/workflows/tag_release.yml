@@ -6,7 +6,7 @@ on:
       - '*.kicad_sch'
       - '*.kicad_pcb'
       - '*.kibot.yaml'
-      - '.github/workflows/kibot_action.yml'
+      - '.github/workflows/tag_release.yml'
     tags:
       - "v*"
 
