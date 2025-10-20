@@ -7087,6 +7087,17 @@
 				(xyz -90 -0 -0)
 			)
 		)
+		(model "${KIPRJMOD}/3d_models/USB4110-GF-A.stp"
+			(offset
+				(xyz 0 2.6 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -90 -0 -0)
+			)
+		)
 	)
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
@@ -13001,6 +13012,17 @@
 		(model "${KICAD_3RD_PARTY}/Samacsys.3dshapes/HSFPAR004A.stp"
 			(offset
 				(xyz 0 0 0.009999999626)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
+		(model "${KIPRJMOD}/3d_models/HSFPAR004A.stp"
+			(offset
+				(xyz 0 0 0)
 			)
 			(scale
 				(xyz 1 1 1)
