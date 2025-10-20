@@ -1,5 +1,8 @@
 [package]
 name = "bt_flasher"
+authors = ["Stefan Riesenberger <stefan.riesenberger@gmail.com>"]
+license = GPL-3.0
+license-file = "../LICENSE"
 version = "0.1.0"
 edition = "2021"
 

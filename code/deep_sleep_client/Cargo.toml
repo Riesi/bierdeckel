@@ -2,6 +2,8 @@
 name = "bierdeckel-client"
 version = "0.1.0"
 authors = ["Stefan Riesenberger <stefan.riesenberger@gmail.com>"]
+license = GPL-3.0
+license-file = "../LICENSE"
 edition = "2021"
 resolver = "2"
 rust-version = "1.77"

@@ -1,0 +1,2 @@
+If you are not shipping the design with a proper git tree, you have to document your changes in this file according to CERN-OHL-S v2.
+- initial design drop
