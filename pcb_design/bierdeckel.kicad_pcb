@@ -13,6 +13,7 @@
 		(comment 1 "SPDX-License-Identifier: CERN-OHL-S-2.0")
 		(comment 2 "SPDX-FileCopyrightText: 2023-2025 Stefan Riesenberger <stefan.riesenberger@gmail.com>")
 		(comment 4 "AISLER Project ID: MNJWCNXA")
+		(comment 9 "CERN-OHL-S-2.0")
 	)
 	(layers
 		(0 "F.Cu" signal)
@@ -68523,8 +68524,8 @@
 			(justify left bottom)
 		)
 	)
-	(gr_text "Bierdeckel v0.3\nby Riesi, Raini,\nBrucki, Michinix\n(C) 2025"
-		(at 119.7 129.3 90)
+	(gr_text "Bierdeckel v${REVISION}\nby Riesi, Raini,\nBrucki, Michinix\n(C) 2025\n${COMMENT9}"
+		(at 120.1 132 90)
 		(layer "F.SilkS")
 		(uuid "fc19889b-4139-4069-8e4a-f747e0d38a8e")
 		(effects
