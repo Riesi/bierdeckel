@@ -2,6 +2,8 @@
 This is the implementation of an open hardware smart beer coaster.
 As a core principle the beer coaster is simply a battery powered scale with LEDs and BLE.
 These components enable a variety of interesting applications that can be implemented on top of the provided hardware.
+![Beerc coaster PCB](./images/bierdeckel.png)
+
 ## Default app
 Currently the default app implementation is a hardcoded rainbow pattern, which gets dimmed relative to the analog input value of the force sensor's measurement. Due to part to part variance on the assembled PCBs the analog values can be different, which means the internal thresholds have to be adapted between PCBs.
 
