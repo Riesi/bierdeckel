@@ -18,6 +18,13 @@ The code is written in Rust and built with the Rust toolchain provided by Espres
 There are a few things to install to properly build and flash the firmware onto the device. 
 First and foremost the general Rust tooling has to be installed. This means installing `rustup` and making sure `cargo` is working.
 
+### Quickstart on Arch
+On Arch you can simply install `rustup`, `espup` and `espflash` via the package manager. You still need to run the toolchain downloads/installs, but you dont have to build anything.
+```
+sudo pacman -S base-devel rustup espup espflash
+rustup default stable
+espup install
+```
 ### ESP Toolchain
 For the ESP toolchain one has to follow the installation and quickstart guide on the `espup` repository.
 
