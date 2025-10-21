@@ -2,8 +2,7 @@
 name = "ota-updating-test"
 version = "0.1.0"
 authors = ["Stefan Riesenberger <stefan.riesenberger@gmail.com>"]
-license = GPL-3.0
-license-file = "../LICENSE"
+license = "GPL-3.0"
 edition = "2021"
 resolver = "2"
 rust-version = "1.84"
