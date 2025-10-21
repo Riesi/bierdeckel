@@ -1,0 +1,7 @@
+espflash  monitor -p /dev/ttyUSB0 -B 115200
+
+espflash save-image --chip esp32c3 target/riscv32imc-esp-espidf/debug/beercoaster beercoaster.bin
+
+cargo-espflash espflash flash -B 115200 --partition-table partitions.csv --erase-parts ota_1
+
+espflash flash target/riscv32imc-esp-espidf/debug/beercoaster -p /dev/ttyUSB0

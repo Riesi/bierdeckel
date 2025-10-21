@@ -54,10 +54,10 @@ The reference beer coaster code implements an OTA update scheme with A/B partiti
 To generate a OTA-image you simply have to run:
 
 ```
-espflash save-image --chip esp32c3 target/riscv32imc-esp-espidf/debug/ota-updating-test ota-updating-test.bin
+espflash save-image --chip esp32c3 target/riscv32imc-esp-espidf/debug/beercoaster beercoaster.bin
 ```
 
-After this you have to copy the `ota-updating-test.bin` file into the `bt_flasher` folder and run the flasher with:
+After this you have to copy the `beercoaster.bin` file into the `bt_flasher` folder and run the flasher with:
 ```
 cargo run
 ```

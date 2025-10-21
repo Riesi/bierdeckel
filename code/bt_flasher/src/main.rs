@@ -189,7 +189,7 @@ async fn flash_firmware(peripheral: impl Peripheral) -> Result<(), ()> {
         }
     }
     let start_flash = SystemTime::now().duration_since(UNIX_EPOCH).expect("Time went backwards");
-    let flash_file = "ota-updating-test.bin";
+    let flash_file = "beercoaster.bin";
     //let flash_file = "test.bin";
     //let flash_file = "test_big.bin";
     const CHUNK_SIZE: usize = 512;

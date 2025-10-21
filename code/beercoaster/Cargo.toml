@@ -1,5 +1,5 @@
 [package]
-name = "ota-updating-test"
+name = "beercoaster"
 version = "0.1.0"
 authors = ["Stefan Riesenberger <stefan.riesenberger@gmail.com>"]
 license = "GPL-3.0"
@@ -11,7 +11,7 @@ rust-version = "1.84"
 partition_table = "partitions.csv"
 
 [[bin]]
-name = "ota-updating-test"
+name = "beercoaster"
 harness = false # do not use the built in cargo test harness -> resolve rust-analyzer errors
 
 [profile.release]
