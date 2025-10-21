@@ -1,2 +1,5 @@
 [toolchain]
 channel = "esp"
+versioned = 1.84
+components = ["rust-src"]
+targets = [ "riscv32imc-esp-espidf" ]
