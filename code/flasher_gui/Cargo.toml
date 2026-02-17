@@ -8,3 +8,12 @@ publish = false
 [dependencies]
 iced = "0.14.0"
 
+num-derive = "0.4.2"
+num-traits = "0.2.19"
+
+btleplug = {version = "^0.11.6"}
+rand = "*"
+tokio = { version = "^1", features = ["full"] }
+uuid = "*"
+futures = "0.3.31"
+

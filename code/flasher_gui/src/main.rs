@@ -1,6 +1,30 @@
 use iced::widget::{button, center, column, combo_box, scrollable, space, text};
 use iced::{Center, Element, Fill, Renderer, Theme};
 
+
+pub mod bt_util;
+use crate::bt_util::{OTAControlResponse, OTAControl};
+
+/*
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn Error>> {
+    let manager = Manager::new().await?;
+    let adapter_list = manager.adapters().await?;
+    if adapter_list.is_empty() {
+        eprintln!("No Bluetooth adapters found");
+    }
+    // Flash
+    scan(&adapter_list, false).await.unwrap();
+
+    // Delay to prevent 
+    time::sleep(Duration::from_millis(4000)).await;
+
+    // Verify
+    scan(&adapter_list, true).await.unwrap();
+
+    Ok(())
+}*/
+
 pub fn main() -> iced::Result {
     iced::run(Example::update, Example::view)
 }
