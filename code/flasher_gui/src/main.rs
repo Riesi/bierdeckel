@@ -1,7 +1,6 @@
-use iced::task;
 use iced::widget::{button, center, column, combo_box, scrollable, space, text};
 use iced::{Center, Element, Fill, Renderer, Theme, Task};
-use rfd::FileDialog;
+use rfd::{AsyncFileDialog, FileHandle};
 
 pub mod bt_util;
 use crate::bt_util::{OTAControlResponse, OTAControl};
@@ -36,11 +35,12 @@ struct Example {
     text: String,
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 enum Message {
     Selected(Language),
     OptionHovered(Language),
     BT,
+    File(Option<FileHandle>),
     Closed,
 }
 
@@ -58,21 +58,18 @@ impl Example {
             Message::BT => {
                 self.text = "connn".to_string();
 
-
-                let files = FileDialog::new()
-                            .add_filter("bin", &["bin", "rs"])
-                            .set_directory(".")
-                            .pick_file();
-                if let Some(file) = files {
-                    println!("{}",file.display());
-                }
                 let files = AsyncFileDialog::new()
                             .add_filter("bin", &["bin", "rs"])
                             .set_directory(".")
-                            .pick_file().await;
-                let task = files.start();
-
-                task.map(Message::DownloadUpdated.with(index))
+                            .pick_file();
+                Task::perform( files, Message::File)
+            }
+            Message::File(file) => {
+                if let Some(file) = file {
+                    
+                    println!("{}",file.path().display());
+                }
+                Task::none()
             }
             Message::Selected(language) => {
                 self.selected_language = Some(language);
