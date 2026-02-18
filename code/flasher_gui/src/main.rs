@@ -70,7 +70,7 @@ impl Example {
                             .add_filter("bin", &["bin", "rs"])
                             .set_directory(".")
                             .pick_file().await;
-                let task = download.start();
+                let task = files.start();
 
                 task.map(Message::DownloadUpdated.with(index))
             }
