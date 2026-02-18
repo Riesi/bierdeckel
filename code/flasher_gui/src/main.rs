@@ -1,6 +1,6 @@
-use iced::event::{self, Event};
+use iced::task;
 use iced::widget::{button, center, column, combo_box, scrollable, space, text};
-use iced::{Center, Element, Fill, Renderer, Theme, Subscription};
+use iced::{Center, Element, Fill, Renderer, Theme, Task};
 use rfd::FileDialog;
 
 pub mod bt_util;
@@ -27,9 +27,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 }*/
 
 pub fn main() -> iced::Result {
-    iced::application(Example::update, Example::view)
-        .subscription(Example::subscription)
-        .run()
+    iced::run(Example::update, Example::view)
 }
 
 struct Example {
@@ -54,19 +52,13 @@ impl Example {
             text: String::new(),
         }
     }
-    fn subscription(&self) -> Subscription<Message> {
-        event::listen().map(Message::EventOccurred)
-    }
 
-    fn update(&mut self, message: Message) {
+    fn update(&mut self, message: Message) -> Task<Message>  {
         match message {
             Message::BT => {
                 self.text = "connn".to_string();
 
-                // let files = AsyncFileDialog::new()
-                //             .add_filter("bin", &["bin", "rs"])
-                //             .set_directory(".")
-                //             .pick_file().await;
+
                 let files = FileDialog::new()
                             .add_filter("bin", &["bin", "rs"])
                             .set_directory(".")
@@ -74,19 +66,29 @@ impl Example {
                 if let Some(file) = files {
                     println!("{}",file.display());
                 }
+                let files = AsyncFileDialog::new()
+                            .add_filter("bin", &["bin", "rs"])
+                            .set_directory(".")
+                            .pick_file().await;
+                let task = download.start();
+
+                task.map(Message::DownloadUpdated.with(index))
             }
             Message::Selected(language) => {
                 self.selected_language = Some(language);
                 self.text = language.hello().to_string();
+                Task::none()
             }
             Message::OptionHovered(language) => {
                 self.text = language.hello().to_string();
+                Task::none()
             }
             Message::Closed => {
                 self.text = self
                     .selected_language
                     .map(|language| language.hello().to_string())
                     .unwrap_or_default();
+                Task::none()
             }
         }
     }
