@@ -1,6 +1,7 @@
+use iced::event::{self, Event};
 use iced::widget::{button, center, column, combo_box, scrollable, space, text};
-use iced::{Center, Element, Fill, Renderer, Theme};
-
+use iced::{Center, Element, Fill, Renderer, Theme, Subscription};
+use rfd::FileDialog;
 
 pub mod bt_util;
 use crate::bt_util::{OTAControlResponse, OTAControl};
@@ -26,7 +27,9 @@ async fn main() -> Result<(), Box<dyn Error>> {
 }*/
 
 pub fn main() -> iced::Result {
-    iced::run(Example::update, Example::view)
+    iced::application(Example::update, Example::view)
+        .subscription(Example::subscription)
+        .run()
 }
 
 struct Example {
@@ -51,11 +54,26 @@ impl Example {
             text: String::new(),
         }
     }
+    fn subscription(&self) -> Subscription<Message> {
+        event::listen().map(Message::EventOccurred)
+    }
 
     fn update(&mut self, message: Message) {
         match message {
             Message::BT => {
                 self.text = "connn".to_string();
+
+                // let files = AsyncFileDialog::new()
+                //             .add_filter("bin", &["bin", "rs"])
+                //             .set_directory(".")
+                //             .pick_file().await;
+                let files = FileDialog::new()
+                            .add_filter("bin", &["bin", "rs"])
+                            .set_directory(".")
+                            .pick_file();
+                if let Some(file) = files {
+                    println!("{}",file.display());
+                }
             }
             Message::Selected(language) => {
                 self.selected_language = Some(language);

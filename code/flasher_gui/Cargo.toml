@@ -7,6 +7,7 @@ publish = false
 
 [dependencies]
 iced = "0.14.0"
+rfd = "0.17.2"
 
 num-derive = "0.4.2"
 num-traits = "0.2.19"
