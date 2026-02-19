@@ -33,6 +33,7 @@ struct Example {
     languages: combo_box::State<Language>,
     selected_language: Option<Language>,
     text: String,
+    flash_file_path: Option<FileHandle>,
 }
 
 #[derive(Debug, Clone)]
@@ -40,8 +41,14 @@ enum Message {
     Selected(Language),
     OptionHovered(Language),
     BT,
+    Button(Origin),
     File(Option<FileHandle>),
     Closed,
+}
+#[derive(Debug, Clone)]
+enum Origin {
+    FlashBin,
+    Flash,
 }
 
 impl Example {
@@ -50,24 +57,39 @@ impl Example {
             languages: combo_box::State::new(Language::ALL.to_vec()),
             selected_language: None,
             text: String::new(),
+            flash_file_path: None,
         }
     }
 
     fn update(&mut self, message: Message) -> Task<Message>  {
         match message {
+            Message::Button(ori) => {
+                match ori {
+                    Origin::Flash => {
+                        Task::none()
+                    }
+                    Origin::FlashBin => {
+                        let file_picker = AsyncFileDialog::new()
+                                    .add_filter("bin", &["bin"])
+                                    .set_directory(".")
+                                    .pick_file();
+                        Task::perform( file_picker, Message::File)
+                    }
+                }
+            }
             Message::BT => {
-                self.text = "connn".to_string();
-
-                let files = AsyncFileDialog::new()
-                            .add_filter("bin", &["bin", "rs"])
+                let file_picker = AsyncFileDialog::new()
+                            .add_filter("bin", &["bin"])
                             .set_directory(".")
                             .pick_file();
-                Task::perform( files, Message::File)
+                Task::perform( file_picker, Message::File)
             }
             Message::File(file) => {
                 if let Some(file) = file {
-                    
-                    println!("{}",file.path().display());
+                    let file_path= &file.path().display();
+                    println!("{}",file_path);
+                    self.text = file_path.to_string();
+                    self.flash_file_path = Some(file);
                 }
                 Task::none()
             }
@@ -91,7 +113,7 @@ impl Example {
     }
 
     fn view(&self) -> Element<'_, Message> {
-        let bu: iced::widget::Button<'_, _, Theme, Renderer> = button("Search").on_press(Message::BT);
+        let button_bin_picker: iced::widget::Button<'_, _, Theme, Renderer> = button("pick binary file...").on_press(Message::BT);
         let combo_box = combo_box(
             &self.languages,
             "Type a language...",
@@ -103,7 +125,7 @@ impl Example {
         .width(250);
 
         let content = column![
-            bu,
+            button_bin_picker,
             text(&self.text),
             "What is your language?",
             combo_box,
@@ -125,41 +147,20 @@ impl Default for Example {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 pub enum Language {
-    Danish,
     #[default]
-    English,
-    French,
-    German,
-    Italian,
-    Japanese,
-    Portuguese,
-    Spanish,
+    Danish,
     Other,
 }
 
 impl Language {
-    const ALL: [Language; 9] = [
+    const ALL: [Language; 2] = [
         Language::Danish,
-        Language::English,
-        Language::French,
-        Language::German,
-        Language::Italian,
-        Language::Japanese,
-        Language::Portuguese,
-        Language::Spanish,
         Language::Other,
     ];
 
     fn hello(&self) -> &str {
         match self {
             Language::Danish => "Halloy!",
-            Language::English => "Hello!",
-            Language::French => "Salut!",
-            Language::German => "Hallo!",
-            Language::Italian => "Ciao!",
-            Language::Japanese => "こんにちは!",
-            Language::Portuguese => "Olá!",
-            Language::Spanish => "¡Hola!",
             Language::Other => "... hello?",
         }
     }
@@ -172,13 +173,6 @@ impl std::fmt::Display for Language {
             "{}",
             match self {
                 Language::Danish => "Danish",
-                Language::English => "English",
-                Language::French => "French",
-                Language::German => "German",
-                Language::Italian => "Italian",
-                Language::Japanese => "日本語",
-                Language::Portuguese => "Portuguese",
-                Language::Spanish => "Spanish",
                 Language::Other => "Some other language",
             }
         )
