@@ -37,11 +37,10 @@ struct Example {
     selected_language: Option<Language>,
     text: String,
     flash_file_path: Option<FileHandle>,
-    bt_manager: Option<Manager>,
     bt_adapter_list: Option<Vec<Adapter>>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 enum Message {
     Selected(Language),
     OptionHovered(Language),
@@ -57,11 +56,22 @@ enum Origin {
     Search,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 enum BTOrigin {
-    Manager(Result<Manager, btleplug::Error>),
-    Adapter(Result<Vec<Adapter>, btleplug::Error>),
-    SearchResult,
+    SearchResult(Option<Vec<Adapter>>),
+}
+
+async fn test() -> Option<Vec<Adapter>> {
+    if let Ok(manager) = Manager::new().await{
+    
+        if let Ok(adapter_list) = btleplug::api::Manager::adapters(&manager).await {
+            if !adapter_list.is_empty() {
+                return Some(adapter_list)
+            }
+            eprintln!("No Bluetooth adapters found");
+        }
+    }
+    None
 }
 
 impl Example {
@@ -71,7 +81,6 @@ impl Example {
             selected_language: None,
             text: String::new(),
             flash_file_path: None,
-            bt_manager: None,
             bt_adapter_list: None,
         }
     }
@@ -91,35 +100,16 @@ impl Example {
                         Task::perform( file_picker, Message::File)
                     }
                     Origin::Search => {
-                        if let None = self.bt_manager {
-                            let manager = Manager::new();
-                            return Task::perform( manager, |m|  Message::Bluetooth(BTOrigin::Manager(m)))
+                        if let None = self.bt_adapter_list {
+                            return Task::perform( test(), |av| Message::Bluetooth(BTOrigin::SearchResult(av)))
                         }
                         Task::none()
                     }
                 }
             }
             Message::Bluetooth(bt) => {
-                match bt {
-                    BTOrigin::Manager(manager) => {
-                        if let Ok(man) = manager {
-                            self.bt_manager = Some(man);
-                            if let Some(man) = self.bt_manager {
-                                let adapter_list = btleplug::api::Manager::adapters(man);
-                                return Task::perform(adapter_list, |a|  Message::Bluetooth(BTOrigin::Adapter(a)))
-                            }
-                        }
-                        Task::none()
-                    }
-                    BTOrigin::Adapter(ada) => {
-                            if let Ok(ada) = ada {
-                                if ada.is_empty() {
-                                    eprintln!("No Bluetooth adapters found");
-                                }
-                            }
-                        Task::none()
-                    }
-                    BTOrigin::SearchResult => {
+                match bt {    
+                    BTOrigin::SearchResult(av) => {
                         
                         Task::none()
                     }
