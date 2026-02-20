@@ -2,6 +2,9 @@ use iced::widget::{button, center, column, combo_box, scrollable, space, text};
 use iced::{Center, Element, Fill, Renderer, Theme, Task};
 use rfd::{AsyncFileDialog, FileHandle};
 
+use btleplug::Error;
+use btleplug::platform::Manager;
+use btleplug::platform::Adapter;
 pub mod bt_util;
 use crate::bt_util::{OTAControlResponse, OTAControl};
 
@@ -34,21 +37,31 @@ struct Example {
     selected_language: Option<Language>,
     text: String,
     flash_file_path: Option<FileHandle>,
+    bt_manager: Option<Manager>,
+    bt_adapter_list: Option<Vec<Adapter>>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 enum Message {
     Selected(Language),
     OptionHovered(Language),
-    BT,
     Button(Origin),
     File(Option<FileHandle>),
+    Bluetooth(BTOrigin),
     Closed,
 }
 #[derive(Debug, Clone)]
 enum Origin {
     FlashBin,
     Flash,
+    Search,
+}
+
+#[derive(Debug)]
+enum BTOrigin {
+    Manager(Result<Manager, btleplug::Error>),
+    Adapter(Result<Vec<Adapter>, btleplug::Error>),
+    SearchResult,
 }
 
 impl Example {
@@ -58,6 +71,8 @@ impl Example {
             selected_language: None,
             text: String::new(),
             flash_file_path: None,
+            bt_manager: None,
+            bt_adapter_list: None,
         }
     }
 
@@ -75,14 +90,40 @@ impl Example {
                                     .pick_file();
                         Task::perform( file_picker, Message::File)
                     }
+                    Origin::Search => {
+                        if let None = self.bt_manager {
+                            let manager = Manager::new();
+                            return Task::perform( manager, |m|  Message::Bluetooth(BTOrigin::Manager(m)))
+                        }
+                        Task::none()
+                    }
                 }
             }
-            Message::BT => {
-                let file_picker = AsyncFileDialog::new()
-                            .add_filter("bin", &["bin"])
-                            .set_directory(".")
-                            .pick_file();
-                Task::perform( file_picker, Message::File)
+            Message::Bluetooth(bt) => {
+                match bt {
+                    BTOrigin::Manager(manager) => {
+                        if let Ok(man) = manager {
+                            self.bt_manager = Some(man);
+                            if let Some(man) = self.bt_manager {
+                                let adapter_list = btleplug::api::Manager::adapters(man);
+                                return Task::perform(adapter_list, |a|  Message::Bluetooth(BTOrigin::Adapter(a)))
+                            }
+                        }
+                        Task::none()
+                    }
+                    BTOrigin::Adapter(ada) => {
+                            if let Ok(ada) = ada {
+                                if ada.is_empty() {
+                                    eprintln!("No Bluetooth adapters found");
+                                }
+                            }
+                        Task::none()
+                    }
+                    BTOrigin::SearchResult => {
+                        
+                        Task::none()
+                    }
+                }
             }
             Message::File(file) => {
                 if let Some(file) = file {
@@ -113,7 +154,13 @@ impl Example {
     }
 
     fn view(&self) -> Element<'_, Message> {
-        let button_bin_picker: iced::widget::Button<'_, _, Theme, Renderer> = button("pick binary file...").on_press(Message::BT);
+        // Buttons
+        let button_bin_picker = button("pick binary file...").on_press(Message::Button(Origin::FlashBin));
+        let button_search = button("search for coasters...").on_press(Message::Button(Origin::Search));
+        let button_connect = button("connect to coaster...").on_press(Message::Button(Origin::Flash));
+        let button_flash = button("flash").on_press(Message::Button(Origin::Flash));
+
+
         let combo_box = combo_box(
             &self.languages,
             "Type a language...",
@@ -124,8 +171,12 @@ impl Example {
         .on_close(Message::Closed)
         .width(250);
 
+        // Layout
         let content = column![
             button_bin_picker,
+            button_search,
+            button_connect,
+            button_flash,
             text(&self.text),
             "What is your language?",
             combo_box,
