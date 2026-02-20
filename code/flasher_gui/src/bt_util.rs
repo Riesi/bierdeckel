@@ -1,7 +1,6 @@
-use btleplug::api::{Central, CentralEvent, Manager as _, Peripheral, ScanFilter, WriteType};
-use btleplug::platform::{Adapter, Manager};
-use std::error::Error;
-use tokio::time;
+use btleplug::api::{Central, CentralEvent, Peripheral, ScanFilter, WriteType};
+use btleplug::platform::Adapter;
+
 use uuid::{uuid, Uuid};
 use futures::stream::StreamExt;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
