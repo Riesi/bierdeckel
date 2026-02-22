@@ -1,12 +1,13 @@
-use iced::widget::{button, center, column, combo_box, scrollable, space, text};
-use iced::{Center, Element, Fill, Renderer, Theme, Task};
+use iced::widget::{button, center, column, combo_box, pick_list, scrollable, space, text};
+use iced::{Center, Element, Fill, Task};
 use rfd::{AsyncFileDialog, FileHandle};
 
-use btleplug::Error;
 use btleplug::platform::Manager;
 use btleplug::platform::Adapter;
 pub mod bt_util;
 use crate::bt_util::{OTAControlResponse, OTAControl};
+use std::time::{Duration, SystemTime, UNIX_EPOCH};
+use tokio::time;
 
 /*
 #[tokio::main]
@@ -33,7 +34,7 @@ pub fn main() -> iced::Result {
 }
 
 struct Example {
-    languages: combo_box::State<Language>,
+    languages: [Language;2],
     selected_language: Option<Language>,
     text: String,
     flash_file_path: Option<FileHandle>,
@@ -61,12 +62,22 @@ enum BTOrigin {
     SearchResult(Option<Vec<Adapter>>),
 }
 
-async fn test() -> Option<Vec<Adapter>> {
-    if let Ok(manager) = Manager::new().await{
+async fn flashy(bin_file: FileHandle) -> Option<Vec<Adapter>> {
+    if let Ok(manager) = Manager::new().await {
     
         if let Ok(adapter_list) = btleplug::api::Manager::adapters(&manager).await {
             if !adapter_list.is_empty() {
+                if let Err(_) = bt_util::scan(&adapter_list, false, &bin_file).await {
+                    return None;
+                }
+                time::sleep(Duration::from_millis(4000)).await;
+
+                // Verify
+                if let Err(_) = bt_util::scan(&adapter_list, true, &bin_file).await {
+                    return None;
+                }
                 return Some(adapter_list)
+                
             }
             eprintln!("No Bluetooth adapters found");
         }
@@ -77,7 +88,7 @@ async fn test() -> Option<Vec<Adapter>> {
 impl Example {
     fn new() -> Self {
         Self {
-            languages: combo_box::State::new(Language::ALL.to_vec()),
+            languages: Language::ALL,
             selected_language: None,
             text: String::new(),
             flash_file_path: None,
@@ -101,7 +112,9 @@ impl Example {
                     }
                     Origin::Search => {
                         if let None = self.bt_adapter_list {
-                            return Task::perform( test(), |av| Message::Bluetooth(BTOrigin::SearchResult(av)))
+                            if let Some(file) = &self.flash_file_path {
+                                return Task::perform( flashy(file.clone()), |av| Message::Bluetooth(BTOrigin::SearchResult(av)))
+                            }
                         }
                         Task::none()
                     }
@@ -110,7 +123,9 @@ impl Example {
             Message::Bluetooth(bt) => {
                 match bt {    
                     BTOrigin::SearchResult(av) => {
-                        
+                        if let Some(av) = av {
+                            
+                        }
                         Task::none()
                     }
                 }
@@ -151,14 +166,21 @@ impl Example {
         let button_flash = button("flash").on_press(Message::Button(Origin::Flash));
 
 
-        let combo_box = combo_box(
-            &self.languages,
-            "Type a language...",
-            self.selected_language.as_ref(),
+        // let combo_box = combo_box(
+        //     &self.languages,
+        //     "Type a language...",
+        //     self.selected_language.as_ref(),
+        //     Message::Selected,
+        // )
+        // .on_option_hovered(Message::OptionHovered)
+        // .on_close(Message::Closed)
+        // .width(250);
+
+        let combo_box = pick_list(
+            self.languages,
+            self.selected_language,
             Message::Selected,
-        )
-        .on_option_hovered(Message::OptionHovered)
-        .on_close(Message::Closed)
+        ).on_close(Message::Closed)
         .width(250);
 
         // Layout

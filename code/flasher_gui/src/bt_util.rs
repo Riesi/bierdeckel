@@ -57,15 +57,16 @@ async fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }*/
 
-pub async fn scan(adapter_list: &Vec<Adapter>, verify: bool) -> Result<(), ()> {
+pub async fn scan(adapter_list: &Vec<Adapter>, verify: bool, file: &rfd::FileHandle) -> Result<(), ()> {
     for adapter in adapter_list.iter() {
         println!("Starting scan...");
 
-        if let Err(e) = adapter.stop_scan().await{
-            println!("{:?}",e );
+        if let Err(_) = adapter.stop_scan().await {
+            println!("Stopping failed?!");
         }
 
-        let mut event_stream = adapter.events().await.unwrap();
+        let mut event_stream = adapter.events().await.expect("Getting events failed!");
+
         let filter = ScanFilter{services: vec![BIER_SERVICE_UUID]};
         adapter
             .start_scan(filter)
@@ -75,14 +76,32 @@ pub async fn scan(adapter_list: &Vec<Adapter>, verify: bool) -> Result<(), ()> {
         while let Some(event) = event_stream.next().await {
             match event {
                 CentralEvent::DeviceDiscovered(id) => {
-                    let peripheral = adapter.peripheral(&id).await.unwrap();
-                    let properties = peripheral.properties().await.unwrap();
+                    let peripheral = match adapter.peripheral(&id).await {
+                        Err(e) => {
+                            eprintln!("{:?}",e );
+                            return Result::Err(());
+                        }
+                        Ok(res) => {res}
+                    };
+                    let properties = match peripheral.properties().await {
+                        Err(e) => {
+                            eprintln!("{:?}",e );
+                            return Result::Err(());
+                        }
+                        Ok(res) => {res}
+                    };
                     let name = properties
                         .and_then(|p| p.local_name)
                         .unwrap_or_default();
                     if name.eq(PERIPHERAL_NAME_MATCH_FILTER) {
                         println!("Connecting to Bierdeckel: {:?}", id);
-                        let is_connected = peripheral.is_connected().await.unwrap();
+                        let is_connected = match peripheral.is_connected().await {
+                            Err(e) => {
+                                eprintln!("{:?}",e );
+                                return Result::Err(());
+                            }
+                            Ok(res) => {res}
+                        };
                         if !is_connected {
                             // Connect if we aren't already connected.
                             if let Err(err) = peripheral.connect().await {
@@ -98,9 +117,27 @@ pub async fn scan(adapter_list: &Vec<Adapter>, verify: bool) -> Result<(), ()> {
                 }
                 CentralEvent::DeviceConnected(id) => {
                     println!("DeviceConnected: {:?}", id);
-                    let peripheral = adapter.peripheral(&id).await.unwrap();
-                    let is_connected = peripheral.is_connected().await.unwrap();
-                    let properties = peripheral.properties().await.unwrap();
+                    let peripheral = match adapter.peripheral(&id).await {
+                        Err(e) => {
+                            eprintln!("{:?}",e );
+                            return Result::Err(());
+                        }
+                        Ok(res) => {res}
+                    };
+                    let is_connected = match peripheral.is_connected().await {
+                        Err(e) => {
+                            eprintln!("{:?}",e );
+                            return Result::Err(());
+                        }
+                        Ok(res) => {res}
+                    };
+                    let properties = match peripheral.properties().await {
+                        Err(e) => {
+                            eprintln!("{:?}",e );
+                            return Result::Err(());
+                        }
+                        Ok(res) => {res}
+                    };
                     let local_name = properties
                         .unwrap()
                         .local_name
@@ -117,7 +154,7 @@ pub async fn scan(adapter_list: &Vec<Adapter>, verify: bool) -> Result<(), ()> {
                         validate_firmware(peripheral).await.unwrap();
                     }else{
                         println!("Flashing image");
-                        flash_firmware(peripheral).await.unwrap();
+                        flash_firmware(peripheral, &file).await.unwrap();
                     }
 
                     if let Err(e) = adapter.stop_scan().await{
@@ -152,7 +189,7 @@ pub async fn scan(adapter_list: &Vec<Adapter>, verify: bool) -> Result<(), ()> {
     Ok(())
 }
 
-pub async fn flash_firmware(peripheral: impl Peripheral) -> Result<(), ()> {
+pub async fn flash_firmware(peripheral: impl Peripheral, file: &rfd::FileHandle) -> Result<(), ()> {
 
     println!("Discover peripheral services...");
     peripheral.discover_services().await.unwrap();
@@ -189,7 +226,7 @@ pub async fn flash_firmware(peripheral: impl Peripheral) -> Result<(), ()> {
         }
     }
     let start_flash = SystemTime::now().duration_since(UNIX_EPOCH).expect("Time went backwards");
-    let flash_file = "beercoaster.bin";
+    let flash_file = file.path().display().to_string();//"beercoaster.bin";
     //let flash_file = "test.bin";
     //let flash_file = "test_big.bin";
     const CHUNK_SIZE: usize = 512;
