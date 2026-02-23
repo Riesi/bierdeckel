@@ -30,6 +30,13 @@ async fn main() -> Result<(), Box<dyn Error>> {
 }*/
 
 pub fn main() -> iced::Result {
+    if let Some(timestamp) = option_env!("VERGEN_BUILD_TIMESTAMP") {
+        println!("Build Timestamp: {timestamp}");
+    }
+    if let Some(describe) = option_env!("VERGEN_GIT_DESCRIBE") {
+        println!("git describe: {describe}");
+    }
+    
     iced::run(Example::update, Example::view)
 }
 
