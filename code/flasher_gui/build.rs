@@ -3,7 +3,6 @@ use vergen_git2::{
 };
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    embuild::espidf::sysenv::output();
     // NOTE: This will output only the instructions specified.
     // NOTE: See the specific builder documentation for configuration options. 
     let build = BuildBuilder::all_build()?;

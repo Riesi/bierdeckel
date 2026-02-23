@@ -37,8 +37,16 @@ const MTU_UUID: BleUuid = uuid128!("BBBBBBBB-21C0-46A4-B722-270E3AE3D830");
 const NOTIFY_UUID: BleUuid = uuid128!("BBD671AA-21C0-46A4-B722-270E3AE3D830");
 const CONTROL_UUID: BleUuid = uuid128!("7AD671AA-21C0-46A4-B722-270E3AE3D830");
 const WRITE_UUID: BleUuid = uuid128!("23408888-1F40-4CD8-9B89-CA8D45F8A5B0");
+const COM_UUID: BleUuid = uuid128!("23408877-1F40-4FD8-9B89-CA9D45F8B5B0");
 
 const BIER_SERVICE_UUID: BleUuid = uuid128!("fafafafa-fafa-fafa-fafa-fafafafafafa");
+
+
+#[derive(Debug, PartialEq, FromPrimitive)]
+enum COMState {
+    Version = 0x00,
+    ADCValue = 0x01,
+}
 
 #[derive(Debug, PartialEq, Eq, Hash)]
 enum LedState {
@@ -115,6 +123,15 @@ fn main() {
     if let Err(e) = esp_idf_svc::log::set_target_level("NimBLE", LevelFilter::Error) {
         println!("Failed to set log level: {:#?}", e);
     }
+
+
+    if let Some(timestamp) = option_env!("VERGEN_BUILD_TIMESTAMP") {
+        println!("Build Timestamp: {timestamp}");
+    }
+    if let Some(describe) = option_env!("VERGEN_GIT_DESCRIBE") {
+        println!("git describe: {describe}");
+    }
+    let git_str =  option_env!("VERGEN_GIT_DESCRIBE").unwrap_or("NAK").as_bytes();
 
     let ota_state = Arc::new(Mutex::new(OTAStateHandle {
         state: OTAState::Initial,
@@ -344,6 +361,61 @@ fn main() {
                     log::info!("Count: {chunk_count}");
                 }
                 _ => {
+                    log::info!("Nop");
+                    let val = ToPrimitive::to_u8(&OTAControlResponse::DoneNak).unwrap();
+                    notifier.lock().set_value(&[val]).notify();
+                }
+            }
+        });
+
+    // A com characteristic.
+    let com_characteristic = service
+        .lock()
+        .create_characteristic(COM_UUID, NimbleProperties::READ | NimbleProperties::WRITE);
+
+    let notifier = notifying_characteristic.clone();
+    com_characteristic
+        .lock()
+        .on_read(move |_, _| {
+            log::info!("Read from com characteristic.");
+            // let a = &com_state.lock().unwrap();
+            // match &a.state {
+            //     &COMState::Version => {
+            //         let val = b"v1.5";
+            //         notifier.lock().set_value(val).notify();
+
+            //     }
+            //     &COMState::ADCValue => {
+            //         let val = 1.45f32.to_le_bytes();
+            //         notifier.lock().set_value(&val).notify();
+
+            //     }
+            //     _ => {
+            //         log::info!("Nop");
+            //         let val = ToPrimitive::to_u8(&OTAControlResponse::DoneNak).unwrap();
+            //         notifier.lock().set_value(&[val]).notify();
+            //     }
+            // }
+        })
+        .on_write(move |args| {
+
+            if let Some(com_value) = args.recv_data().first() {
+                if let Some(com) = FromPrimitive::from_u8(*com_value) {
+                    match com {
+                        COMState::Version => {
+                            // let data = args.recv_data();
+                            let val = git_str;
+                            let val = b"v1.2";
+                            notifier.lock().set_value(val).notify();
+                        }
+                        COMState::ADCValue => {
+                            // let data = args.recv_data();
+
+                            let val = 1.45f32.to_le_bytes();
+                            notifier.lock().set_value(&val).notify();
+                        }
+                    };                            
+                }else{
                     log::info!("Nop");
                     let val = ToPrimitive::to_u8(&OTAControlResponse::DoneNak).unwrap();
                     notifier.lock().set_value(&[val]).notify();
