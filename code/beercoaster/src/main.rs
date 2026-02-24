@@ -33,11 +33,11 @@ const WEIGHT_FULL: u16 = 720;
 const WEIGHT_TARGET1: u16 = 500;
 const LIGHT_LIMIT: f32 = 0.35;
 
-const MTU_UUID: BleUuid = uuid128!("BBBBBBBB-21C0-46A4-B722-270E3AE3D830");
-const NOTIFY_UUID: BleUuid = uuid128!("BBD671AA-21C0-46A4-B722-270E3AE3D830");
+const MTU_UUID: BleUuid     = uuid128!("BBBBBBBB-21C0-46A4-B722-270E3AE3D830");
+const NOTIFY_UUID: BleUuid  = uuid128!("BBD671AA-21C0-46A4-B722-270E3AE3D830");
 const CONTROL_UUID: BleUuid = uuid128!("7AD671AA-21C0-46A4-B722-270E3AE3D830");
-const WRITE_UUID: BleUuid = uuid128!("23408888-1F40-4CD8-9B89-CA8D45F8A5B0");
-const COM_UUID: BleUuid = uuid128!("23408877-1F40-4FD8-9B89-CA9D45F8B5B0");
+const WRITE_UUID: BleUuid   = uuid128!("23408888-1F40-4CD8-9B89-CA8D45F8A5B0");
+const COM_UUID: BleUuid     = uuid128!("23408877-1F40-4FD8-9B89-CA9D45F8B5B0");
 
 const BIER_SERVICE_UUID: BleUuid = uuid128!("fafafafa-fafa-fafa-fafa-fafafafafafa");
 
@@ -128,10 +128,12 @@ fn main() {
     if let Some(timestamp) = option_env!("VERGEN_BUILD_TIMESTAMP") {
         println!("Build Timestamp: {timestamp}");
     }
-    if let Some(describe) = option_env!("VERGEN_GIT_DESCRIBE") {
+    let git_desc = if let Some(describe) = option_env!("VERGEN_GIT_DESCRIBE") {
         println!("git describe: {describe}");
-    }
-    let git_str =  option_env!("VERGEN_GIT_DESCRIBE").unwrap_or("NAK").as_bytes();
+        describe
+    } else {
+        "NAK"
+    }.as_bytes();
 
     let ota_state = Arc::new(Mutex::new(OTAStateHandle {
         state: OTAState::Initial,
@@ -378,24 +380,6 @@ fn main() {
         .lock()
         .on_read(move |_, _| {
             log::info!("Read from com characteristic.");
-            // let a = &com_state.lock().unwrap();
-            // match &a.state {
-            //     &COMState::Version => {
-            //         let val = b"v1.5";
-            //         notifier.lock().set_value(val).notify();
-
-            //     }
-            //     &COMState::ADCValue => {
-            //         let val = 1.45f32.to_le_bytes();
-            //         notifier.lock().set_value(&val).notify();
-
-            //     }
-            //     _ => {
-            //         log::info!("Nop");
-            //         let val = ToPrimitive::to_u8(&OTAControlResponse::DoneNak).unwrap();
-            //         notifier.lock().set_value(&[val]).notify();
-            //     }
-            // }
         })
         .on_write(move |args| {
 
@@ -404,8 +388,7 @@ fn main() {
                     match com {
                         COMState::Version => {
                             // let data = args.recv_data();
-                            let val = git_str;
-                            let val = b"v1.2";
+                            let val = git_desc;
                             notifier.lock().set_value(val).notify();
                         }
                         COMState::ADCValue => {

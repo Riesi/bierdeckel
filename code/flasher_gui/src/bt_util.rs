@@ -10,6 +10,12 @@ use num_traits::FromPrimitive;
 use num_derive::ToPrimitive;    
 use num_traits::ToPrimitive;
 
+#[derive(Debug, PartialEq, FromPrimitive, ToPrimitive)]
+enum COMState {
+    Version = 0x00,
+    ADCValue = 0x01,
+}
+
 #[derive(FromPrimitive,Debug)]
 pub enum OTAControlResponse {
   FLASH_ACK = 0x00,
@@ -35,6 +41,7 @@ pub const MTU_UUID: Uuid     = uuid!("BBBBBBBB-21C0-46A4-B722-270E3AE3D830");
 pub const NOTIFY_UUID: Uuid  = uuid!("BBD671AA-21C0-46A4-B722-270E3AE3D830");
 pub const CONTROL_UUID: Uuid = uuid!("7AD671AA-21C0-46A4-B722-270E3AE3D830");
 pub const WRITE_UUID: Uuid   = uuid!("23408888-1F40-4CD8-9B89-CA8D45F8A5B0");
+pub const COM_UUID: Uuid     = uuid!("23408877-1F40-4FD8-9B89-CA9D45F8B5B0");
 
 pub const BIER_SERVICE_UUID: Uuid  = uuid!("fafafafa-fafa-fafa-fafa-fafafafafafa");
 /*
@@ -198,14 +205,31 @@ pub async fn flash_firmware(peripheral: impl Peripheral, file: &rfd::FileHandle)
     let data_characteristic = chars.iter().find(|c| c.uuid == WRITE_UUID).unwrap();
     let mtu_characteristic = chars.iter().find(|c| c.uuid == MTU_UUID).unwrap();
     let notify_characteristic = chars.iter().find(|c| c.uuid == NOTIFY_UUID).unwrap();
+    let com_characteristic = chars.iter().find(|c| c.uuid == COM_UUID).unwrap();
 
     peripheral.subscribe(&notify_characteristic).await.unwrap();
     // Print the first 4 notifications received.
     let mut notification_stream =
         peripheral.notifications().await.unwrap();
 
+    let cmd: u8 = ToPrimitive::to_u8(&COMState::Version).unwrap();
+    peripheral.write(&com_characteristic, &[cmd], WriteType::WithoutResponse).await.expect("Version command failed!");
     let cmd: u8 = ToPrimitive::to_u8(&OTAControl::ABORT).unwrap();
     peripheral.write(&control_characteristic, &[cmd], WriteType::WithoutResponse).await.unwrap();
+
+
+
+    if let Some(data) = notification_stream.next().await{
+        let version_desc = str::from_utf8(&data.value).unwrap_or("NOPE!");
+        println!("Version: {}", version_desc);
+    }
+    // let cmd: u8 = ToPrimitive::to_u8(&COMState::Version).unwrap();
+    // peripheral.write(&com_characteristic, &[cmd], WriteType::WithoutResponse).await.expect("Version command failed!");
+    // if let Some(data) = notification_stream.next().await{
+    //     let version_desc = str::from_utf8(&data.value).unwrap_or("NOPE!");
+    //     println!("Version: {}", version_desc);
+    // }
+    return Ok(()); //TODO remove
 
     let mtu = peripheral.read(&mtu_characteristic).await.unwrap();
     let mtu = if let Some(&mt) = mtu.first_chunk::<2>(){
