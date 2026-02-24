@@ -223,13 +223,6 @@ pub async fn flash_firmware(peripheral: impl Peripheral, file: &rfd::FileHandle)
         let version_desc = str::from_utf8(&data.value).unwrap_or("NOPE!");
         println!("Version: {}", version_desc);
     }
-    // let cmd: u8 = ToPrimitive::to_u8(&COMState::Version).unwrap();
-    // peripheral.write(&com_characteristic, &[cmd], WriteType::WithoutResponse).await.expect("Version command failed!");
-    // if let Some(data) = notification_stream.next().await{
-    //     let version_desc = str::from_utf8(&data.value).unwrap_or("NOPE!");
-    //     println!("Version: {}", version_desc);
-    // }
-    return Ok(()); //TODO remove
 
     let mtu = peripheral.read(&mtu_characteristic).await.unwrap();
     let mtu = if let Some(&mt) = mtu.first_chunk::<2>(){
