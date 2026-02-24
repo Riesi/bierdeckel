@@ -20,4 +20,4 @@ uuid = "*"
 futures = "0.3.31"
 
 [build-dependencies]
-vergen-git2 = { version = "9.1.0", features = ["build", "cargo", "rustc", "si"] }
+vergen-gitcl = { version = "9.1.0", features = ["build", "cargo", "rustc", "si"] }
