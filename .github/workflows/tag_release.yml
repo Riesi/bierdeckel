@@ -23,7 +23,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Run ERC
-      uses: INTI-CMNB/KiBot@v2_k9
+      uses: INTI-CMNB/KiBot@v2_k10
       with:
         config: pcb_design/CI.kibot.yaml
         schema: 'pcb_design/bierdeckel.kicad_sch'
@@ -47,7 +47,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Run DRC
-      uses: INTI-CMNB/KiBot@v2_k9
+      uses: INTI-CMNB/KiBot@v2_k10
       with:
         config: pcb_design/CI.kibot.yaml
         schema: 'pcb_design/bierdeckel.kicad_sch'
@@ -78,7 +78,7 @@ jobs:
           path: ~/cache_3d
           key: cache_3d
 
-      - uses: INTI-CMNB/KiBot@v2_k9
+      - uses: INTI-CMNB/KiBot@v2_k10
         with:
           config: pcb_design/CI.kibot.
           schema: 'pcb_design/bierdeckel.kicad_sch'
