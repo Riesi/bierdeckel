@@ -3,6 +3,8 @@
     "3dviewports": [],
     "design_settings": {
       "defaults": {
+        "apply_defaults_to_fp_barcodes": false,
+        "apply_defaults_to_fp_dimensions": false,
         "apply_defaults_to_fp_fields": false,
         "apply_defaults_to_fp_shapes": false,
         "apply_defaults_to_fp_text": false,
@@ -60,11 +62,11 @@
       ],
       "drc_exclusions": [
         [
-          "copper_edge_clearance|145775000|95475000|41713cae-e4cc-4196-bfe6-9ebe34173a51|81a36c0a-4f6f-4cf9-99f6-ef5d02b6e666",
+          "copper_edge_clearance|145600000|97250000|87840a3d-4d15-4e79-a709-b286a9b0fd12|6e447c41-b2de-4d06-825f-2642052d97fe",
           ""
         ],
         [
-          "copper_edge_clearance|145775000|97525000|83aa667d-33ad-473c-84ef-fcb50707aca4|6e447c41-b2de-4d06-825f-2642052d97fe",
+          "copper_edge_clearance|145775000|95475000|41713cae-e4cc-4196-bfe6-9ebe34173a51|81a36c0a-4f6f-4cf9-99f6-ef5d02b6e666",
           ""
         ],
         [
@@ -76,31 +78,11 @@
           ""
         ],
         [
-          "hole_clearance|159200000|57355000|485cd620-ab09-42df-bae7-55ac0fe54551|233fcbd5-051e-42ac-bb9b-87cfe1b4046b",
-          ""
-        ],
-        [
-          "hole_clearance|159200000|57355000|485cd620-ab09-42df-bae7-55ac0fe54551|ce810b34-73d3-4454-a213-95e726da1331",
-          ""
-        ],
-        [
-          "hole_clearance|165300000|57355000|5823ff88-0aaf-4511-ae46-88352b860acb|bdde9b44-7e28-4a82-aae1-c86fd3fb467a",
-          ""
-        ],
-        [
-          "hole_clearance|165300000|57355000|5823ff88-0aaf-4511-ae46-88352b860acb|c98b9ab4-1208-4773-8a31-d61af886bbbb",
-          ""
-        ],
-        [
           "lib_footprint_mismatch|138540000|63900000|30a6029e-37d5-497e-8bd7-0023356d252d|00000000-0000-0000-0000-000000000000",
           ""
         ],
         [
-          "silk_overlap|171500000|141000000|48670627-0d6b-416b-9433-a65d0f679b8f|5ed32cfd-d7da-4e45-aa02-82ef9cb789fd",
-          ""
-        ],
-        [
-          "unconnected_items|143500000|92175000|F.Cu|4|f9e6c54c-02d5-4b97-9965-fab0bd34ec14|182360ac-b787-4131-9a5f-57742b3ebd3d",
+          "unconnected_items|143500000|92175000|F.Cu|4|e54210ad-ed49-466c-bcc2-2fde48940009|182360ac-b787-4131-9a5f-57742b3ebd3d",
           ""
         ],
         [
@@ -126,6 +108,7 @@
         "extra_footprint": "warning",
         "footprint": "error",
         "footprint_filters_mismatch": "ignore",
+        "footprint_symbol_field_mismatch": "warning",
         "footprint_symbol_mismatch": "warning",
         "footprint_type_mismatch": "ignore",
         "hole_clearance": "error",
@@ -144,6 +127,7 @@
         "mirrored_text_on_front_layer": "warning",
         "missing_courtyard": "ignore",
         "missing_footprint": "warning",
+        "missing_tuning_profile": "warning",
         "net_conflict": "warning",
         "nonmirrored_text_on_back_layer": "warning",
         "npth_inside_courtyard": "ignore",
@@ -163,9 +147,12 @@
         "too_many_vias": "error",
         "track_angle": "error",
         "track_dangling": "warning",
+        "track_not_centered_on_via": "ignore",
+        "track_on_post_machined_layer": "error",
         "track_segment_length": "error",
         "track_width": "error",
         "tracks_crossing": "error",
+        "tuning_profile_track_geometries": "ignore",
         "unconnected_items": "error",
         "unresolved_variable": "error",
         "via_dangling": "warning",
@@ -303,17 +290,28 @@
       "zones_allow_external_fillets": false
     },
     "ipc2581": {
+      "bom_rev": "",
       "dist": "",
       "distpn": "",
       "internal_id": "",
       "mfg": "",
-      "mpn": ""
+      "mpn": "",
+      "sch_revision": "0.4"
     },
     "layer_pairs": [],
     "layer_presets": [],
     "viewports": []
   },
   "boards": [],
+  "component_class_settings": {
+    "assignments": [],
+    "meta": {
+      "version": 0
+    },
+    "sheet_component_classes": {
+      "enabled": false
+    }
+  },
   "cvpcb": {
     "equivalence_files": []
   },
@@ -504,11 +502,14 @@
       "duplicate_sheet_names": "error",
       "endpoint_off_grid": "warning",
       "extra_units": "error",
+      "field_name_whitespace": "warning",
       "footprint_filter": "ignore",
       "footprint_link_issues": "warning",
       "four_way_junction": "ignore",
       "global_label_dangling": "warning",
+      "ground_pin_not_ground": "warning",
       "hier_label_mismatch": "error",
+      "isolated_pin_label": "warning",
       "label_dangling": "error",
       "label_multiple_wires": "warning",
       "lib_symbol_issues": "warning",
@@ -531,6 +532,7 @@
       "similar_power": "warning",
       "simulation_model_issue": "ignore",
       "single_global_label": "ignore",
+      "stacked_pin_name": "warning",
       "unannotated": "error",
       "unconnected_wire_endpoint": "warning",
       "undefined_netclass": "error",
@@ -563,13 +565,14 @@
         "priority": 2147483647,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.25,
+        "tuning_profile": "",
         "via_diameter": 0.8,
         "via_drill": 0.4,
         "wire_width": 6
       }
     ],
     "meta": {
-      "version": 4
+      "version": 5
     },
     "net_colors": null,
     "netclass_assignments": null,
@@ -591,6 +594,10 @@
   },
   "schematic": {
     "annotate_start_num": 0,
+    "annotation": {
+      "method": 0,
+      "sort_order": 0
+    },
     "bom_export_filename": "",
     "bom_fmt_presets": [],
     "bom_fmt_settings": {
@@ -722,6 +729,7 @@
       "sort_asc": true,
       "sort_field": "Reference"
     },
+    "bus_aliases": {},
     "connection_grid_size": 50.0,
     "drawing": {
       "dashed_lines_dash_length_ratio": 12.0,
@@ -735,6 +743,7 @@
           "visible": false
         }
       ],
+      "hop_over_size_choice": 0,
       "intersheets_ref_own_page": false,
       "intersheets_ref_prefix": "",
       "intersheets_ref_short": false,
@@ -758,6 +767,7 @@
     "net_format_name": "",
     "page_layout_descr_file": "",
     "plot_directory": "",
+    "reuse_designators": true,
     "space_save_all_events": true,
     "spice_current_sheet_as_root": false,
     "spice_external_command": "spice \"%I\"",
@@ -766,12 +776,21 @@
     "spice_save_all_dissipations": false,
     "spice_save_all_voltages": false,
     "subpart_first_id": 65,
-    "subpart_id_separator": 0
+    "subpart_id_separator": 0,
+    "top_level_sheets": [
+      {
+        "filename": "bierdeckel.kicad_sch",
+        "name": "bierdeckel",
+        "uuid": "a4ffe097-37ef-4e19-a91a-ae57f4a5aad1"
+      }
+    ],
+    "used_designators": "",
+    "variants": []
   },
   "sheets": [
     [
       "a4ffe097-37ef-4e19-a91a-ae57f4a5aad1",
-      "Root"
+      "bierdeckel"
     ],
     [
       "3bbfffa4-fa96-4037-9890-9e70971edd35",
@@ -786,5 +805,11 @@
       "Pressure Gauge"
     ]
   ],
-  "text_variables": {}
+  "text_variables": {},
+  "tuning_profiles": {
+    "meta": {
+      "version": 0
+    },
+    "tuning_profiles_impedance_geometric": []
+  }
 }
