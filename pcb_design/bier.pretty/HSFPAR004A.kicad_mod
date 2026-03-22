@@ -1,0 +1,276 @@
+(footprint "HSFPAR004A"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "HSFPAR004A-3")
+	(tags "Integrated Circuit")
+	(property "Reference" "IC1"
+		(at -1.644661 0.05534 90)
+		(layer "F.SilkS")
+		(uuid "35e6dd12-6fc5-43bf-8b85-affd6425111f")
+		(effects
+			(font
+				(size 0.75 0.75)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "HSFPAR004A"
+		(at 0 0 180)
+		(layer "F.SilkS")
+		(hide yes)
+		(uuid "354c66f3-9ff4-4a6b-ba79-ecf4e05f1fda")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.254)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 180)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "94729bf4-574a-4a56-9788-3cb4b48b86fb")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" "Resistive Force Sensor 0.82kgf (1.8lbs)"
+		(at 0 0 180)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "1b7b32dd-1408-4177-8b92-be52fcc4a26a")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Height" "0.66"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "8d8f29e6-dac7-40e7-990c-5275b6db1e5e")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Mouser Part Number" "688-HSFPAR004A"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "c53e9027-6365-46f4-a067-21662514275c")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/Alps-Alpine/HSFPAR004A?qs=XeJtXLiO41SKORml6bvmQg%3D%3D"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "555fd8e3-57b0-4f1e-90b6-01fd8e87a17f")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer_Name" "ALPS Electric"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "856704c5-0c17-4b45-a539-2b2dec94f005")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer_Part_Number" "HSFPAR004A"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "da4a1423-b3fb-4683-8bea-77dd00eb2e8f")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "mpn" "HSFPAR004A"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "11ae9760-0698-467d-80f6-5858f230800a")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(sheetname "/Pressure Gauge/")
+	(sheetfile "pressure.kicad_sch")
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_circle
+		(center -1 -1.2)
+		(end -0.981226 -1.128702)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "66ad5a0a-3fc0-41aa-9913-0cb3ce69d36a")
+	)
+	(fp_poly
+		(pts
+			(xy -0.900001 -1.1) (xy 0.900001 -1.1) (xy 0.900001 1.1) (xy -0.900001 1.1)
+		)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "5decb977-1636-41f1-9dd4-d3ea959f27af")
+	)
+	(fp_poly
+		(pts
+			(xy -0.900001 -1.1) (xy 0.900001 -1.1) (xy 0.900001 1.1) (xy -0.900001 1.1)
+		)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "ad3ac4a4-fab9-4c71-b9c2-343dd9361db4")
+	)
+	(fp_line
+		(start -0.8 -1)
+		(end 0.8 -1)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "3dc45953-e6c3-4f02-a2cc-aa9448eb2a84")
+	)
+	(fp_line
+		(start -0.8 1)
+		(end -0.8 -1)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "1ef1ef6e-7f7c-47f4-ae07-cf39a6acd3a7")
+	)
+	(fp_line
+		(start 0.8 -1)
+		(end 0.8 1)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "15860b3f-8290-4308-96cc-9c34952e9c52")
+	)
+	(fp_line
+		(start 0.8 1)
+		(end -0.8 1)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "d13c360b-e763-445b-90c0-523a84e3a62d")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 180)
+		(layer "F.Fab")
+		(uuid "90ae12da-eb3e-4f18-978e-406208ce9627")
+		(effects
+			(font
+				(size 0.75 0.75)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" smd rect
+		(at -0.6 -0.7)
+		(size 0.3 0.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "c6c53b48-0fc6-411d-8b8b-ef9b0e1429c7")
+	)
+	(pad "2" smd rect
+		(at 0.6 -0.7)
+		(size 0.3 0.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "bde7b254-2961-4bb0-8033-d540b0c69a75")
+	)
+	(pad "3" smd rect
+		(at 0.6 0.7)
+		(size 0.3 0.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "74ea40c7-742b-4cfe-ac8d-0e6998c48370")
+	)
+	(pad "4" smd rect
+		(at -0.6 0.7)
+		(size 0.3 0.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "3f335e5c-3a46-4852-8211-70e7f2dbac8d")
+	)
+	(pad "5" smd rect
+		(at 0 0)
+		(size 0.6 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "9419ca48-e9b3-4de9-994a-364a604c6afc")
+	)
+	(embedded_fonts no)
+	(model "${KICAD_3RD_PARTY}/Samacsys.3dshapes/HSFPAR004A.stp"
+		(offset
+			(xyz 0 0 0.009999999626)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+	(model "${KIPRJMOD}/3d_models/HSFPAR004A.stp"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

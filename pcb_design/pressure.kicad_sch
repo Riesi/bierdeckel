@@ -306,32 +306,30 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Samacsys:HSFPAR004A"
+		(symbol "bier:HSFPAR004A"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "IC"
-				(at 26.67 7.62 0)
+			(property "Reference" "IC1"
+				(at 15.24 7.62 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(justify left top)
 				)
 			)
 			(property "Value" "HSFPAR004A"
-				(at 26.67 5.08 0)
+				(at 15.24 5.08 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(justify left top)
 				)
 			)
 			(property "Footprint" "Samacsys:HSFPAR004A"
@@ -427,6 +425,17 @@
 						(size 1.27 1.27)
 					)
 					(justify left top)
+				)
+			)
+			(property "mpn" "HSFPAR004A"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
 				)
 			)
 			(symbol "HSFPAR004A_1_1"
@@ -534,7 +543,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Snapeda:INA317IDGKR"
+		(symbol "bier:INA317IDGKR"
 			(pin_names
 				(offset 1.016)
 			)
@@ -543,26 +552,24 @@
 			(on_board yes)
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "U"
-				(at -12.7 16.24 0)
+			(property "Reference" "U6"
+				(at 0 20.32 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(justify left bottom)
 				)
 			)
 			(property "Value" "INA317IDGKR"
-				(at -12.7 -21.78 0)
+				(at 0 17.78 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(justify left bottom)
 				)
 			)
 			(property "Footprint" "Snapeda:INA317IDGKR_SOP65P490X110-8N"
@@ -589,6 +596,17 @@
 				)
 			)
 			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "mpn" "INA317IDGKR"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -2095,7 +2113,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Snapeda:INA317IDGKR")
+		(lib_id "bier:INA317IDGKR")
 		(at 133.35 59.69 0)
 		(unit 1)
 		(body_style 1)
@@ -2126,7 +2144,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Snapeda:INA317IDGKR_SOP65P490X110-8N"
+		(property "Footprint" "bier:INA317IDGKR_SOP65P490X110-8N"
 			(at 133.35 59.69 0)
 			(hide yes)
 			(show_name no)
@@ -2546,7 +2564,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Samacsys:HSFPAR004A")
+		(lib_id "bier:HSFPAR004A")
 		(at 49.53 43.18 0)
 		(unit 1)
 		(body_style 1)
