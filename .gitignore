@@ -1,3 +1,5 @@
 *-backups
 production
 code/bt_flasher/*.bin
+.history
+*.bak
