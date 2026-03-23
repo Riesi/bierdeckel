@@ -1,5 +1,5 @@
-use iced::widget::{button, center, column, combo_box, pick_list, scrollable, space, text};
-use iced::{Center, Element, Fill, Task};
+use iced::widget::{button, center, column, combo_box, pick_list, scrollable, text_editor, space, text, progress_bar};
+use iced::{Center, Element, Fill, Task, Theme};
 use rfd::{AsyncFileDialog, FileHandle};
 
 use btleplug::platform::Manager;
@@ -46,6 +46,8 @@ struct Example {
     text: String,
     flash_file_path: Option<FileHandle>,
     bt_adapter_list: Option<Vec<Adapter>>,
+    progress: f32,
+    content: text_editor::Content,
 }
 
 #[derive(Debug, Clone)]
@@ -100,6 +102,8 @@ impl Example {
             text: String::new(),
             flash_file_path: None,
             bt_adapter_list: None,
+            progress: 25f32,
+            content: text_editor::Content::new(),
         }
     }
 
@@ -172,7 +176,13 @@ impl Example {
         let button_connect = button("connect to coaster...").on_press(Message::Button(Origin::Flash));
         let button_flash = button("flash").on_press(Message::Button(Origin::Flash));
 
+        let prog_bar = progress_bar::<Theme>(0.0..=100.0, self.progress);
+        let console_log = text_editor(&self.content)
+        .placeholder("Type something here...\n multi \n ine\n\nhlello").min_height(300).height(800).width(1000); //.on_action(Message::Edit);
 
+        let scro = scrollable(column![
+            console_log,
+        ]).height(300);
         // let combo_box = combo_box(
         //     &self.languages,
         //     "Type a language...",
@@ -199,6 +209,9 @@ impl Example {
             text(&self.text),
             "What is your language?",
             combo_box,
+            prog_bar,
+            "Console:",
+            scro,
             space().height(150),
         ]
         .width(Fill)
