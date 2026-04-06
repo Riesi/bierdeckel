@@ -1,13 +1,16 @@
 use iced::widget::{button, center, column, combo_box, pick_list, scrollable, text_editor, space, text, progress_bar};
-use iced::{Center, Element, Fill, Task, Theme};
+use iced::{Center, Element, Fill, Subscription, Task, Theme, time};
 use rfd::{AsyncFileDialog, FileHandle};
 
 use btleplug::platform::Manager;
 use btleplug::platform::Adapter;
 pub mod bt_util;
 use crate::bt_util::{OTAControlResponse, OTAControl};
-use std::time::{Duration, SystemTime, UNIX_EPOCH};
-use tokio::time;
+
+use iced::time::{Duration, Instant};
+use futures::channel::mpsc;
+
+use iced::task::{Never, Sipper, sipper};
 
 /*
 #[tokio::main]
@@ -37,9 +40,13 @@ pub fn main() -> iced::Result {
         println!("git describe: {describe}");
     }
     
-    iced::run(Example::update, Example::view)
+    // iced::run(Example::update, Example::view)
+    iced::application(Example::default, Example::update, Example::view)
+        .subscription(Example::subscription)
+        .exit_on_close_request(true)
+        .run()
 }
-
+#[derive(Debug)]
 struct Example {
     languages: [Language;2],
     selected_language: Option<Language>,
@@ -48,6 +55,7 @@ struct Example {
     bt_adapter_list: Option<Vec<Adapter>>,
     progress: f32,
     content: text_editor::Content,
+    sender: mpsc::Sender<Message>,
 }
 
 #[derive(Debug, Clone)]
@@ -68,7 +76,8 @@ enum Origin {
 
 #[derive(Debug, Clone)]
 enum BTOrigin {
-    SearchResult(Option<Vec<Adapter>>),
+    SearchResult(Option<String>),
+    AdapterResult(Option<Vec<Adapter>>),
 }
 
 async fn flashy(bin_file: FileHandle) -> Option<Vec<Adapter>> {
@@ -79,7 +88,7 @@ async fn flashy(bin_file: FileHandle) -> Option<Vec<Adapter>> {
                 if let Err(_) = bt_util::scan(&adapter_list, false, &bin_file).await {
                     return None;
                 }
-                time::sleep(Duration::from_millis(4000)).await;
+                tokio::time::sleep(Duration::from_millis(4000)).await;
 
                 // Verify
                 if let Err(_) = bt_util::scan(&adapter_list, true, &bin_file).await {
@@ -94,8 +103,8 @@ async fn flashy(bin_file: FileHandle) -> Option<Vec<Adapter>> {
     None
 }
 
-impl Example {
-    fn new() -> Self {
+impl Default for Example {
+    fn default() -> Self {
         Self {
             languages: Language::ALL,
             selected_language: None,
@@ -104,7 +113,29 @@ impl Example {
             bt_adapter_list: None,
             progress: 25f32,
             content: text_editor::Content::new(),
+            sender: 
         }
+    }
+}
+
+impl Example {
+    fn new() -> Self {
+        Self::default()
+    }
+
+    async fn bla(&self) -> impl Sipper<Never, Event> {
+
+            //bt_util::scan_list(&self.bt_adapter_list.unwrap()).map(| d | Message::Bluetooth(BTOrigin::AdapterResult(d)))
+            let end_time  = Instant::now() + time::seconds(10);
+            while Instant::now() < end_time {
+                println!("hello");
+                tokio::time::sleep(Duration::from_millis(1500)).await;
+            }
+            ()
+    }
+
+    fn subscription(&self) -> iced::Subscription<Message> {
+        Subscription::run(self.bla().map(| d | Message::Bluetooth(BTOrigin::AdapterResult(d))))
     }
 
     fn update(&mut self, message: Message) -> Task<Message>  {
@@ -124,7 +155,7 @@ impl Example {
                     Origin::Search => {
                         if let None = self.bt_adapter_list {
                             if let Some(file) = &self.flash_file_path {
-                                return Task::perform( flashy(file.clone()), |av| Message::Bluetooth(BTOrigin::SearchResult(av)))
+                                return Task::perform( flashy(file.clone()), |av| Message::Bluetooth(BTOrigin::AdapterResult(av)))
                             }
                         }
                         Task::none()
@@ -133,7 +164,7 @@ impl Example {
             }
             Message::Bluetooth(bt) => {
                 match bt {    
-                    BTOrigin::SearchResult(av) => {
+                    BTOrigin::AdapterResult(av) => {
                         if let Some(av) = av {
                             
                         }
@@ -204,11 +235,11 @@ impl Example {
         let content = column![
             button_bin_picker,
             button_search,
+            "Coaster:",
+            combo_box,
             button_connect,
             button_flash,
             text(&self.text),
-            "What is your language?",
-            combo_box,
             prog_bar,
             "Console:",
             scro,
@@ -219,12 +250,6 @@ impl Example {
         .spacing(10);
 
         center(scrollable(content)).into()
-    }
-}
-
-impl Default for Example {
-    fn default() -> Self {
-        Example::new()
     }
 }
 

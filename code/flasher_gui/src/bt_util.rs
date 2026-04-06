@@ -63,6 +63,92 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     Ok(())
 }*/
+pub async fn scan_list(adapter_list: &Vec<Adapter>) -> Option<String> {
+    let mut device_list: Vec<String> = Vec::new();
+    for adapter in adapter_list.iter() {
+        println!("Starting scan...");
+
+        if let Err(_) = adapter.stop_scan().await {
+            println!("Stopping failed?!");
+        }
+
+        let mut event_stream = adapter.events().await.expect("Getting events failed!");
+
+        let filter = ScanFilter{services: vec![BIER_SERVICE_UUID]};
+        adapter
+            .start_scan(filter)
+            .await
+            .expect("Can't scan BLE adapter for connected devices...");
+
+        while let Some(event) = event_stream.next().await {
+            match event {
+                CentralEvent::DeviceDiscovered(id) => {
+                    let peripheral = match adapter.peripheral(&id).await {
+                        Err(e) => {
+                            eprintln!("{:?}",e );
+                            return None;
+                        }
+                        Ok(res) => {res}
+                    };
+                    let properties = match peripheral.properties().await {
+                        Err(e) => {
+                            eprintln!("{:?}",e );
+                            return None;
+                        }
+                        Ok(res) => {res}
+                    };
+                    let name = properties
+                        .and_then(|p| p.local_name)
+                        .unwrap_or_default();
+                    // if name.eq(PERIPHERAL_NAME_MATCH_FILTER) {
+                    //     println!("Connecting to Bierdeckel: {:?}", id);
+                    //     let is_connected = match peripheral.is_connected().await {
+                    //         Err(e) => {
+                    //             eprintln!("{:?}",e );
+                    //             return Result::Err(());
+                    //         }
+                    //         Ok(res) => {res}
+                    //     };
+                    //     if !is_connected {
+                    //         // Connect if we aren't already connected.
+                    //         if let Err(err) = peripheral.connect().await {
+                    //             eprintln!("Error connecting to peripheral, skipping: {}", err);
+                    //         }
+                    //     }
+                    // }else{
+                    //     println!("Ignoring Device: {:?}, Name: {}", id, name);
+                    // }
+                    return Some(format!("{name}|{id}"));
+                }
+                CentralEvent::StateUpdate(state) => {
+                    println!("AdapterStatusUpdate {:?}", state);
+                }                
+                CentralEvent::DeviceDisconnected(id) => {
+                    println!("DeviceDisconnected: {:?}", id);
+                }
+                CentralEvent::ManufacturerDataAdvertisement {
+                    id,
+                    manufacturer_data,
+                } => {
+                    println!(
+                        "ManufacturerDataAdvertisement: {:?}, {:?}",
+                        id, manufacturer_data
+                    );
+                }
+                CentralEvent::ServiceDataAdvertisement { id, service_data } => {
+                    println!("ServiceDataAdvertisement: {:?}, {:?}", id, service_data);
+                }
+                CentralEvent::ServicesAdvertisement { id, services } => {
+                    let services: Vec<String> =
+                        services.into_iter().map(|s| s.to_string()).collect();
+                    println!("ServicesAdvertisement: {:?}, {:?}", id, services);
+                }
+                _ => {}
+            }
+        }
+    }
+    None
+}
 
 pub async fn scan(adapter_list: &Vec<Adapter>, verify: bool, file: &rfd::FileHandle) -> Result<(), ()> {
     for adapter in adapter_list.iter() {
