@@ -55,7 +55,7 @@ struct Example {
     bt_adapter_list: Option<Vec<Adapter>>,
     progress: f32,
     content: text_editor::Content,
-    sender: mpsc::Sender<Message>,
+    //sender: mpsc::Sender<Message>,
 }
 
 #[derive(Debug, Clone)]
@@ -113,7 +113,7 @@ impl Default for Example {
             bt_adapter_list: None,
             progress: 25f32,
             content: text_editor::Content::new(),
-            sender: 
+            //sender: 
         }
     }
 }
@@ -123,7 +123,7 @@ impl Example {
         Self::default()
     }
 
-    async fn bla(&self) -> impl Sipper<Never, Event> {
+    async fn bla(&self) -> impl Sipper<Never, ()> {
 
             //bt_util::scan_list(&self.bt_adapter_list.unwrap()).map(| d | Message::Bluetooth(BTOrigin::AdapterResult(d)))
             let end_time  = Instant::now() + time::seconds(10);
@@ -168,6 +168,9 @@ impl Example {
                         if let Some(av) = av {
                             
                         }
+                        Task::none()
+                    }
+                    BTOrigin::SearchResult(sr) => {
                         Task::none()
                     }
                 }
