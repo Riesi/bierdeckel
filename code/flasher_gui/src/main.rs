@@ -123,19 +123,22 @@ impl Example {
         Self::default()
     }
 
-    async fn bla(&self) -> impl Sipper<Never, ()> {
-
-            //bt_util::scan_list(&self.bt_adapter_list.unwrap()).map(| d | Message::Bluetooth(BTOrigin::AdapterResult(d)))
-            let end_time  = Instant::now() + time::seconds(10);
-            while Instant::now() < end_time {
-                println!("hello");
-                tokio::time::sleep(Duration::from_millis(1500)).await;
+    fn bla() -> impl Sipper<Never, ()> {
+        sipper(async |mut x| {
+            loop{
+                //bt_util::scan_list(&self.bt_adapter_list.unwrap()).map(| d | Message::Bluetooth(BTOrigin::AdapterResult(d)))
+                let end_time  = Instant::now() + time::seconds(10);
+                while Instant::now() < end_time {
+                    println!("hello");
+                    tokio::time::sleep(Duration::from_millis(1500)).await;
+                }
             }
-            ()
+        })
     }
 
     fn subscription(&self) -> iced::Subscription<Message> {
-        Subscription::run(self.bla().map(| d | Message::Bluetooth(BTOrigin::AdapterResult(d))))
+        //.map(| d | Message::Bluetooth(BTOrigin::(d)))
+        Subscription::run(Self::bla).map( |d| Message::Closed)
     }
 
     fn update(&mut self, message: Message) -> Task<Message>  {
