@@ -11,6 +11,7 @@ use esp_idf_hal::adc::oneshot::config::{AdcChannelConfig, Calibration};
 use esp_idf_hal::adc::oneshot::*;
 use esp_idf_hal::adc::Resolution::Resolution12Bit;
 use esp_idf_hal::peripherals::Peripherals;
+use esp_idf_svc::ota;
 
 use ws2812_esp32_rmt_driver::Ws2812Esp32Rmt;
 
@@ -22,8 +23,6 @@ use num_derive::FromPrimitive;
 use num_derive::ToPrimitive;
 use num_traits::FromPrimitive;
 use num_traits::ToPrimitive;
-
-use esp_ota;
 
 pub mod led_animation;
 use crate::led_animation::{LedAnimation, LedPattern};
@@ -150,14 +149,13 @@ fn main() {
     // }
 
     // Finds the next suitable OTA partition and erases it
-    let ota = match esp_ota::OtaUpdate::begin() {
-        Ok(u) => {
-            log::info!("Partition info: {:#?}", u);
-            Arc::new(Mutex::new((Some(u), None)))
+    let ota = match ota::EspOta::new() {
+        Ok(mut u) => {
+            Arc::new(Mutex::new(Some(u.initiate_update().expect("initiate OTA"))))
         }
         Err(e) => {
             log::error!("Failed to find OTA partition: {:#?}", e);
-            Arc::new(Mutex::new((None, Some(e.kind()))))
+            Arc::new(Mutex::new(None))
         }
     };
 
@@ -237,27 +235,48 @@ fn main() {
                     let event = match ctrl {
                         OTAControl::REQUEST => OTAEvent::Nop,
                         OTAControl::VERIFY => {
-                            let val = match ota_fin.lock().unwrap().1.take() {
-                                Some(esp_ota::ErrorKind::InvalidRollbackState) => {
-                                    ctrl_animation
-                                        .lock()
-                                        .unwrap()
-                                        .push_back(LedState::BtVerified);
-                                    esp_ota::mark_app_valid();
-                                    log::debug!("Validated image!");
-                                    // TODO reenable flashing or maybe reboot
-                                    ToPrimitive::to_u8(&OTAControlResponse::DoneAck).unwrap()
+                            let val = match ota::EspOta::new() {
+                                Ok(u) => {
+                                    log::info!("Partition info: {:#?}", u);
+                                    let running_slot_state = if let Ok(running_slot) = u.get_running_slot() {
+                                        running_slot.state
+                                    } else {
+                                        ota::SlotState::Unknown
+                                    };
+                                    match running_slot_state {
+                                        ota::SlotState::Invalid | ota::SlotState::Unverified | ota::SlotState::Factory  =>  {
+                                            ctrl_animation
+                                                .lock()
+                                                .unwrap()
+                                                .push_back(LedState::BtVerified);
+                                            {
+                                                let mut ota = ota::EspOta::new().expect("obtain OTA instance");
+                                                ota.mark_running_slot_valid().expect("mark app as valid");
+                                            }
+                                            log::debug!("Validated image!");
+                                            // TODO reenable flashing or maybe reboot
+                                            ToPrimitive::to_u8(&OTAControlResponse::DoneAck).unwrap()
+                                        }
+                                        ota::SlotState::Unknown => {
+                                            ctrl_animation
+                                                .lock()
+                                                .unwrap()
+                                                .push_back(LedState::ErrorPattern);
+                                            log::error!("Unknown SlotState!!");
+                                            ToPrimitive::to_u8(&OTAControlResponse::DoneNak).unwrap()
+                                        }
+                                        _ => {
+                                            log::debug!("Nothing to verify!");
+                                            ToPrimitive::to_u8(&OTAControlResponse::DoneNak).unwrap()
+                                        }
+                                    }
                                 }
-                                Some(e) => {
+                                Err(e) => {
                                     ctrl_animation
                                         .lock()
                                         .unwrap()
                                         .push_back(LedState::ErrorPattern);
                                     log::error!("{:#?}", e);
-                                    ToPrimitive::to_u8(&OTAControlResponse::DoneNak).unwrap()
-                                }
-                                None => {
-                                    log::debug!("Nothing to verify!");
                                     ToPrimitive::to_u8(&OTAControlResponse::DoneNak).unwrap()
                                 }
                             };
@@ -276,26 +295,23 @@ fn main() {
                         OTAControl::DONE => {
                             log::debug!("OTA flashing done!");
                             // Performs validation of the newly written app image and completes the OTA update.
-                            let opt = ota_fin.lock().unwrap().0.take();
+                            let opt = ota_fin.lock().unwrap().take();
                             if let Some(ot) = opt {
-                                if let Ok(mut completed_ota) = ot.finalize() {
-                                    // Sets the newly written to partition as the next partition to boot from.
-                                    if let Err(e) = completed_ota.set_as_boot_partition() {
-                                        log::error!("{:#?}", e);
-                                    } else {
-                                        let val = ToPrimitive::to_u8(&OTAControlResponse::DoneAck)
-                                            .unwrap();
-                                        notifier.lock().set_value(&[val]).notify();
-                                        log::debug!("Rebooting!");
-
-                                        thread::sleep(Duration::from_millis(4000));
-                                        // Restarts the CPU, booting into the newly written app.
-                                        completed_ota.restart();
-                                    }
-                                } else {
+                                // Sets the newly written to partition as the next partition to boot from.
+                                if let Err(e) = ot.complete() {
+                                    log::error!("{:#?}", e);
                                     let val =
                                         ToPrimitive::to_u8(&OTAControlResponse::DoneNak).unwrap();
                                     notifier.lock().set_value(&[val]).notify();
+                                } else {
+                                    let val = ToPrimitive::to_u8(&OTAControlResponse::DoneAck)
+                                        .unwrap();
+                                    notifier.lock().set_value(&[val]).notify();
+                                    log::debug!("Rebooting!");
+
+                                    thread::sleep(Duration::from_millis(4000));
+                                    // Restarts the CPU, booting into the newly written app.
+                                    esp_idf_svc::hal::reset::restart();
                                 }
                             };
                             OTAEvent::DoneFlash
@@ -343,7 +359,7 @@ fn main() {
             match &a.state {
                 OTAState::WaitFlash => {
                     let app_chunk = args.recv_data();
-                    if let Some(ref mut ot) = ota_chunker.lock().unwrap().0 {
+                    if let Some(ref mut ot) = ota_chunker.lock().unwrap().take() {
                         if let Err(e) = ot.write(app_chunk) {
                             log::error!("{:#?}", e);
                         }

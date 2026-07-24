@@ -43,7 +43,6 @@ smart-leds-trait = { version = "0.3", optional = true }
 ws2812-esp32-rmt-driver = { version = "0.12", features = ["smart-leds-trait"] }
 
 esp32-nimble = "0.11.1"
-esp-ota = { version = "0.2.2" }
 anyhow = "1.0.102"
 
 num-derive = "0.5.1"
