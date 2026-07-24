@@ -3,9 +3,9 @@ name = "beercoaster"
 version = "0.1.0"
 authors = ["Stefan Riesenberger <stefan.riesenberger@gmail.com>"]
 license = "GPL-3.0"
-edition = "2021"
+edition = "2024"
 resolver = "2"
-rust-version = "1.84"
+rust-version = "1.95"
 
 [package.metadata.espflash]
 partition_table = "partitions.csv"
@@ -46,7 +46,7 @@ esp32-nimble = "0.11.1"
 esp-ota = { version = "0.2.2" }
 anyhow = "1.0.102"
 
-num-derive = "0.4.2"
+num-derive = "0.5.1"
 num-traits = "0.2.19"
 
 single_value_channel = "1.2.2"
