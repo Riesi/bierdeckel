@@ -111,19 +111,11 @@ impl OTAStateHandle {
     }
 }
 
-fn main() {
-    // It is necessary to call this function once. Otherwise some patches to the runtime
-    // implemented by esp-idf-sys might not link properly. See https://github.com/esp-rs/esp-idf-template/issues/71
-    esp_idf_svc::sys::link_patches();
-    // Bind the log crate to the ESP Logging facilities
-    esp_idf_svc::log::EspLogger::initialize_default();
+pub struct MainCore<'a>{
+    pub update: ota::EspOtaUpdate<'a>,
+}
 
-    let peripherals = Peripherals::take().unwrap();
-    if let Err(e) = esp_idf_svc::log::set_target_level("NimBLE", LevelFilter::Error) {
-        println!("Failed to set log level: {:#?}", e);
-    }
-
-
+fn main_loop<'a>(main_core: MainCore<'a>, peripherals: Peripherals) {
     if let Some(timestamp) = option_env!("VERGEN_BUILD_TIMESTAMP") {
         println!("Build Timestamp: {timestamp}");
     }
@@ -149,15 +141,7 @@ fn main() {
     // }
 
     // Finds the next suitable OTA partition and erases it
-    let ota = match ota::EspOta::new() {
-        Ok(mut u) => {
-            Arc::new(Mutex::new(Some(u.initiate_update().expect("initiate OTA"))))
-        }
-        Err(e) => {
-            log::error!("Failed to find OTA partition: {:#?}", e);
-            Arc::new(Mutex::new(None))
-        }
-    };
+    let frog = Arc::new(Mutex::new(main_core.update));
 
     let ble_device = BLEDevice::take();
     let ble_advertising = ble_device.get_advertising();
@@ -217,7 +201,7 @@ fn main() {
     let ctrl_animation = animation_queue.clone();
     let ctrl_state = ota_state.clone();
     let notifier = notifying_characteristic.clone();
-    let ota_fin = ota.clone();
+    let ota_fin = frog.clone();
     control_characteristic
         .lock()
         .on_read(move |_, _| {
@@ -295,25 +279,25 @@ fn main() {
                         OTAControl::DONE => {
                             log::debug!("OTA flashing done!");
                             // Performs validation of the newly written app image and completes the OTA update.
-                            let opt = ota_fin.lock().unwrap().take();
-                            if let Some(ot) = opt {
-                                // Sets the newly written to partition as the next partition to boot from.
-                                if let Err(e) = ot.complete() {
-                                    log::error!("{:#?}", e);
-                                    let val =
-                                        ToPrimitive::to_u8(&OTAControlResponse::DoneNak).unwrap();
-                                    notifier.lock().set_value(&[val]).notify();
-                                } else {
-                                    let val = ToPrimitive::to_u8(&OTAControlResponse::DoneAck)
-                                        .unwrap();
-                                    notifier.lock().set_value(&[val]).notify();
-                                    log::debug!("Rebooting!");
+                            let ot = ota_fin.lock().unwrap();
+                            
+                            // Sets the newly written to partition as the next partition to boot from.
+                            if let Err(e) = ot.complete() {
+                                log::error!("{:#?}", e);
+                                let val =
+                                    ToPrimitive::to_u8(&OTAControlResponse::DoneNak).unwrap();
+                                notifier.lock().set_value(&[val]).notify();
+                            } else {
+                                let val = ToPrimitive::to_u8(&OTAControlResponse::DoneAck)
+                                    .unwrap();
+                                notifier.lock().set_value(&[val]).notify();
+                                log::debug!("Rebooting!");
 
-                                    thread::sleep(Duration::from_millis(4000));
-                                    // Restarts the CPU, booting into the newly written app.
-                                    esp_idf_svc::hal::reset::restart();
-                                }
-                            };
+                                thread::sleep(Duration::from_millis(4000));
+                                // Restarts the CPU, booting into the newly written app.
+                                esp_idf_svc::hal::reset::restart();
+                            }
+
                             OTAEvent::DoneFlash
                         }
                         _ => OTAEvent::Nop,
@@ -348,7 +332,7 @@ fn main() {
     let mut chunk_count = 0;
     let wrt_state: Arc<Mutex<OTAStateHandle>> = ota_state.clone();
     let notifier = notifying_characteristic.clone();
-    let ota_chunker = ota.clone();
+    let ota_chunker = frog.clone();
     writable_characteristic
         .lock()
         .on_read(move |_, _| {
@@ -359,14 +343,9 @@ fn main() {
             match &a.state {
                 OTAState::WaitFlash => {
                     let app_chunk = args.recv_data();
-                    if let Some(ref mut ot) = ota_chunker.lock().unwrap().take() {
-                        if let Err(e) = ot.write(app_chunk) {
-                            log::error!("{:#?}", e);
-                        }
-                    } else {
-                        log::error!(
-                            "How did we end up here?\nTrying to flash after finishing OTA?"
-                        );
+                    let mut ot = ota_chunker.lock().unwrap();
+                    if let Err(e) = ot.write(app_chunk) {
+                        log::error!("{:#?}", e);
                     }
                     if chunk_count % 10 == 0 {
                         let val = ToPrimitive::to_u8(&OTAControlResponse::FlashAck).unwrap();
@@ -562,4 +541,25 @@ fn main() {
         }
         log::info!("ADC value: {}mV, scale {}", adc_val, factor);
     }
+}
+
+fn main() {
+    // It is necessary to call this function once. Otherwise some patches to the runtime
+    // implemented by esp-idf-sys might not link properly. See https://github.com/esp-rs/esp-idf-template/issues/71
+    esp_idf_svc::sys::link_patches();
+    // Bind the log crate to the ESP Logging facilities
+    esp_idf_svc::log::EspLogger::initialize_default();
+
+    let peripherals = Peripherals::take().unwrap();
+    if let Err(e) = esp_idf_svc::log::set_target_level("NimBLE", LevelFilter::Error) {
+        println!("Failed to set log level: {:#?}", e);
+    }
+
+    // main struct for better lifetime gurantees
+
+    let mut ota = ota::EspOta::new().expect("Failed to find OTA partition");
+    let update = ota.initiate_update().expect("initiate OTA");
+    let main_core: MainCore = MainCore{update};
+    main_loop(main_core, peripherals);
+    
 }
