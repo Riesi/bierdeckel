@@ -29,6 +29,7 @@ embassy-net = { version = "0.9.1", features = [
   "tcp",
   "udp",
 ] }
+embedded-hal-async = "1.0"
 embedded-io = "0.7.1"
 embedded-io-async = "0.7.0"
 esp-alloc = "0.10.0"
@@ -70,15 +71,13 @@ smart-leds = "0.4.0"
 smart-leds-trait = { version = "0.3", optional = true }
 
 
-ws2812-rs = {version = "0.3.1"} # Replace with the actual version
-
-# Only required if using the `async` feature:
-embedded-hal-async = "1.0"
-
+ws2812-rs = {version = "0.3.1", feature = ["async","own_delay"]} # Replace with the actual version
 
 num-derive = "0.5.1"
 num-traits = {version = "0.2.19",default-features = false}
 
+nb = "1.1.0"
+# single_value_channel = "1.2.2"
 
 # For fine tuning these settings, please refer to https://doc.rust-lang.org/cargo/reference/profiles.html
 [profile.dev]
