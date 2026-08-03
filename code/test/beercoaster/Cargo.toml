@@ -3,6 +3,7 @@ edition      = "2024"
 name         = "beercoaster"
 rust-version = "1.96"
 version      = "0.1.0"
+build = "build.rs"
 
 [[bin]]
 name = "beercoaster"
@@ -65,19 +66,20 @@ trouble-host = { version = "0.6.0", features = ["gatt"] }
 critical-section = "1.2.0"
 static_cell      = "2.1.1"
 
+embedded-hal = {version = "1.0.0"}
 
-
-smart-leds = "0.4.0"
-smart-leds-trait = { version = "0.3", optional = true }
-
-
-ws2812-rs = {version = "0.3.1", feature = ["async","own_delay"]} # Replace with the actual version
+ws2812-rs = {version = "0.3.1", features = ["async","spinloop_delay"], feature = ["async","spinloop_delay"]} # Replace with the actual version
 
 num-derive = "0.5.1"
 num-traits = {version = "0.2.19",default-features = false}
 
 nb = "1.1.0"
 # single_value_channel = "1.2.2"
+
+[build-dependencies]
+embuild = "0.33.3"
+anyhow = "1"
+vergen-gitcl = { version = "9.1.0", features = ["build", "cargo", "rustc", "si"] }
 
 # For fine tuning these settings, please refer to https://doc.rust-lang.org/cargo/reference/profiles.html
 [profile.dev]

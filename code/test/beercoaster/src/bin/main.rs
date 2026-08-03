@@ -7,8 +7,11 @@
 )]
 #![deny(clippy::large_stack_frames)]
 use esp_hal::clock::CpuClock;
+use esp_hal::gpio::AnyPin;
 use esp_hal::timer::timg::TimerGroup;
 use esp_hal::analog::adc;
+use embedded_hal::digital::OutputPin;
+use embedded_hal_async::digital::Wait;
 
 use esp_radio::ble::controller::BleConnector;
 use bt_hci::controller::ExternalController;
@@ -39,7 +42,8 @@ use num_traits::FromPrimitive;
 use num_traits::ToPrimitive;
 
 use ws2812_rs;
-
+use ws2812_rs::GlowColor;
+use ws2812_rs::AsyncGlowColor;
 
 #[panic_handler]
 fn panic(panic_info: &core::panic::PanicInfo) -> ! {
@@ -92,59 +96,6 @@ enum LedState {
     ErrorPattern,
 }
 
-#[derive(ToPrimitive)]
-enum OTAControlResponse {
-    FlashAck = 0x00,
-    FlashNak = 0x01,
-    DoneAck = 0x02,
-    DoneNak = 0x03,
-}
-
-#[derive(FromPrimitive)]
-enum OTAControl {
-    NOP = 0x00,
-    REQUEST = 0x01,
-    DONE = 0x02,
-    VERIFY = 0x03,
-    FLASH = 0x04,
-    ABORT = 0x05,
-}
-
-struct OTAStateHandle {
-    state: OTAState,
-}
-// from
-// https://play.rust-lang.org/?version=stable&mode=debug&edition=2015&gist=ee3e4df093c136ced7b394dc7ffb78e1
-#[derive(Debug, PartialEq)]
-enum OTAState {
-    Initial,
-    WaitFlash,
-    Failure,
-}
-
-#[derive(Debug, Clone)]
-enum OTAEvent {
-    FlashData,
-    DoneFlash,
-    Nop,
-    Verify,
-    Abort,
-}
-
-impl OTAStateHandle {
-    fn next(&mut self, event: OTAEvent) -> &OTAState {
-        match (&self.state, event) {
-            (OTAState::Initial, OTAEvent::Abort) => self.state = OTAState::Initial,
-            (OTAState::Initial, OTAEvent::Verify) => self.state = OTAState::Initial,
-            (OTAState::Initial, OTAEvent::FlashData) => self.state = OTAState::WaitFlash,
-            (OTAState::WaitFlash, OTAEvent::DoneFlash) => self.state = OTAState::Initial,
-            (OTAState::WaitFlash, OTAEvent::Abort) => self.state = OTAState::Initial,
-            (OTAState::WaitFlash, OTAEvent::Nop) => self.state = OTAState::WaitFlash,
-            (_s, _e) => self.state = OTAState::Failure,
-        }
-        &self.state
-    }
-}
 
 #[esp_rtos::main]
 async fn main(spawner: Spawner) -> ! {
@@ -152,10 +103,10 @@ async fn main(spawner: Spawner) -> ! {
     // generator parameters: --chip esp32c3 -o unstable-hal -o embassy -o alloc -o ble-trouble -o wifi -o log -o ci -o vscode -o nightly-x86_64-unknown-linux-gnu -o esp32c3-mini-1
 
     esp_println::logger::init_logger_from_env();
-
-    let config = esp_hal::Config::default().with_cpu_clock(CpuClock::max());
+    let speed = CpuClock::max();
+    let config = esp_hal::Config::default().with_cpu_clock(speed.clone());
     let peripherals = esp_hal::init(config);
-
+    
     // The following pins are used to bootstrap the chip. They are available
     // for use, but check the datasheet of the module for more information on them.
     // - GPIO2
@@ -207,16 +158,25 @@ async fn main(spawner: Spawner) -> ! {
 
     let address: Address = Address::random([0xff, 0x8f, 0x1a, 0x05, 0xe4, 0xff]);
     info!("Our address = {:?}", address);
-    let _stack = trouble_host::new(ble_controller, &mut resources).set_random_address(address);
+    //let _stack = trouble_host::new(ble_controller, &mut resources).set_random_address(address);
 
     // TODO: Spawn some tasks
     let _ = spawner;
 
+    // let dcc = esp_hal::gpio::Output::new(
+    //     peripherals.GPIO10,
+    //     esp_hal::gpio::Level::Low,
+    //     esp_hal::gpio::OutputConfig::default().with_drive_mode(esp_hal::gpio::DriveMode::PushPull),
+    // );
+    info!("WS2812?");
+    spawner.spawn(blink(esp_hal::gpio::Flex::new(peripherals.GPIO10)).unwrap());
 
-    //slet mut ws2812 = ws2812_rs::WS2812SPI::new(peripherals.GPIO10);
+// Inside an async function (e.g., Embassy task)
+// let mut strip = ws2812_rs::WS2812::new(peripherals.GPIO10, 40_000_000);
+// let colors = [ws2812_rs::Color::red(); 8]; // 8 LEDs
 
-    //ws2812.send_color_w_embassy([ws2812_rs::Color::red(), ws2812_rs::Color::blue()]);
-
+// // Asynchronously drive the pin signals
+// strip.async_send_color(colors).await;
     //   let rainbow = [
     //     led_animation::RED,
     //     led_animation::GREEN,
@@ -261,4 +221,15 @@ async fn main(spawner: Spawner) -> ! {
 
 
     // for inspiration have a look at the examples at https://github.com/esp-rs/esp-hal/tree/esp-hal-v1.1.0/examples
+}
+
+// Declare async tasks
+#[embassy_executor::task]
+async fn blink(pin: esp_hal::gpio::Flex<'static>) {
+    let mut ws2812 = ws2812_rs::WS2812::new(pin, 160_000_000);
+    let co =[ws2812_rs::Color::red(), ws2812_rs::Color::blue()];
+    ws2812.send_color([ws2812_rs::Color::red(), ws2812_rs::Color::blue()]);
+    info!("WS2812?");
+    ws2812.send_color_w_embassy(co).await;
+    info!("WS2812?");
 }

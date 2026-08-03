@@ -1,7 +1,23 @@
-fn main() {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // NOTE: This will output only the instructions specified.
+    // NOTE: See the specific builder documentation for configuration options. 
+    let build = vergen_gitcl::BuildBuilder::all_build()?;
+    let cargo = vergen_gitcl::CargoBuilder::all_cargo()?;
+    let gitcl = vergen_gitcl::GitclBuilder::default().describe(true, true, None).dirty(true).build()?;
+    let rustc = vergen_gitcl::RustcBuilder::all_rustc()?;
+    let si = vergen_gitcl::SysinfoBuilder::all_sysinfo()?;
+
+    vergen_gitcl::Emitter::default()
+        .add_instructions(&build)?
+        .add_instructions(&cargo)?
+        .add_instructions(&gitcl)?
+        .add_instructions(&rustc)?
+        .add_instructions(&si)?
+        .emit()?;
     linker_be_nice();
     // make sure linkall.x is the last linker script (otherwise might cause problems with flip-link)
     println!("cargo:rustc-link-arg=-Tlinkall.x");
+    Ok(())
 }
 
 fn linker_be_nice() {
