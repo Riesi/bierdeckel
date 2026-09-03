@@ -1,0 +1,2 @@
+
+cargo espflash flash --monitor --chip esp32c3

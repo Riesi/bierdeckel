@@ -1,3 +1,4 @@
+#[warn(dead_code)]
 use ws2812_rs::Color;
 use core::derive;
 use core::option::Option::{None, Some};
