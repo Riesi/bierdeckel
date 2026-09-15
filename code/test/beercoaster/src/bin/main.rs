@@ -34,16 +34,14 @@ use core::result::Result::{Err, Ok};
 // mod libs;
 // use libs::led_animation;
 // use libs::led_animation::{LedAnimation, LedPattern};
+use smart_leds::SmartLedsWrite;
+
 
 use trouble_host::types::uuid::Uuid::Uuid128;
 use num_derive::FromPrimitive;
 use num_derive::ToPrimitive;
 use num_traits::FromPrimitive;
 use num_traits::ToPrimitive;
-
-use ws2812_rs;
-use ws2812_rs::GlowColor;
-use ws2812_rs::AsyncGlowColor;
 
 #[panic_handler]
 fn panic(panic_info: &core::panic::PanicInfo) -> ! {
@@ -103,7 +101,7 @@ async fn main(spawner: Spawner) -> ! {
     // generator parameters: --chip esp32c3 -o unstable-hal -o embassy -o alloc -o ble-trouble -o wifi -o log -o ci -o vscode -o nightly-x86_64-unknown-linux-gnu -o esp32c3-mini-1
 
     esp_println::logger::init_logger_from_env();
-    let speed = CpuClock::max();
+    let speed = CpuClock::_80MHz;
     let config = esp_hal::Config::default().with_cpu_clock(speed.clone());
     let peripherals = esp_hal::init(config);
     
@@ -163,13 +161,46 @@ async fn main(spawner: Spawner) -> ! {
     // TODO: Spawn some tasks
     let _ = spawner;
 
-    // let dcc = esp_hal::gpio::Output::new(
-    //     peripherals.GPIO10,
-    //     esp_hal::gpio::Level::Low,
-    //     esp_hal::gpio::OutputConfig::default().with_drive_mode(esp_hal::gpio::DriveMode::PushPull),
-    // );
+    let led_pin = peripherals.GPIO10;
+    type LedColor = smart_leds::RGB8;
+    let mut led = {
+
+        let freq = esp_hal::time::Rate::from_mhz(80);
+        let rmt = esp_hal::rmt::Rmt::new(peripherals.RMT, freq).expect("Failed to initialize RMT0");
+        // Configure color order and timing implementation as needed.
+        esp_hal_smartled::RmtSmartLeds:: <{esp_hal_smartled::buffer_size:: <LedColor>(5)},_,LedColor,esp_hal_smartled::color_order::Grb> ::new_with_memsize(
+            esp_hal_smartled::WS2812_TIMING,
+            rmt.channel0,
+            led_pin,
+            2,
+        ).unwrap()
+    };
     info!("WS2812?");
-    spawner.spawn(blink(esp_hal::gpio::Flex::new(peripherals.GPIO10)).unwrap());
+     let delay = esp_hal::delay::Delay::new();
+
+    let mut color = smart_leds::hsv::Hsv {
+        hue: 0,
+        sat: 255,
+        val: 255,
+    };
+    let mut data;
+
+    loop {
+        // Iterate over the rainbow!
+        for hue in 0..=255 {
+            color.hue = hue;
+            // Convert from the HSV color space (where we can easily transition from one
+            // color to the other) to the RGB color space that we can then send to the LED
+            data = [smart_leds::hsv::hsv2rgb(color);5];
+            // When sending to the LED, we do a gamma correction first (see smart_leds
+            // documentation for details) and then limit the brightness to 10 out of 255 so
+            // that the output it's not too bright.
+            led.write(smart_leds::brightness(smart_leds::gamma(data.iter().cloned()), 10))
+                .unwrap();
+            delay.delay_millis(20);
+        }
+    }
+    // spawner.spawn(blink(dcc).unwrap());
 
 // Inside an async function (e.g., Embassy task)
 // let mut strip = ws2812_rs::WS2812::new(peripherals.GPIO10, 40_000_000);
@@ -225,11 +256,12 @@ async fn main(spawner: Spawner) -> ! {
 
 // Declare async tasks
 #[embassy_executor::task]
-async fn blink(pin: esp_hal::gpio::Flex<'static>) {
-    let mut ws2812 = ws2812_rs::WS2812::new(pin, 160_000_000);
-    let co =[ws2812_rs::Color::red(), ws2812_rs::Color::blue()];
-    ws2812.send_color([ws2812_rs::Color::red(), ws2812_rs::Color::blue()]);
+async fn blink(pin: esp_hal::gpio::Output<'static>) {
+    //let mut ws2812 = ws2812_rs::WS2812::new(pin, 80_000_000);
+    //let co =[ws2812_rs::Color::red(), ws2812_rs::Color::blue()];
+    //ws2812.send_color([ws2812_rs::Color::red(), ws2812_rs::Color::blue()]);
     info!("WS2812?");
-    ws2812.send_color_w_embassy(co).await;
+    //ws2812.send_color_w_embassy(co).await;
     info!("WS2812?");
+    //ws2812.send_color_w_embassy(co).await;
 }
