@@ -149,19 +149,17 @@ async fn main(spawner: Spawner) -> ! {
             .expect("Failed to initialize Wi-Fi controller");
 
     // find more examples https://github.com/embassy-rs/trouble/tree/main/examples/esp32
-    let transport = BleConnector::new(peripherals.BT, Default::default()).unwrap();
-    let ble_controller = ExternalController::<_, 1>::new(transport);
-    let mut resources: HostResources<DefaultPacketPool, CONNECTIONS_MAX, L2CAP_CHANNELS_MAX> =
-        HostResources::new();
+    // let bluetooth = peripherals.BT;
+    // let connector = BleConnector::new(bluetooth, Default::default()).unwrap();
+    // let controller: ExternalController<_, 20> = ExternalController::new(connector);
 
-    let address: Address = Address::random([0xff, 0x8f, 0x1a, 0x05, 0xe4, 0xff]);
-    info!("Our address = {:?}", address);
-    //let _stack = trouble_host::new(ble_controller, &mut resources).set_random_address(address);
-
+    // libs::ble_bas_peripheral::run(controller).await;
+    
+    
     // TODO: Spawn some tasks
     let _ = spawner;
 
-    let led_pin = peripherals.GPIO10;
+    let led_pin = peripherals.GPIO8;
     type LedColor = smart_leds::RGB8;
     let mut led = {
 
@@ -191,13 +189,14 @@ async fn main(spawner: Spawner) -> ! {
             color.hue = hue;
             // Convert from the HSV color space (where we can easily transition from one
             // color to the other) to the RGB color space that we can then send to the LED
-            data = [smart_leds::hsv::hsv2rgb(color);5];
+            data = [smart_leds::hsv::hsv2rgb(color);5]; // smart_leds::hsv::hsv2rgb(color)
             // When sending to the LED, we do a gamma correction first (see smart_leds
             // documentation for details) and then limit the brightness to 10 out of 255 so
             // that the output it's not too bright.
             led.write(smart_leds::brightness(smart_leds::gamma(data.iter().cloned()), 10))
                 .unwrap();
-            delay.delay_millis(20);
+            delay.delay_millis(200);
+            info!("Frog!");
         }
     }
     // spawner.spawn(blink(dcc).unwrap());
