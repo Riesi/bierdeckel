@@ -125,9 +125,7 @@ async fn main(spawner: Spawner) -> ! {
     esp_alloc::heap_allocator!(size: 64 * 1024);
 
     let timg0 = TimerGroup::new(peripherals.TIMG0);
-    let sw_interrupt =
-        esp_hal::interrupt::software::SoftwareInterruptControl::new(peripherals.SW_INTERRUPT);
-    esp_rtos::start(timg0.timer0, sw_interrupt.software_interrupt0);
+    esp_rtos::start(timg0.timer0, peripherals.FROM_CPU_INTR0);
 
     info!("Embassy initialized!");
 
@@ -144,9 +142,9 @@ async fn main(spawner: Spawner) -> ! {
     //let (mut brightness_rx, brightness_tx) = single_value_channel::channel_starting_with(1f32);
 
 
-    let (mut _wifi_controller, _interfaces) =
-        esp_radio::wifi::new(peripherals.WIFI, Default::default())
-            .expect("Failed to initialize Wi-Fi controller");
+    // let (mut _wifi_controller, _interfaces) =
+    //     esp_radio::wifi::new(peripherals.WIFI, Default::default())
+    //         .expect("Failed to initialize Wi-Fi controller");
 
     // find more examples https://github.com/embassy-rs/trouble/tree/main/examples/esp32
     // let bluetooth = peripherals.BT;
@@ -171,6 +169,7 @@ async fn main(spawner: Spawner) -> ! {
             rmt.channel0,
             led_pin,
             2,
+            freq,
         ).unwrap()
     };
     info!("WS2812?");
@@ -193,8 +192,10 @@ async fn main(spawner: Spawner) -> ! {
             // When sending to the LED, we do a gamma correction first (see smart_leds
             // documentation for details) and then limit the brightness to 10 out of 255 so
             // that the output it's not too bright.
-            led.write(smart_leds::brightness(smart_leds::gamma(data.iter().cloned()), 10))
-                .unwrap();
+            let ret = led.write(smart_leds::brightness(smart_leds::gamma(data.iter().cloned()), 10));
+            if let Err(e) = ret{
+                info!("{:#?}", e);
+            }
             delay.delay_millis(200);
             info!("Frog!");
         }
