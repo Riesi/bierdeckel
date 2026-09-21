@@ -16,6 +16,7 @@ use embedded_hal_async::digital::Wait;
 
 use esp_radio::ble::controller::BleConnector;
 use bt_hci::controller::ExternalController;
+use smart_leds::RGB8;
 use trouble_host::prelude::*;
 use trouble_host::types::uuid::Uuid::Uuid128;
 
@@ -35,7 +36,6 @@ use core::result::Result::{Err, Ok};
 mod lib;
 use lib::led_animation;
 use lib::led_animation::{LedAnimation, LedPattern};
-use smart_leds::SmartLedsWriteAsync;
 
 use num_derive::FromPrimitive;
 use num_derive::ToPrimitive;
@@ -160,7 +160,7 @@ async fn main(spawner: Spawner) -> ! {
     let mut led = {
 
         let freq = esp_hal::time::Rate::from_mhz(80);
-        let rmt = esp_hal::rmt::Rmt::new(peripherals.RMT, freq).expect("Failed to initialize RMT0").into_async();;
+        let rmt = esp_hal::rmt::Rmt::new(peripherals.RMT, freq).expect("Failed to initialize RMT0").into_async();
         // Configure color order and timing implementation as needed.
         esp_hal_smartled::RmtSmartLeds:: <{esp_hal_smartled::buffer_size:: <LedColor>(LEDS)},_,LedColor,esp_hal_smartled::color_order::Grb> ::new_with_memsize(
             esp_hal_smartled::WS2812B_TIMING,
@@ -171,8 +171,7 @@ async fn main(spawner: Spawner) -> ! {
         ).unwrap()
     };
     info!("init WS2812 RMT hardware");
-    
-    spawner.spawn(blink(led).unwrap());
+    spawner.spawn(led_animation::smart_led_task(led).unwrap());
 
 // // Asynchronously drive the pin signals
 // strip.async_send_color(colors).await;
@@ -220,36 +219,4 @@ async fn main(spawner: Spawner) -> ! {
 
 
     // for inspiration have a look at the examples at https://github.com/esp-rs/esp-hal/tree/esp-hal-v1.1.0/examples
-}
-
-// Declare async tasks
-#[embassy_executor::task]
-async fn blink(mut led: esp_hal_smartled::RmtSmartLeds<'static,122,Async,smart_leds::RGB<u8> ,esp_hal_smartled::color_order::Grb>) {
-    let delay = esp_hal::delay::Delay::new();
-
-    let mut color = smart_leds::hsv::Hsv {
-        hue: 0,
-        sat: 255,
-        val: 255,
-    };
-    let mut data;
-
-    loop {
-        // Iterate over the rainbow!
-        for hue in 0..=255 {
-            color.hue = hue;
-            // Convert from the HSV color space (where we can easily transition from one
-            // color to the other) to the RGB color space that we can then send to the LED
-            data = [smart_leds::hsv::hsv2rgb(color); LEDS]; // smart_leds::hsv::hsv2rgb(color)
-            // When sending to the LED, we do a gamma correction first (see smart_leds
-            // documentation for details) and then limit the brightness to 10 out of 255 so
-            // that the output it's not too bright.
-            let ret = led.write(smart_leds::brightness(smart_leds::gamma(data.iter().cloned()), 10)).await;
-            if let Err(e) = ret{
-                info!("{:#?}", e);
-            }
-            delay.delay_millis(20);
-            info!("Frog!");
-        }
-    }
 }
