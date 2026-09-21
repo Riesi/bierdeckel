@@ -96,6 +96,8 @@ enum LedState {
 }
 
 
+const LEDS: usize = 5;
+
 #[esp_rtos::main]
 async fn main(spawner: Spawner) -> ! {
     // generator version: 1.3.0
@@ -154,7 +156,6 @@ async fn main(spawner: Spawner) -> ! {
 
     // libs::ble_bas_peripheral::run(controller).await;
 
-    const LEDS: usize = 5;
 
     let led_pin = peripherals.GPIO8;
     type LedColor = smart_leds::RGB8;
@@ -173,7 +174,7 @@ async fn main(spawner: Spawner) -> ! {
     };
     info!("init WS2812 RMT hardware");
     
-    spawner.spawn(blink(led, LEDS).unwrap());
+    spawner.spawn(blink(led).unwrap());
 
 // // Asynchronously drive the pin signals
 // strip.async_send_color(colors).await;
@@ -225,7 +226,7 @@ async fn main(spawner: Spawner) -> ! {
 
 // Declare async tasks
 #[embassy_executor::task]
-async fn blink(mut led: esp_hal_smartled::RmtSmartLeds<'static,122,Async,smart_leds::RGB<u8> ,esp_hal_smartled::color_order::Grb> , LEDS: usize) {
+async fn blink(mut led: esp_hal_smartled::RmtSmartLeds<'static,122,Async,smart_leds::RGB<u8> ,esp_hal_smartled::color_order::Grb>) {
     let delay = esp_hal::delay::Delay::new();
 
     let mut color = smart_leds::hsv::Hsv {
@@ -241,7 +242,7 @@ async fn blink(mut led: esp_hal_smartled::RmtSmartLeds<'static,122,Async,smart_l
             color.hue = hue;
             // Convert from the HSV color space (where we can easily transition from one
             // color to the other) to the RGB color space that we can then send to the LED
-            data = [smart_leds::hsv::hsv2rgb(color); 5]; // smart_leds::hsv::hsv2rgb(color)
+            data = [smart_leds::hsv::hsv2rgb(color); LEDS]; // smart_leds::hsv::hsv2rgb(color)
             // When sending to the LED, we do a gamma correction first (see smart_leds
             // documentation for details) and then limit the brightness to 10 out of 255 so
             // that the output it's not too bright.
