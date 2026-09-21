@@ -17,6 +17,7 @@ use embedded_hal_async::digital::Wait;
 use esp_radio::ble::controller::BleConnector;
 use bt_hci::controller::ExternalController;
 use trouble_host::prelude::*;
+use trouble_host::types::uuid::Uuid::Uuid128;
 
 use embassy_executor::Spawner;
 use embassy_time::{Duration, Timer};
@@ -31,14 +32,11 @@ use core::option::Option::{None, Some};
 use core::result::Result;
 use core::result::Result::{Err, Ok};
 
-
-mod libs;
-// use libs::led_animation;
-// use libs::led_animation::{LedAnimation, LedPattern};
+mod lib;
+use lib::led_animation;
+use lib::led_animation::{LedAnimation, LedPattern};
 use smart_leds::SmartLedsWriteAsync;
 
-
-use trouble_host::types::uuid::Uuid::Uuid128;
 use num_derive::FromPrimitive;
 use num_derive::ToPrimitive;
 use num_traits::FromPrimitive;
@@ -154,7 +152,7 @@ async fn main(spawner: Spawner) -> ! {
     let connector = BleConnector::new(bluetooth, Default::default()).unwrap();
     let controller: ExternalController<_, 20> = ExternalController::new(connector);
 
-    libs::ble_bas_peripheral::run(controller).await;
+    lib::ble_bas_peripheral::run(controller).await;
 
 
     let led_pin = peripherals.GPIO8;

@@ -1,5 +1,5 @@
 #[warn(dead_code)]
-use ws2812_rs::Color;
+use smart_leds::RGB8;
 use core::derive;
 use core::option::Option::{None, Some};
 use core::option::Option;
@@ -8,36 +8,36 @@ use core::cmp::Ord;
 extern crate alloc;
 use alloc::vec::Vec;
 
-pub const RED: Color = Color([0xFF, 0, 0]);
-pub const GREEN: Color = Color([0, 0xFF, 0]);
-pub const BLUE: Color = Color([0, 0, 0xFF]);
+pub const RED: RGB8 = RGB8::new(0xFF, 0, 0);
+pub const GREEN: RGB8 = RGB8::new(0, 0xFF, 0);
+pub const BLUE: RGB8 = RGB8::new(0, 0, 0xFF);
 
-pub const WHITE: Color = Color([0xFF, 0xFF, 0xFF]);
-pub const BLACK: Color = Color([0, 0, 0]);
+pub const WHITE: RGB8 = RGB8::new(0xFF, 0xFF, 0xFF);
+pub const BLACK: RGB8 = RGB8::new(0, 0, 0);
 
-pub const YELLOW: Color = Color([0xFF, 0xFF, 0]);
-pub const PINK: Color = Color([0xFF, 0, 0xFF]);
-pub const CYAN: Color = Color([0, 0xFF, 0xFF]);
+pub const YELLOW: RGB8 = RGB8::new(0xFF, 0xFF, 0);
+pub const PINK: RGB8 = RGB8::new(0xFF, 0, 0xFF);
+pub const CYAN: RGB8 = RGB8::new(0, 0xFF, 0xFF);
 
-pub const RED_H: Color = Color([0x0F, 0, 0]);
-pub const GREEN_H: Color = Color([0, 0x0F, 0]);
-pub const BLUE_H: Color = Color([0, 0, 0x0F]);
-pub const WHITE_H: Color = Color([0x0F, 0x0F, 0x0F]);
+pub const RED_H: RGB8 = RGB8::new(0x0F, 0, 0);
+pub const GREEN_H: RGB8 = RGB8::new(0, 0x0F, 0);
+pub const BLUE_H: RGB8 = RGB8::new(0, 0, 0x0F);
+pub const WHITE_H: RGB8 = RGB8::new(0x0F, 0x0F, 0x0F);
 
-pub const YELLOW_H: Color = Color([0, 0, 0]);
-pub const PINK_H: Color = Color([0x0F, 0, 0x0F]);
-pub const CYAN_H: Color = Color([0, 0x0F, 0x0F]);
+pub const YELLOW_H: RGB8 = RGB8::new(0, 0, 0);
+pub const PINK_H: RGB8 = RGB8::new(0x0F, 0, 0x0F);
+pub const CYAN_H: RGB8 = RGB8::new(0, 0x0F, 0x0F);
 
 const LED_COUNT: usize = 5;
 
 #[derive(Clone)]
 pub struct LedPattern {
     time_step: u8,
-    pub led_data: [Color; LED_COUNT],
+    pub led_data: [RGB8; LED_COUNT],
 }
 
 impl LedPattern {
-    pub fn new(time: u64, led_data: [Color; LED_COUNT]) -> Self {
+    pub fn new(time: u64, led_data: [RGB8; LED_COUNT]) -> Self {
         LedPattern {
             time_step: Self::convert_ms_to_time_step(time),
             led_data,

@@ -7,7 +7,6 @@ build = "build.rs"
 
 [[bin]]
 name = "beercoaster"
-path = "./src/bin/main.rs"
 
 [dependencies]
 esp-storage = "0.10.0"
