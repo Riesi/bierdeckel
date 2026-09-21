@@ -32,7 +32,7 @@ use core::result::Result;
 use core::result::Result::{Err, Ok};
 
 
-// mod libs;
+mod libs;
 // use libs::led_animation;
 // use libs::led_animation::{LedAnimation, LedPattern};
 use smart_leds::SmartLedsWriteAsync;
@@ -150,11 +150,11 @@ async fn main(spawner: Spawner) -> ! {
     //         .expect("Failed to initialize Wi-Fi controller");
 
     // find more examples https://github.com/embassy-rs/trouble/tree/main/examples/esp32
-    // let bluetooth = peripherals.BT;
-    // let connector = BleConnector::new(bluetooth, Default::default()).unwrap();
-    // let controller: ExternalController<_, 20> = ExternalController::new(connector);
+    let bluetooth = peripherals.BT;
+    let connector = BleConnector::new(bluetooth, Default::default()).unwrap();
+    let controller: ExternalController<_, 20> = ExternalController::new(connector);
 
-    // libs::ble_bas_peripheral::run(controller).await;
+    libs::ble_bas_peripheral::run(controller).await;
 
 
     let led_pin = peripherals.GPIO8;

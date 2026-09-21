@@ -51,7 +51,7 @@ name = "beercoaster"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "bt-hci 0.8.1",
+ "bt-hci 0.10.1",
  "critical-section",
  "embassy-executor",
  "embassy-futures",
@@ -129,20 +129,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d2f6c7dbe95a6ed67ad9f18e57daf93a2f034c524b99fd2b76d18fdfeb6660aa"
 dependencies = [
  "hybrid-array",
-]
-
-[[package]]
-name = "bt-hci"
-version = "0.8.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "211713d2e9fb4793ce4360a712c0764264aff6be48932ccf02ca2a331c0436a9"
-dependencies = [
- "btuuid",
- "embassy-sync 0.8.0",
- "embedded-io 0.7.1",
- "embedded-io-async 0.7.0",
- "futures-intrusive",
- "heapless 0.9.3",
 ]
 
 [[package]]
