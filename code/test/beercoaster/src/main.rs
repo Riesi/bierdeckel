@@ -29,6 +29,8 @@ use utils::led_animation;
 use num_derive::FromPrimitive;
 use num_traits::FromPrimitive;
 
+use crate::utils::adc_readout;
+
 #[panic_handler]
 fn panic(panic_info: &core::panic::PanicInfo) -> ! {
     error!("{}", panic_info);
@@ -36,9 +38,6 @@ fn panic(panic_info: &core::panic::PanicInfo) -> ! {
 }
 
 extern crate alloc;
-
-const CONNECTIONS_MAX: usize = 1;
-const L2CAP_CHANNELS_MAX: usize = 1;
 
 // This creates a default app-descriptor required by the esp-idf bootloader.
 // For more information see: <https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/app_image_format.html#application-description>
@@ -50,10 +49,6 @@ esp_bootloader_esp_idf::esp_app_desc!();
 )]
 
 
-const WEIGHT_EMPTY: u16 = 380;
-const WEIGHT_FULL: u16 = 720;
-const WEIGHT_TARGET1: u16 = 500;
-const LIGHT_LIMIT: f32 = 0.35;
 
 // const MTU_UUID: Uuid128     = Uuid128(0xBBBBBBBB_21C0_46A4_B722_270E3AE3D830.to_be_bytes().);
 // const NOTIFY_UUID: Uuid128  = uuid128!("BBD671AA-21C0-46A4-B722-270E3AE3D830");
@@ -176,6 +171,12 @@ async fn main(spawner: Spawner) -> ! {
     let mut adc1_config = adc::AdcConfig::new();
     let mut pin = adc1_config.enable_pin(peripherals.GPIO4, adc::Attenuation::_11dB);
     let mut adc1 = adc::Adc::new(peripherals.ADC1, adc1_config);
+
+
+    info!("init adc task");
+    spawner.spawn(adc_readout::adc_task(adc1, pin).unwrap());
+
+    loop {}
 
     let mut factor = 1f32;
     loop {
