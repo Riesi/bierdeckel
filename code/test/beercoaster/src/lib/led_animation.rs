@@ -88,11 +88,7 @@ impl LedAnimation {
         }
     }
     pub fn next_pattern(&mut self) -> Option<LedPattern> {
-        let ret = if let Some(pat) = self.entries.get(self.index) {
-            Some(pat.clone())
-        } else {
-            None
-        };
+        let ret = self.entries.get(self.index).map(|pat| pat.clone());
         self.index = (self.index + 1) % self.entries.len();
         ret
     }

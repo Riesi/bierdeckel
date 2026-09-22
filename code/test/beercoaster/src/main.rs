@@ -6,41 +6,28 @@
     holding buffers for the duration of a data transfer."
 )]
 #![deny(clippy::large_stack_frames)]
-use esp_hal::Async;
 use esp_hal::clock::CpuClock;
-use esp_hal::gpio::AnyPin;
 use esp_hal::timer::timg::TimerGroup;
 use esp_hal::analog::adc;
-use embedded_hal::digital::OutputPin;
-use embedded_hal_async::digital::Wait;
 
 use esp_radio::ble::controller::BleConnector;
 use bt_hci::controller::ExternalController;
-use smart_leds::RGB8;
-use trouble_host::prelude::*;
-use trouble_host::types::uuid::Uuid::Uuid128;
 
 use embassy_executor::Spawner;
 use embassy_time::{Duration, Timer};
 
-use nb;
 
 use log::info;
 use log::error;
 
-use core::option::Option;
-use core::option::Option::{None, Some};
-use core::result::Result;
+use core::option::Option::Some;
 use core::result::Result::{Err, Ok};
 
 mod lib;
 use lib::led_animation;
-use lib::led_animation::{LedAnimation, LedPattern};
 
 use num_derive::FromPrimitive;
-use num_derive::ToPrimitive;
 use num_traits::FromPrimitive;
-use num_traits::ToPrimitive;
 
 #[panic_handler]
 fn panic(panic_info: &core::panic::PanicInfo) -> ! {
@@ -103,7 +90,7 @@ async fn main(spawner: Spawner) -> ! {
 
     esp_println::logger::init_logger_from_env();
     let speed = CpuClock::_80MHz;
-    let config = esp_hal::Config::default().with_cpu_clock(speed.clone());
+    let config = esp_hal::Config::default().with_cpu_clock(speed);
     let peripherals = esp_hal::init(config);
     
     // The following pins are used to bootstrap the chip. They are available
@@ -133,7 +120,7 @@ async fn main(spawner: Spawner) -> ! {
     if let Some(timestamp) = option_env!("VERGEN_BUILD_TIMESTAMP") {
         info!("Build Timestamp: {timestamp}");
     }
-    let git_desc = if let Some(describe) = option_env!("VERGEN_GIT_DESCRIBE") {
+    let _git_desc = if let Some(describe) = option_env!("VERGEN_GIT_DESCRIBE") {
         info!("git describe: {describe}");
         describe
     } else {
@@ -157,7 +144,7 @@ async fn main(spawner: Spawner) -> ! {
 
     let led_pin = peripherals.GPIO8;
     type LedColor = smart_leds::RGB8;
-    let mut led = {
+    let led = {
 
         let freq = esp_hal::time::Rate::from_mhz(80);
         let rmt = esp_hal::rmt::Rmt::new(peripherals.RMT, freq).expect("Failed to initialize RMT0").into_async();
