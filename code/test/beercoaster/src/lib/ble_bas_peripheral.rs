@@ -66,8 +66,6 @@ where
                     select(a, b).await;
                 }
                 Err(e) => {
-                    #[cfg(feature = "defmt")]
-                    let e = defmt::Debug2Format(&e);
                     panic!("[adv] error: {:?}", e);
                 }
             }
@@ -94,8 +92,6 @@ where
 async fn ble_task<C: Controller, P: PacketPool>(mut runner: Runner<'_, C, P>) {
     loop {
         if let Err(e) = runner.run().await {
-            #[cfg(feature = "defmt")]
-            let e = defmt::Debug2Format(&e);
             panic!("[ble_task] error: {:?}", e);
         }
     }

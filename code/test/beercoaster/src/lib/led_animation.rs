@@ -1,9 +1,11 @@
+#![allow(unused)]
+#[warn(dead_code)]
 use esp_hal::Async;
 use esp_hal_smartled::{RmtSmartLeds, color_order};
 use log::info;
 use smart_leds::RGB;
 use smart_leds::SmartLedsWriteAsync;
-#[warn(dead_code)]
+
 use smart_leds::RGB8;
 use core::derive;
 use core::option::Option::{None, Some};
