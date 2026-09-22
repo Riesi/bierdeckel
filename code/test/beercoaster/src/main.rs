@@ -23,8 +23,8 @@ use log::error;
 use core::option::Option::Some;
 use core::result::Result::{Err, Ok};
 
-mod lib;
-use lib::led_animation;
+mod utils;
+use utils::led_animation;
 
 use num_derive::FromPrimitive;
 use num_traits::FromPrimitive;
@@ -139,7 +139,7 @@ async fn main(spawner: Spawner) -> ! {
     let connector = BleConnector::new(bluetooth, Default::default()).unwrap();
     let controller: ExternalController<_, 20> = ExternalController::new(connector);
 
-    lib::ble_bas_peripheral::run(controller).await;
+    utils::ble_bas_peripheral::run(controller).await;
 
 
     let led_pin = peripherals.GPIO8;
