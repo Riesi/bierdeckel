@@ -19,6 +19,7 @@ pub async fn adc_task(
     mut adc1: Adc<'static, ADC1<'static>, Async>,
     mut pin: AdcPin<GPIO4<'static>, esp_hal::peripherals::ADC1<'static>>,
 ) {
+    log::info!("ADC thread!");
     let mut factor = 1f32;
     loop {
         Timer::after(Duration::from_secs(1)).await;

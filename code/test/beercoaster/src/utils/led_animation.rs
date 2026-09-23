@@ -105,8 +105,8 @@ impl LedAnimation {
 // Declare async tasks
 #[embassy_executor::task]
 pub async fn smart_led_task(mut led: RmtSmartLeds<'static, 122, Async, RGB<u8>, color_order::Grb>) {
+    info!("LED thread!");
     let delay = esp_hal::delay::Delay::new();
-
     let mut color = smart_leds::hsv::Hsv {
         hue: 0,
         sat: 255,
@@ -133,7 +133,6 @@ pub async fn smart_led_task(mut led: RmtSmartLeds<'static, 122, Async, RGB<u8>, 
                 info!("{:#?}", e);
             }
             delay.delay_millis(20);
-            info!("Frog!");
         }
     }
 }

@@ -170,6 +170,8 @@ async fn main(spawner: Spawner) -> ! {
     let adc1 = adc::Adc::new(peripherals.ADC1, adc1_config).into_async();
     spawner.spawn(adc_readout::adc_task(adc1, pin).unwrap());
 
-    loop {}
+    loop {
+        Timer::after(Duration::from_secs(1)).await;
+    }
     // for inspiration have a look at the examples at https://github.com/esp-rs/esp-hal/tree/esp-hal-v1.1.0/examples
 }
