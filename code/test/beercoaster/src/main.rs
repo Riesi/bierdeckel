@@ -21,7 +21,6 @@ use log::info;
 use log::error;
 
 use core::option::Option::Some;
-use core::result::Result::{Err, Ok};
 
 mod utils;
 use utils::led_animation;
@@ -130,13 +129,14 @@ async fn main(spawner: Spawner) -> ! {
     //         .expect("Failed to initialize Wi-Fi controller");
 
     // find more examples https://github.com/embassy-rs/trouble/tree/main/examples/esp32
-    let bluetooth = peripherals.BT;
-    let connector = BleConnector::new(bluetooth, Default::default()).unwrap();
-    let controller: ExternalController<_, 20> = ExternalController::new(connector);
+    //let bluetooth = peripherals.BT;
+    //let connector = BleConnector::new(bluetooth, Default::default()).unwrap();
+    //let controller: ExternalController<_, 20> = ExternalController::new(connector);
 
-    utils::ble_bas_peripheral::run(controller).await;
+    //utils::ble_bas_peripheral::run(controller).await;
 
 
+    info!("init WS2812 RMT hardware");
     let led_pin = peripherals.GPIO8;
     type LedColor = smart_leds::RGB8;
     let led = {
@@ -152,7 +152,6 @@ async fn main(spawner: Spawner) -> ! {
             freq,
         ).unwrap()
     };
-    info!("init WS2812 RMT hardware");
     spawner.spawn(led_animation::smart_led_task(led).unwrap());
 
 // // Asynchronously drive the pin signals
@@ -167,44 +166,12 @@ async fn main(spawner: Spawner) -> ! {
     // let rainbow_pat = LedPattern::new(200, rainbow.clone());
     // let default_pattern = LedAnimation::new_rotation(4, rainbow_pat);
 
-
-    let mut adc1_config = adc::AdcConfig::new();
-    let mut pin = adc1_config.enable_pin(peripherals.GPIO4, adc::Attenuation::_11dB);
-    let mut adc1 = adc::Adc::new(peripherals.ADC1, adc1_config);
-
-
     info!("init adc task");
+    let mut adc1_config = adc::AdcConfig::new();
+    let pin = adc1_config.enable_pin(peripherals.GPIO4, adc::Attenuation::_11dB);
+    let adc1 = adc::Adc::new(peripherals.ADC1, adc1_config).into_async();
     spawner.spawn(adc_readout::adc_task(adc1, pin).unwrap());
 
     loop {}
-
-    let mut factor = 1f32;
-    loop {
-        Timer::after(Duration::from_secs(1)).await;
-        let adc_val = nb::block!(adc1.read_oneshot(&mut pin)).unwrap();
-        let f = if adc_val > WEIGHT_FULL {
-            1f32
-        } else {
-            if adc_val > WEIGHT_TARGET1 {
-                1f32 - (WEIGHT_FULL - adc_val) as f32
-                    / ((WEIGHT_FULL - WEIGHT_TARGET1) as f32 / (1f32 - LIGHT_LIMIT))
-            } else {
-                if adc_val > WEIGHT_EMPTY {
-                    LIGHT_LIMIT
-                        - (WEIGHT_TARGET1 - adc_val) as f32
-                            / ((WEIGHT_TARGET1 - WEIGHT_EMPTY) as f32 / LIGHT_LIMIT)
-                } else {
-                    0f32
-                }
-            }
-        };
-        if factor != f {
-            factor = f;
-            //brightness_tx.update(factor).unwrap();
-        }
-        log::info!("ADC value: {}mV, scale {}", adc_val, factor);
-    }
-
-
     // for inspiration have a look at the examples at https://github.com/esp-rs/esp-hal/tree/esp-hal-v1.1.0/examples
 }
