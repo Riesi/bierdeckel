@@ -1,12 +1,13 @@
 use core::result::Result::{Err, Ok};
 
-use esp_hal::{Async, analog::adc::{Adc, AdcPin}, peripherals::{ADC1, GPIO4}};
 use esp_hal::Blocking;
+use esp_hal::{
+    Async,
+    analog::adc::{Adc, AdcPin},
+    peripherals::{ADC1, GPIO4},
+};
 
 use embassy_time::{Duration, Timer};
-
-
-
 
 const WEIGHT_EMPTY: u16 = 380;
 const WEIGHT_FULL: u16 = 720;
@@ -14,7 +15,10 @@ const WEIGHT_TARGET1: u16 = 500;
 const LIGHT_LIMIT: f32 = 0.35;
 
 #[embassy_executor::task]
-pub async fn adc_task(mut adc1: Adc<'static, ADC1<'static>, Async> , mut pin: AdcPin<GPIO4<'static>, esp_hal::peripherals::ADC1<'static>>) {
+pub async fn adc_task(
+    mut adc1: Adc<'static, ADC1<'static>, Async>,
+    mut pin: AdcPin<GPIO4<'static>, esp_hal::peripherals::ADC1<'static>>,
+) {
     let mut factor = 1f32;
     loop {
         Timer::after(Duration::from_secs(1)).await;

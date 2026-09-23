@@ -1,9 +1,8 @@
-
-use log::info;
-use log::warn;
 use embassy_futures::join::join;
 use embassy_futures::select::select;
 use embassy_time::Timer;
+use log::info;
+use log::warn;
 use trouble_host::prelude::*;
 
 /// Max number of connections
@@ -40,7 +39,8 @@ where
     let address: Address = Address::random([0xff, 0x8f, 0x1a, 0x05, 0xe4, 0xff]);
     info!("Our address = {:?}", address);
 
-    let mut resources: HostResources<DefaultPacketPool, CONNECTIONS_MAX, L2CAP_CHANNELS_MAX> = HostResources::new();
+    let mut resources: HostResources<DefaultPacketPool, CONNECTIONS_MAX, L2CAP_CHANNELS_MAX> =
+        HostResources::new();
     let stack = trouble_host::new(controller, &mut resources)
         .set_random_address(address)
         .build();
@@ -101,7 +101,10 @@ async fn ble_task<C: Controller, P: PacketPool>(mut runner: Runner<'_, C, P>) {
 ///
 /// This function will handle the GATT events and process them.
 /// This is how we interact with read and write requests.
-async fn gatt_events_task<P: PacketPool>(server: &Server<'_>, conn: &GattConnection<'_, '_, P>) -> Result<(), Error> {
+async fn gatt_events_task<P: PacketPool>(
+    server: &Server<'_>,
+    conn: &GattConnection<'_, '_, P>,
+) -> Result<(), Error> {
     let level = server.battery_service.level;
     let status_handle = server.battery_service.status.handle;
     let mut status = false;
@@ -124,7 +127,10 @@ async fn gatt_events_task<P: PacketPool>(server: &Server<'_>, conn: &GattConnect
                     GattEvent::Write(event) => {
                         if event.handle() == level.handle {
                             event.with_data(|offset, data| {
-                                info!("[gatt] Write Event to Level Characteristic at {}: {:?}", offset, data)
+                                info!(
+                                    "[gatt] Write Event to Level Characteristic at {}: {:?}",
+                                    offset, data
+                                )
                             });
                             event.accept()
                         } else if event.handle() == status_handle {

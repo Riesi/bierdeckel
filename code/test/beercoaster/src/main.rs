@@ -6,19 +6,18 @@
     holding buffers for the duration of a data transfer."
 )]
 #![deny(clippy::large_stack_frames)]
+use esp_hal::analog::adc;
 use esp_hal::clock::CpuClock;
 use esp_hal::timer::timg::TimerGroup;
-use esp_hal::analog::adc;
 
-use esp_radio::ble::controller::BleConnector;
 use bt_hci::controller::ExternalController;
+use esp_radio::ble::controller::BleConnector;
 
 use embassy_executor::Spawner;
 use embassy_time::{Duration, Timer};
 
-
-use log::info;
 use log::error;
+use log::info;
 
 use core::option::Option::Some;
 
@@ -46,9 +45,6 @@ esp_bootloader_esp_idf::esp_app_desc!();
     clippy::large_stack_frames,
     reason = "it's not unusual to allocate larger buffers etc. in main"
 )]
-
-
-
 // const MTU_UUID: Uuid128     = Uuid128(0xBBBBBBBB_21C0_46A4_B722_270E3AE3D830.to_be_bytes().);
 // const NOTIFY_UUID: Uuid128  = uuid128!("BBD671AA-21C0-46A4-B722-270E3AE3D830");
 // const CONTROL_UUID: Uuid128 = uuid128!("7AD671AA-21C0-46A4-B722-270E3AE3D830");
@@ -56,8 +52,6 @@ esp_bootloader_esp_idf::esp_app_desc!();
 // const COM_UUID: Uuid128     = uuid128!("23408877-1F40-4FD8-9B89-CA9D45F8B5B0");
 
 // const BIER_SERVICE_UUID: Uuid128 = uuid128!("fafafafa-fafa-fafa-fafa-fafafafafafa");
-
-
 #[derive(Debug, PartialEq, FromPrimitive)]
 enum COMState {
     Version = 0x00,
@@ -74,7 +68,6 @@ enum LedState {
     ErrorPattern,
 }
 
-
 const LEDS: usize = 5;
 
 #[esp_rtos::main]
@@ -86,7 +79,7 @@ async fn main(spawner: Spawner) -> ! {
     let speed = CpuClock::_80MHz;
     let config = esp_hal::Config::default().with_cpu_clock(speed);
     let peripherals = esp_hal::init(config);
-    
+
     // The following pins are used to bootstrap the chip. They are available
     // for use, but check the datasheet of the module for more information on them.
     // - GPIO2
@@ -100,7 +93,6 @@ async fn main(spawner: Spawner) -> ! {
     let _ = peripherals.GPIO15;
     let _ = peripherals.GPIO16;
     let _ = peripherals.GPIO17;
-
 
     esp_alloc::heap_allocator!(#[esp_hal::ram(reclaimed)] size: 66320);
     // COEX needs more RAM - so we've added some more
@@ -119,10 +111,10 @@ async fn main(spawner: Spawner) -> ! {
         describe
     } else {
         "NAK"
-    }.as_bytes();
+    }
+    .as_bytes();
 
     //let (mut brightness_rx, brightness_tx) = single_value_channel::channel_starting_with(1f32);
-
 
     // let (mut _wifi_controller, _interfaces) =
     //     esp_radio::wifi::new(peripherals.WIFI, Default::default())
@@ -135,27 +127,33 @@ async fn main(spawner: Spawner) -> ! {
 
     //utils::ble_bas_peripheral::run(controller).await;
 
-
     info!("init WS2812 RMT hardware");
     let led_pin = peripherals.GPIO8;
     type LedColor = smart_leds::RGB8;
     let led = {
-
         let freq = esp_hal::time::Rate::from_mhz(80);
-        let rmt = esp_hal::rmt::Rmt::new(peripherals.RMT, freq).expect("Failed to initialize RMT0").into_async();
+        let rmt = esp_hal::rmt::Rmt::new(peripherals.RMT, freq)
+            .expect("Failed to initialize RMT0")
+            .into_async();
         // Configure color order and timing implementation as needed.
-        esp_hal_smartled::RmtSmartLeds:: <{esp_hal_smartled::buffer_size:: <LedColor>(LEDS)},_,LedColor,esp_hal_smartled::color_order::Grb> ::new_with_memsize(
+        esp_hal_smartled::RmtSmartLeds::<
+            { esp_hal_smartled::buffer_size::<LedColor>(LEDS) },
+            _,
+            LedColor,
+            esp_hal_smartled::color_order::Grb,
+        >::new_with_memsize(
             esp_hal_smartled::WS2812B_TIMING,
             rmt.channel0,
             led_pin,
             2,
             freq,
-        ).unwrap()
+        )
+        .unwrap()
     };
     spawner.spawn(led_animation::smart_led_task(led).unwrap());
 
-// // Asynchronously drive the pin signals
-// strip.async_send_color(colors).await;
+    // // Asynchronously drive the pin signals
+    // strip.async_send_color(colors).await;
     //   let rainbow = [
     //     led_animation::RED,
     //     led_animation::GREEN,

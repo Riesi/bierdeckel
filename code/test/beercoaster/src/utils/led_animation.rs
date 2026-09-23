@@ -6,12 +6,12 @@ use log::info;
 use smart_leds::RGB;
 use smart_leds::SmartLedsWriteAsync;
 
-use smart_leds::RGB8;
-use core::derive;
-use core::option::Option::{None, Some};
-use core::option::Option;
 use core::clone::Clone;
 use core::cmp::Ord;
+use core::derive;
+use core::option::Option;
+use core::option::Option::{None, Some};
+use smart_leds::RGB8;
 extern crate alloc;
 use alloc::vec::Vec;
 
@@ -104,7 +104,7 @@ impl LedAnimation {
 
 // Declare async tasks
 #[embassy_executor::task]
-pub async fn smart_led_task(mut led: RmtSmartLeds<'static,122,Async, RGB<u8> , color_order::Grb>) {
+pub async fn smart_led_task(mut led: RmtSmartLeds<'static, 122, Async, RGB<u8>, color_order::Grb>) {
     let delay = esp_hal::delay::Delay::new();
 
     let mut color = smart_leds::hsv::Hsv {
@@ -123,8 +123,13 @@ pub async fn smart_led_task(mut led: RmtSmartLeds<'static,122,Async, RGB<u8> , c
             // When sending to the LED, we do a gamma correction first (see smart_leds
             // documentation for details) and then limit the brightness to 10 out of 255 so
             // that the output it's not too bright.
-            let ret = led.write(smart_leds::brightness(smart_leds::gamma(data.iter().cloned()), 10)).await;
-            if let Err(e) = ret{
+            let ret = led
+                .write(smart_leds::brightness(
+                    smart_leds::gamma(data.iter().cloned()),
+                    10,
+                ))
+                .await;
+            if let Err(e) = ret {
                 info!("{:#?}", e);
             }
             delay.delay_millis(20);
