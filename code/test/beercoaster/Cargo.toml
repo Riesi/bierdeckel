@@ -65,7 +65,6 @@ esp-hal-smartled = {version = "0.18.0", features = ["esp32c3"]}
 num-derive = "0.5.1"
 num-traits = {version = "0.2.19",default-features = false}
 
-nb = "1.1.0"
 # single_value_channel = "1.2.2"
 
 [build-dependencies]
