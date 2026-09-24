@@ -1,6 +1,3 @@
-use core::result::Result::{Err, Ok};
-
-use esp_hal::Blocking;
 use esp_hal::{
     Async,
     analog::adc::{Adc, AdcPin},
@@ -24,6 +21,7 @@ pub async fn adc_task(
     loop {
         Timer::after(Duration::from_secs(1)).await;
         let adc_val = adc1.read_oneshot(&mut pin).await;
+        crate::ADC_VALUE_SIGNAL.signal(adc_val);
         let f = if adc_val > WEIGHT_FULL {
             1f32
         } else {

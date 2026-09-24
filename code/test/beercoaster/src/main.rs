@@ -24,10 +24,13 @@ use core::option::Option::Some;
 mod utils;
 use utils::led_animation;
 
-use num_derive::FromPrimitive;
-use num_traits::FromPrimitive;
+// use num_derive::FromPrimitive;
+// use num_traits::FromPrimitive;
+
+use embassy_sync::signal::Signal;
 
 use crate::utils::adc_readout;
+
 
 #[panic_handler]
 fn panic(panic_info: &core::panic::PanicInfo) -> ! {
@@ -52,23 +55,25 @@ esp_bootloader_esp_idf::esp_app_desc!();
 // const COM_UUID: Uuid128     = uuid128!("23408877-1F40-4FD8-9B89-CA9D45F8B5B0");
 
 // const BIER_SERVICE_UUID: Uuid128 = uuid128!("fafafafa-fafa-fafa-fafa-fafafafafafa");
-#[derive(Debug, PartialEq, FromPrimitive)]
-enum COMState {
-    Version = 0x00,
-    ADCValue = 0x01,
-}
+// #[derive(Debug, PartialEq, FromPrimitive)]
+// enum COMState {
+//     Version = 0x00,
+//     ADCValue = 0x01,
+// }
 
-#[derive(Debug, PartialEq, Eq, Hash)]
-enum LedState {
-    BtWait,
-    BtFlashing,
-    BtVerified,
-    DefaultPattern,
-    ActivePattern,
-    ErrorPattern,
-}
+// #[derive(Debug, PartialEq, Eq, Hash)]
+// enum LedState {
+//     BtWait,
+//     BtFlashing,
+//     BtVerified,
+//     DefaultPattern,
+//     ActivePattern,
+//     ErrorPattern,
+// }
 
 const LEDS: usize = 5;
+
+static ADC_VALUE_SIGNAL: Signal<embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex, u16>  = Signal::new();
 
 #[esp_rtos::main]
 async fn main(spawner: Spawner) -> ! {
@@ -114,18 +119,17 @@ async fn main(spawner: Spawner) -> ! {
     }
     .as_bytes();
 
-    //let (mut brightness_rx, brightness_tx) = single_value_channel::channel_starting_with(1f32);
-
     // let (mut _wifi_controller, _interfaces) =
     //     esp_radio::wifi::new(peripherals.WIFI, Default::default())
     //         .expect("Failed to initialize Wi-Fi controller");
 
     // find more examples https://github.com/embassy-rs/trouble/tree/main/examples/esp32
-    //let bluetooth = peripherals.BT;
-    //let connector = BleConnector::new(bluetooth, Default::default()).unwrap();
-    //let controller: ExternalController<_, 20> = ExternalController::new(connector);
+    let bluetooth = peripherals.BT;
+    let connector = BleConnector::new(bluetooth, Default::default()).unwrap();
+    let controller: ExternalController<_, 20> = ExternalController::new(connector);
 
-    //utils::ble_bas_peripheral::run(controller).await;
+    utils::ble_bas_peripheral::run(controller).await;
+    // spawner.spawn(ble_task());
 
     info!("init WS2812 RMT hardware");
     let led_pin = peripherals.GPIO8;
@@ -171,6 +175,9 @@ async fn main(spawner: Spawner) -> ! {
     spawner.spawn(adc_readout::adc_task(adc1, pin).unwrap());
 
     loop {
+        if let Some(adc_val) = ADC_VALUE_SIGNAL.try_take(){
+            log::info!("FROG ADC value: {}mV", adc_val);
+        }
         Timer::after(Duration::from_secs(1)).await;
     }
     // for inspiration have a look at the examples at https://github.com/esp-rs/esp-hal/tree/esp-hal-v1.1.0/examples

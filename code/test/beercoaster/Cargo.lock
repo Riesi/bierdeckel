@@ -56,6 +56,7 @@ dependencies = [
  "embassy-executor",
  "embassy-futures",
  "embassy-net",
+ "embassy-sync 0.8.0",
  "embassy-time",
  "embedded-hal 1.0.0",
  "embedded-hal-async",
@@ -1098,13 +1099,11 @@ dependencies = [
  "bt-hci-transport",
  "docsplay",
  "document-features",
- "embassy-net-driver",
  "embassy-sync 0.8.0",
  "embedded-io 0.6.1",
  "embedded-io 0.7.1",
  "embedded-io-async 0.6.1",
  "embedded-io-async 0.7.0",
- "enumset",
  "esp-alloc",
  "esp-config",
  "esp-hal",
@@ -1130,7 +1129,6 @@ dependencies = [
  "num-traits",
  "portable-atomic",
  "portable_atomic_enum",
- "xarxa-driver",
 ]
 
 [[package]]
@@ -2977,16 +2975,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "23b97319f7b8343df12cc98938e5c3eb436064524c8d2b4e30a1d3a36eecdf81"
 dependencies = [
  "memchr",
-]
-
-[[package]]
-name = "xarxa-driver"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "241eb997638d080753b73e5335427d3a27568678aafa6c0e0564485257e90738"
-dependencies = [
- "critical-section",
- "document-features",
 ]
 
 [[package]]
