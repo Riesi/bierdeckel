@@ -177,7 +177,7 @@ async fn advertise<'values, 'server, C: Controller>(
     let mut advertiser_data = [0; 31];
     let len = AdStructure::encode_slice(
         &[
-            AdStructure::Flags(LE_GENERAL_DISCOVERABLE | SIMUL_LE_BR_CONTROLLER),
+            AdStructure::Flags(LE_GENERAL_DISCOVERABLE | BR_EDR_NOT_SUPPORTED),
             AdStructure::IncompleteServiceUuids16(&[[0x0f, 0x18]]),
             AdStructure::CompleteLocalName(name.as_bytes()),
         ],
