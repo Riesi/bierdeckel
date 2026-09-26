@@ -156,18 +156,6 @@ async fn main(spawner: Spawner) -> ! {
     };
     spawner.spawn(led_animation::smart_led_task(led).unwrap());
 
-    // // Asynchronously drive the pin signals
-    // strip.async_send_color(colors).await;
-    //   let rainbow = [
-    //     led_animation::RED,
-    //     led_animation::GREEN,
-    //     led_animation::BLUE,
-    //     led_animation::CYAN,
-    //     led_animation::PINK,
-    // ];
-    // let rainbow_pat = LedPattern::new(200, rainbow.clone());
-    // let default_pattern = LedAnimation::new_rotation(4, rainbow_pat);
-
     info!("init adc task");
     let mut adc1_config = adc::AdcConfig::new();
     let pin = adc1_config.enable_pin(peripherals.GPIO4, adc::Attenuation::_11dB);

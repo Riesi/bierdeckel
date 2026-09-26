@@ -1,6 +1,7 @@
 use embassy_futures::join::join;
 use embassy_futures::select::select;
 use embassy_time::Timer;
+use esp_radio::ble::controller::BleConnector;
 use log::info;
 use log::warn;
 use trouble_host::prelude::*;
@@ -56,7 +57,7 @@ where
 
     let _ = join(ble_task(runner), async {
         loop {
-            match advertise("Trouble Example", &mut peripheral, &server).await {
+            match advertise("Beercoaster Example", &mut peripheral, &server).await {
                 Ok(conn) => {
                     // set up tasks when the connection is established to a central, so they don't run when no one is connected.
                     let a = gatt_events_task(&server, &conn);
@@ -176,7 +177,7 @@ async fn advertise<'values, 'server, C: Controller>(
     let mut advertiser_data = [0; 31];
     let len = AdStructure::encode_slice(
         &[
-            AdStructure::Flags(LE_GENERAL_DISCOVERABLE | BR_EDR_NOT_SUPPORTED),
+            AdStructure::Flags(LE_GENERAL_DISCOVERABLE | SIMUL_LE_BR_CONTROLLER),
             AdStructure::IncompleteServiceUuids16(&[[0x0f, 0x18]]),
             AdStructure::CompleteLocalName(name.as_bytes()),
         ],
