@@ -12,6 +12,18 @@ const CONNECTIONS_MAX: usize = 1;
 /// Max number of L2CAP channels.
 const L2CAP_CHANNELS_MAX: usize = 2; // Signal + att
 
+
+
+const PERIPHERAL_NAME: &str = "Bierdeckel";
+
+const MTU_UUID: Uuid     = uuid!("BBBBBBBB-21C0-46A4-B722-270E3AE3D830");
+const NOTIFY_UUID: Uuid  = uuid!("BBD671AA-21C0-46A4-B722-270E3AE3D830");
+const DESCRIPTION_UUID: Uuid = uuid!("7AD671AA-21C0-46A4-B722-270E3AE3D830");
+const WRITE_UUID: Uuid   = uuid!("23408888-1F40-4CD8-9B89-CA8D45F8A5B0");
+
+const BIER_SERVICE_UUID: Uuid  = uuid!("fafafafa-fafa-fafa-fafa-fafafafafafa");
+
+
 // GATT Server definition
 #[gatt_server]
 struct Server {
@@ -19,14 +31,14 @@ struct Server {
 }
 
 /// Battery service
-#[gatt_service(uuid = service::BATTERY)]
+#[gatt_service(uuid = BIER_SERVICE_UUID)]
 struct BatteryService {
     /// Battery Level
-    #[descriptor(uuid = descriptors::VALID_RANGE, read, value = [0, 100])]
-    #[descriptor(uuid = descriptors::MEASUREMENT_DESCRIPTION, name = "hello", read, value = "Battery Level", type = &'static str)]
-    #[characteristic(uuid = characteristic::BATTERY_LEVEL, read, notify, value = 10)]
+    #[descriptor(uuid = NOTIFY_UUID, read, value = [0, 100])]
+    #[descriptor(uuid = DESCRIPTION_UUID, name = "hello", read, value = "Battery Level", type = &'static str)]
+    #[characteristic(uuid = WRITE_UUID, read, notify, value = 10)]
     level: u8,
-    #[characteristic(uuid = "408813df-5dd4-1f87-ec11-cdb001100000", write, read, notify)]
+    #[characteristic(uuid = MTU_UUID, write, read, notify)]
     status: (),
 }
 
@@ -50,14 +62,14 @@ where
 
     info!("Starting advertising and GATT service");
     let server = Server::new_with_config(GapConfig::Peripheral(PeripheralConfig {
-        name: "TrouBLE",
+        name: PERIPHERAL_NAME,
         appearance: &appearance::sensor::GENERIC_SENSOR,
     }))
     .unwrap();
 
     let _ = join(ble_task_local(runner), async {
         loop {
-            match advertise("Beercoaster Example", &mut peripheral, &server).await {
+            match advertise(PERIPHERAL_NAME, &mut peripheral, &server).await {
                 Ok(conn) => {
                     // set up tasks when the connection is established to a central, so they don't run when no one is connected.
                     let a = gatt_events_task(&server, &conn);
