@@ -128,8 +128,7 @@ async fn main(spawner: Spawner) -> ! {
     let connector = BleConnector::new(bluetooth, Default::default()).unwrap();
     let controller: ExternalController<_, 20> = ExternalController::new(connector);
 
-    utils::ble_bas_peripheral::run(controller).await;
-    // spawner.spawn(ble_task());
+    spawner.spawn(utils::ble_bas_peripheral::ble_task(controller).unwrap());
 
     info!("init WS2812 RMT hardware");
     let led_pin = peripherals.GPIO8;

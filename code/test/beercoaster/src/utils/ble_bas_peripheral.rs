@@ -51,11 +51,11 @@ where
     info!("Starting advertising and GATT service");
     let server = Server::new_with_config(GapConfig::Peripheral(PeripheralConfig {
         name: "TrouBLE",
-        appearance: &appearance::power_device::GENERIC_POWER_DEVICE,
+        appearance: &appearance::sensor::GENERIC_SENSOR,
     }))
     .unwrap();
 
-    let _ = join(ble_task(runner), async {
+    let _ = join(ble_task_local(runner), async {
         loop {
             match advertise("Beercoaster Example", &mut peripheral, &server).await {
                 Ok(conn) => {
@@ -90,13 +90,18 @@ where
 ///
 /// spawner.must_spawn(ble_task(runner));
 /// ```
-async fn ble_task<C: Controller, P: PacketPool>(mut runner: Runner<'_, C, P>) {
+async fn ble_task_local<C: Controller, P: PacketPool>(mut runner: Runner<'_, C, P>) {
     loop {
         if let Err(e) = runner.run().await {
             panic!("[ble_task] error: {:?}", e);
         }
     }
 }
+#[embassy_executor::task]
+pub async fn ble_task(controller: ExternalController<BleConnector<'static>, 20>) {
+    run(controller).await;
+}
+
 
 /// Stream Events until the connection closes.
 ///
