@@ -11,7 +11,7 @@ const PERIPHERAL_NAME_MATCH_FILTER: &str = "Bierdeckel";
 const MTU_UUID: Uuid     = uuid!("BBBBBBBB-21C0-46A4-B722-270E3AE3D830");
 // const NOTIFY_UUID: Uuid  = uuid!("BBD671AA-21C0-46A4-B722-270E3AE3D830");
 // const CONTROL_UUID: Uuid = uuid!("7AD671AA-21C0-46A4-B722-270E3AE3D830");
-// const WRITE_UUID: Uuid   = uuid!("23408888-1F40-4CD8-9B89-CA8D45F8A5B0");
+const WRITE_UUID: Uuid   = uuid!("23408888-1F40-4CD8-9B89-CA8D45F8A5B0");
 
 const DESCRIPTION_UUID: Uuid = uuid!("7AD671AA-21C0-46A4-B722-270E3AE3D830");
 const BIER_SERVICE_UUID: Uuid  = uuid!("fafafafa-fafa-fafa-fafa-fafafafafafa");
@@ -42,7 +42,7 @@ async fn scan(adapter_list: &Vec<Adapter>, verify: bool) -> Result<(), ()> {
         let mut event_stream = adapter.events().await.unwrap();
         let filter = ScanFilter{services: vec![BIER_SERVICE_UUID]};
         adapter
-            .start_scan(filter)
+            .start_scan(ScanFilter::default())
             .await
             .expect("Can't scan BLE adapter for connected devices...");
 
@@ -129,16 +129,17 @@ async fn flash_firmware(peripheral: impl Peripheral) -> Result<(), ()> {
     let chars = peripheral.characteristics();
 
     println!("car {:#?}",chars);
+    let wr_characteristic = chars.iter().find(|c| c.uuid == WRITE_UUID).unwrap();
     let mtu_characteristic = chars.iter().find(|c| c.uuid == MTU_UUID).unwrap();
 
-    peripheral.subscribe(&mtu_characteristic).await.unwrap();
+    peripheral.subscribe(&wr_characteristic).await.unwrap();
     // Print the first 4 notifications received.
     let mut notification_stream =
         peripheral.notifications().await.unwrap();
 
 
-    let mtu = peripheral.read(&mtu_characteristic).await.unwrap();
-    println!("frog {:#?}",mtu);
+    let mtu = peripheral.read(&wr_characteristic).await.unwrap();
+    println!("frog {:#?}",mtu.first().unwrap());
     let mtu = if let Some(&mt) = mtu.first_chunk::<2>(){
         u16::from_le_bytes(mt)
     }else{
@@ -147,6 +148,14 @@ async fn flash_firmware(peripheral: impl Peripheral) -> Result<(), ()> {
     let mtu = 512;
 
     if let Some(data) = notification_stream.next().await{
+
+    println!("toad {:#?}",data);
+    }
+       if let Some(data) = notification_stream.next().await{
+
+    println!("toad {:#?}",data);
+    }
+       if let Some(data) = notification_stream.next().await{
 
     println!("toad {:#?}",data);
     }
