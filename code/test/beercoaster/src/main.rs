@@ -74,6 +74,7 @@ esp_bootloader_esp_idf::esp_app_desc!();
 const LEDS: usize = 5;
 
 static ADC_VALUE_SIGNAL: Signal<embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex, u16>  = Signal::new();
+static TAP_VALUE_SIGNAL: Signal<embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex, u16>  = Signal::new();
 
 #[esp_rtos::main]
 async fn main(spawner: Spawner) -> ! {
@@ -163,7 +164,10 @@ async fn main(spawner: Spawner) -> ! {
 
     loop {
         if let Some(adc_val) = ADC_VALUE_SIGNAL.try_take(){
-            log::info!("FROG ADC value: {}mV", adc_val);
+            log::info!("ADC value: {}mV", adc_val);
+        }
+        if let Some(tap_val) = TAP_VALUE_SIGNAL.try_take(){
+            log::info!("TAP value: {}", tap_val);
         }
         Timer::after(Duration::from_secs(1)).await;
     }
