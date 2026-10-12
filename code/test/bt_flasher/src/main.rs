@@ -137,7 +137,10 @@ async fn flash_firmware(peripheral: impl Peripheral) -> Result<(), ()> {
     let mut notification_stream =
         peripheral.notifications().await.unwrap();
 
-
+    let dog = peripheral.read(&mtu_characteristic).await.unwrap();
+    println!("dog {:#?}",dog.first().unwrap());
+    let dog = peripheral.write(&mtu_characteristic,).await.unwrap();
+    println!("dog {:#?}",dog.first().unwrap());
     let mtu = peripheral.read(&wr_characteristic).await.unwrap();
     println!("frog {:#?}",mtu.first().unwrap());
     let mtu = if let Some(&mt) = mtu.first_chunk::<2>(){

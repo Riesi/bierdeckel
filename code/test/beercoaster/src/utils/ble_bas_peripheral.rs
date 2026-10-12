@@ -23,6 +23,8 @@ const WRITE_UUID: Uuid   = uuid!("23408888-1F40-4CD8-9B89-CA8D45F8A5B0");
 
 const BIER_SERVICE_UUID: Uuid  = uuid!("fafafafa-fafa-fafa-fafa-fafafafafafa");
 
+const MAX_CHARS: usize = 8;
+const MAX_MESSAGE: usize = size_of::<char>()*MAX_CHARS;
 
 // GATT Server definition
 #[gatt_server]
@@ -39,7 +41,7 @@ struct BatteryService {
     #[characteristic(uuid = WRITE_UUID, read, notify, value = 10)]
     level: u8,
     #[characteristic(uuid = MTU_UUID, write, read, notify)]
-    status: (),
+    status: [u8; MAX_MESSAGE],
 }
 
 /// Run the BLE stack.
