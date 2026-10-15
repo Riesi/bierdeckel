@@ -132,7 +132,7 @@ async fn main(spawner: Spawner) -> ! {
     spawner.spawn(utils::ble_bas_peripheral::ble_task(controller).unwrap());
 
     info!("init WS2812 RMT hardware");
-    let led_pin = peripherals.GPIO8;
+    let led_pin = peripherals.GPIO10;
     type LedColor = smart_leds::RGB8;
     let led = {
         let freq = esp_hal::time::Rate::from_mhz(80);
